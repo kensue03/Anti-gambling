@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>미션! 유혹의 폰 탈출: 디바이스 잔혹사 (심화 버전)</title>
+    <style>
+        :root { --bg: #020617; --primary: #06b6d4; --danger: #ef4444; --accent: #f59e0b; --text: #f8fafc; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        #phone { width: 400px; height: 750px; background: #1e293b; border: 12px solid #000; border-radius: 40px; position: relative; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,1); }
+        .screen { flex: 1; padding: 20px; display: none; flex-direction: column; position: relative; }
+        .active { display: flex; }
+        h2 { font-size: 20px; color: var(--primary); text-align: center; margin-bottom: 20px; }
+        .box { background: #334155; padding: 15px; border-radius: 10px; font-size: 14px; line-height: 1.6; margin-bottom: 10px; border: 1px solid #475569; }
+        button { background: var(--primary); border: none; padding: 12px; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; transition: 0.2s; }
+        button:hover { filter: brightness(1.2); }
+        
+        /* Stage 0: Prison */
+        #stage-intro { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), repeating-linear-gradient(90deg, #000, #000 20px, #111 20px, #111 40px); }
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .num-btn { background: #1e293b; color: #fff; padding: 15px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+
+        /* Stage 1: Forensics */
+        .gallery-item { height: 120px; background: #000; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #64748b; overflow: hidden; border: 1px solid #475569; }
+        .popup { position: absolute; width: 180px; background: #ff0055; border: 2px solid #000; padding: 10px; font-size: 11px; z-index: 100; box-shadow: 5px 5px 0 #000; }
+
+        /* Stage 3: Casino */
+        .casino-ui { background: #1e0a2a; border: 2px solid #ff00ff; padding: 15px; border-radius: 10px; text-align: center; }
+        #slogan-zone { min-height: 40px; border: 1px dashed var(--primary); margin: 10px 0; padding: 5px; font-weight: bold; color: yellow; font-size: 12px; }
+        .word-chip { display: inline-block; background: #475569; padding: 5px 8px; margin: 3px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div id="phone">
+    <div id="stage-0" class="screen active">
+        <h2>🔒 데이터 감옥</h2>
+        <div class="box">"단순한 게임인 줄 알았는데... 감옥에 갇혔다. 문을 열려면 <strong>도움이 필요한 누구나 아는 그 번호</strong>를 입력해라."</div>
+        <div id="pass-display" style="text-align:center; font-size:30px; letter-spacing:10px; margin:20px 0; color:var(--primary);">____</div>
+        <div class="numpad">
+            <button class="num-btn" onclick="addNum(1)">1</button><button class="num-btn" onclick="addNum(2)">2</button><button class="num-btn" onclick="addNum(3)">3</button>
+            <button class="num-btn" onclick="addNum(4)">4</button><button class="num-btn" onclick="addNum(5)">5</button><button class="num-btn" onclick="addNum(6)">6</button>
+            <button class="num-btn" onclick="addNum(7)">7</button><button class="num-btn" onclick="addNum(8)">8</button><button class="num-btn" onclick="addNum(9)">9</button>
+            <button class="num-btn" onclick="addNum(0)" style="grid-column:2;">0</button>
+        </div>
+    </div>
+
+    <div id="stage-1" class="screen">
+        <h2>📂 포렌식 조사</h2>
+        <p style="font-size:12px;">버그를 수정하려면 과거의 흔적을 조사해라.</p>
+        <div class="gallery-item" onclick="viewGallery(1)">🖼 [2월] 축구화 사려고 모은 돈!</div>
+        <div class="gallery-item" onclick="viewGallery(2)">🖼 [3월] "너만 안 해?" 톡방 캡처</div>
+        <div class="gallery-item" onclick="viewGallery(3)">🖼 [4월] 엄마 죄송해요... 문자</div>
+        <div class="box" id="memo-clue" style="display:none; border-color:var(--primary);">📝 <strong>메모장 발견:</strong> "추천인 코드: GET_POOR... 링크는 함정이었어!"</div>
+        <button id="go-sns-btn" style="display:none;" onclick="startSns()">유혹의 SNS 앱 접속</button>
+    </div>
+
+    <div id="stage-2" class="screen">
+        <h2>📩 SNS 보안 모드</h2>
+        <div class="box" style="background:#000;"><strong>Glitch:</strong> "10만원 즉시 지급! 클릭해!"</div>
+        <div id="popup-area" style="height:300px; position:relative; overflow:hidden; border:1px solid #444;"></div>
+        <button id="security-btn" style="display:none; width:100%;" onclick="nextStage(2, 3)">보안 4단계 공정 완료 ➡️</button>
+    </div>
+
+    <div id="stage-3" class="screen">
+        <h2>🎰 중독의 방 (버그 발생)</h2>
+        <div class="casino-ui">
+            <p>보유 코인: <span id="coins">3</span></p>
+            <button onclick="gamble()">🎲 한 번 더 베팅!</button>
+        </div>
+        <div id="trap-msg" class="box" style="margin-top:10px; display:none; background:maroon;">"아깝지? 한 번만 더 하면 복구한다니까!"</div>
+        
+        <div id="slogan-mission" style="display:none; margin-top:20px;">
+            <div id="slogan-zone">조각을 맞춰 백신을 완성하라.</div>
+            <div id="chips">
+                <span class="word-chip" onclick="addWord(this)">지금</span>
+                <span class="word-chip" onclick="addWord(this)">멈추는 것</span>
+                <span class="word-chip" onclick="addWord(this)">도박을</span>
+                <span class="word-chip" onclick="addWord(this)">더 하는 것이</span>
+            </div>
+            <button onclick="verifySlogan()" style="width:100%; margin-top:10px; background:#00ff00;">백신 투여</button>
+        </div>
+    </div>
+
+    <div id="stage-outro" class="screen" style="text-align:center;">
+        <h2 style="color:#00ff00;">🔓 탈출 성공</h2>
+        <div class="box">당신은 '디바이스 잔혹사'에서 살아남았습니다. 현실은 게임과 달리 리셋이 불가능합니다.</div>
+        <button onclick="location.reload()" style="background:var(--danger); color:#fff;">현실로 복귀 (종료)</button>
+    </div>
+</div>
+
+<script>
+    let currentPass = "";
+    function addNum(n) {
+        if(currentPass.length < 4) currentPass += n;
+        document.getElementById('pass-display').innerText = currentPass.padEnd(4, "_");
+        if(currentPass === "1336") { alert("잠금 해제!"); nextStage(0, 1); }
+        else if(currentPass.length === 4) { alert("틀렸습니다."); currentPass = ""; document.getElementById('pass-display').innerText = "____"; }
+    }
+
+    function viewGallery(n) {
+        if(n===3) { document.getElementById('memo-clue').style.display='block'; document.getElementById('go-sns-btn').style.display='block'; }
+        alert(n + "번 파일을 정밀 조사했습니다.");
+    }
+
+    function nextStage(from, to) {
+        document.getElementById(`stage-${from}`).classList.remove('active');
+        document.getElementById(`stage-${to}`).classList.add('active');
+    }
+
+    function startSns() {
+        nextStage(1, 2);
+        for(let i=0; i<10; i++) {
+            setTimeout(createPopup, i*500);
+        }
+    }
+
+    let popupsClosed = 0;
+    function createPopup() {
+        const p = document.createElement('div');
+        p.className = 'popup';
+        p.style.top = Math.random() * 200 + 'px';
+        p.style.left = Math.random() * 150 + 'px';
+        p.innerHTML = "<strong>WIN!</strong> <button onclick='this.parentElement.remove(); checkPopups();'>X</button>";
+        document.getElementById('popup-area').appendChild(p);
+    }
+    function checkPopups() {
+        popupsClosed++;
+        if(popupsClosed >= 10) document.getElementById('security-btn').style.display = 'block';
+    }
+
+    let winCount = 0;
+    function gamble() {
+        const coinSpan = document.getElementById('coins');
+        let coins = parseInt(coinSpan.innerText);
+        if(winCount < 2) {
+            alert("당첨! (Big-Win 발생)"); winCount++; coins += 5;
+        } else {
+            alert("전부 잃었습니다... (System Error)"); coins = 0;
+            document.getElementById('trap-msg').style.display = 'block';
+            document.getElementById('slogan-mission').style.display = 'block';
+        }
+        coinSpan.innerText = coins;
+    }
+
+    let sentence = [];
+    function addWord(el) {
+        sentence.push(el.innerText);
+        document.getElementById('slogan-zone').innerText = sentence.join(" ");
+        el.style.visibility = 'hidden';
+    }
+
+    function verifySlogan() {
+        const res = sentence.join(" ");
+        if(res.includes("도박을 더 하는 것이") && res.includes("멈추는 것")) {
+            alert("백신 성공! 중독 버그가 제거되었습니다.");
+            nextStage(3, 'outro');
+        } else {
+            alert("순서가 틀렸습니다.");
+            sentence = [];
+            document.getElementById('slogan-zone').innerText = "조각을 맞춰 백신을 완성하라.";
+            document.querySelectorAll('.word-chip').forEach(c => c.style.visibility='visible');
+        }
+    }
+</script>
+</body>
+</html>
+
+심화 기획안의 모든 철학이 담긴 이 자료들이 교육 현장에서 큰 도움이 되기를 바랍니다! 추가적인 수정이나 기능 보완이 필요하시면 언제든 말씀해 주세요.
