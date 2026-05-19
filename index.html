@@ -111,6 +111,7 @@
         .btn-danger { background-color: var(--secondary); color: white; box-shadow: 0 4px 0 #c0392b; }
         .btn-danger:hover { box-shadow: 0 6px 0 #c0392b; }
         .btn-danger:active { box-shadow: 0 2px 0 #c0392b; }
+        .btn:disabled { background-color: #555 !important; color: #aaa !important; box-shadow: none !important; cursor: not-allowed; transform: none; }
 
         /* 힌트 모달 */
         #hint-btn {
@@ -312,6 +313,9 @@
         currentScreenId = screenId;
 
         if(screenId === 'stage1-sns') startPopups();
+        if(screenId === 'stage2-convo') {
+            if(currentTurn === 1) loadTurn();
+        }
         if(screenId === 'outro-quiz') loadQuiz(1);
     }
 
@@ -437,10 +441,6 @@
         });
     }
 
-    document.getElementById('screen-stage2-convo').addEventListener('mouseenter', () => {
-        if(currentTurn === 1) loadTurn();
-    });
-
     // 3단계
     let betCount = 0;
     function playMinigame() {
@@ -459,8 +459,6 @@
             msg.innerHTML = "<span style='color:var(--secondary);'>쾅! 꽝입니다. 동전을 전부 잃었습니다.</span><br><br>😈 <strong>꿀꺽 몬스터:</strong> 아깝지? 한 번만 더 하면 잃은 거 다 찾게 해줄게! 또 해봐!";
             coinDisplay.innerText = "0";
             document.getElementById('bet-btn').disabled = true;
-            document.getElementById('bet-btn').style.background = "#555";
-            document.getElementById('bet-btn').style.boxShadow = "none";
             document.getElementById('btn-goto-slogan').style.display = 'block';
         }
     }
