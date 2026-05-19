@@ -244,3 +244,301 @@
         <div id="mini-msg" class="box" style="display:none; margin-top: 20px; font-size: 16px;"></div>
         <button class="btn btn-danger" id="btn-goto-slogan" style="display:none; margin-top:20px;" onclick="goScreen('stage3-slogan')">블랙홀 정지 버튼 만들기!</button>
     </div>
+
+    <div id="screen-stage3-slogan" class="screen">
+        <h2>마법의 주문 완성하기</h2>
+        <div class="box" style="font-size: 14px; padding: 10px;">아래로 쫓아다니는 가짜 버튼을 누르지 말고, 조각을 모아 주문을 완성해!</div>
+        
+        <div id="slogan-answer" class="box" style="min-height: 50px; color: var(--primary); font-weight: bold; border-style: dashed;">주문 조각을 여기에 모아보자.</div>
+        
+        <div id="word-pool" style="margin-bottom: 60px;">
+            <span class="word-chip" onclick="addWord(this)">도박을</span>
+            <span class="word-chip" onclick="addWord(this)">멈추는 것이다!</span>
+            <span class="word-chip" onclick="addWord(this)">찾는 법은</span>
+            <span class="word-chip" onclick="addWord(this)">잃은 돈을</span>
+            <span class="word-chip" onclick="addWord(this)">지금 당장</span>
+            <span class="word-chip" onclick="addWord(this)">더 하는 게 아니라</span>
+        </div>
+        
+        <button class="btn btn-danger" id="chasing-btn" style="position: absolute; width: 80%; padding: 25px; font-size: 24px; left: 10%; box-shadow: 0 0 20px rgba(255,107,107,0.8);" onclick="alert('앗! 괴물의 유혹에 넘어갔어요! 진짜 버튼을 만들어야 해요.')" onmouseover="moveChasingBtn()">🎰 한 판 더 하기! 🎰</button>
+        
+        <div style="display:flex; gap: 10px; margin-top: auto; position: relative; z-index: 100;">
+            <button class="btn" style="flex:1; background:#95a5a6; box-shadow:0 4px 0 #7f8c8d; color:white;" onclick="resetSlogan()">다시 맞추기</button>
+            <button class="btn" style="flex:2; background:var(--success); box-shadow:0 4px 0 #3b9e2a; color:white;" onclick="checkSlogan()">주문 외치기!</button>
+        </div>
+    </div>
+
+    <div id="screen-outro-quiz" class="screen">
+        <h2>현실로 가는 문: OX 퀴즈</h2>
+        <div class="box">이제 다 왔어! 마지막 퀴즈 3개를 풀면 현실로 돌아갈 수 있어.</div>
+        <div id="quiz-container"></div>
+    </div>
+
+    <div id="screen-outro-success" class="screen" style="justify-content: center; text-align: center;">
+        <h1 style="color: var(--success); font-size: 50px;">탈출 성공!</h1>
+        <div class="box" style="font-size: 22px;">
+            우와! 꿀꺽 몬스터를 무찌르고<br>내 용돈을 무사히 지켜냈어!<br><br>
+            앞으로도 공짜 미끼는 절대 조심하기 약속!
+        </div>
+        <button class="btn" style="background:var(--success); box-shadow:0 4px 0 #3b9e2a; color:white;" onclick="location.reload()">처음으로 돌아가기</button>
+    </div>
+
+</div>
+
+<script>
+    let currentScreenId = 'intro';
+    
+    // 힌트 시스템
+    const hints = {
+        'intro': "방탈출 시작하기 버튼을 눌러 모험을 떠나보자!",
+        'intro-lock': "청소년 도박 문제 헬프라인 전화번호는 '1336'이야. 이 번호를 꾹꾹 눌러봐!",
+        'stage1-invest': "사진첩과 메모장을 둘 다 눌러서 확인해야 다음으로 갈 수 있어.",
+        'stage1-sns': "팝업창 괴물들의 [X]를 누르면서 방해를 피하고, 숨겨진 메뉴 ➡️ 스팸 신고 ➡️ 차단 및 영구 삭제 순서로 눌러봐!",
+        'stage2-invest': "칠판을 클릭해서 친구가 남긴 쪽지들을 꼭 읽어봐.",
+        'stage2-convo': "1번: 내 기분 말하기, 2번: 거짓 호의(빚) 거절하기, 3번: 밖에서 축구하자고 건강한 놀이 제안하기를 골라야 해!",
+        'stage3-mini': "처음에 따는 건 괴물의 속임수야. 계속 버튼을 누르면 진실이 밝혀질 거야.",
+        'stage3-slogan': "아래쪽의 커다란 가짜 버튼은 함정이야! 조각들을 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서로 눌러.",
+        'outro-quiz': "1. 공짜는 조심해야 하니 X! 2. 빚지고 게임하는 건 나쁘니 X! 3. 지금 멈추는 게 정답이니 O!"
+    };
+
+    function showHint() {
+        document.getElementById('hint-text').innerHTML = hints[currentScreenId] || "현재 단계에서는 힌트가 없어. 넌 할 수 있어!";
+        document.getElementById('hint-modal').style.display = 'flex';
+    }
+
+    function goScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-' + screenId).classList.add('active');
+        currentScreenId = screenId;
+
+        if(screenId === 'stage1-sns') startPopups();
+        if(screenId === 'outro-quiz') loadQuiz(1);
+    }
+
+    // 미션 0
+    let passInput = "";
+    function inputPass(num) {
+        if(passInput.length < 4) passInput += num;
+        document.getElementById('pass-display').innerText = passInput.padEnd(4, "_");
+    }
+    function clearPass() { 
+        passInput = ""; 
+        document.getElementById('pass-display').innerText = "____"; 
+    }
+    function checkPass() {
+        if(passInput === "1336") {
+            alert("딩동댕! 첫 번째 방 문이 열렸어!");
+            goScreen('stage1-invest');
+        } else {
+            alert("삐빅! 비밀번호가 틀렸어. 다시 생각해봐!");
+            clearPass();
+        }
+    }
+
+    // 1단계 조사
+    let gViewed = false; let mViewed = false;
+    function viewInvest(type) {
+        if(type === 'gallery') gViewed = true;
+        if(type === 'memo') mViewed = true;
+        
+        const res = document.getElementById('invest-result');
+        res.style.display = 'block';
+        
+        if(gViewed && mViewed) {
+            res.innerHTML = "<strong>사진첩:</strong> 축구화 살 돈을 모았던 사진!<br><strong>메모장:</strong> '무료 코인은 다 거짓말이었어. 내 용돈...' 일기장 발견!<br><br><span style='color:var(--secondary)'>앗, 공짜는 없었어! 괴물의 함정이야!</span>";
+            document.getElementById('btn-goto-sns').style.display = 'block';
+        } else {
+            res.innerHTML = "단서를 하나 더 찾아보자!";
+        }
+    }
+
+    // 1단계 SNS
+    let popupInterval;
+    function startPopups() {
+        popupInterval = setInterval(() => {
+            const popup = document.createElement('div');
+            popup.className = 'popup-ad';
+            popup.style.top = Math.random() * 50 + 10 + '%';
+            popup.style.left = Math.random() * 50 + 10 + '%';
+            const msgs = ["클릭해봐!", "빨리 눌러!", "선물 줄게!"];
+            popup.innerHTML = `😈 ${msgs[Math.floor(Math.random()*msgs.length)]} <strong>[X]</strong>`;
+            popup.onclick = function() { this.remove(); };
+            document.getElementById('screen-stage1-sns').appendChild(popup);
+        }, 2000);
+    }
+
+    function secStep(step) {
+        if(step === 1) { document.getElementById('sec-menu').style.display = 'none'; document.getElementById('sec-report').style.display = 'block'; }
+        if(step === 2) { document.getElementById('sec-report').style.display = 'none'; document.getElementById('sec-delete').style.display = 'block'; }
+        if(step === 3) { 
+            clearInterval(popupInterval);
+            document.querySelectorAll('.popup-ad').forEach(e => e.remove());
+            alert("성공! 귀찮은 팝업창 몬스터들을 모두 물리쳤어!");
+            goScreen('stage2-invest');
+        }
+    }
+
+    // 2단계
+    function viewBoard() {
+        document.getElementById('board-result').style.display = 'block';
+        document.getElementById('btn-goto-convo').style.display = 'block';
+    }
+
+    let currentTurn = 1;
+    const convoData = {
+        1: {
+            text: "야, 쫄았어? 딱 한 판만 돈 걸고 해보자!",
+            options: [
+                { text: "네가 자꾸 쫄았냐고 놀리니까 내 기분이 나빠. 난 돈 내기는 안 해.", correct: true },
+                { text: "알았어.. 딱 한 번만 할게.", correct: false }
+            ]
+        },
+        2: {
+            text: "돈 없어? 내가 빌려줄 테니까 해봐. 재밌어!",
+            options: [
+                { text: "진짜? 그럼 조금만 빌려줘봐.", correct: false },
+                { text: "아니, 난 빚지면서 게임하는 건 싫어.", correct: true }
+            ]
+        },
+        3: {
+            text: "아휴, 재미없어. 그럼 뭐 하고 놀 건데?",
+            options: [
+                { text: "미안해.. 내가 맞출게.", correct: false },
+                { text: "돈 내기 말고 그냥 밖에 나가서 축구하자!", correct: true }
+            ]
+        }
+    };
+
+    function loadTurn() {
+        if(currentTurn > 3) {
+            alert("✨ 요술봉 빛이 반짝! 짝꿍이 꿀꺽 몬스터의 마법에서 풀려났어!");
+            goScreen('stage3-mini');
+            return;
+        }
+        document.getElementById('turn-count').innerText = currentTurn;
+        document.getElementById('friend-dialogue').innerText = `"${convoData[currentTurn].text}"`;
+        
+        const optContainer = document.getElementById('convo-options');
+        optContainer.innerHTML = '';
+        convoData[currentTurn].options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.style.fontSize = '18px';
+            btn.innerText = opt.text;
+            btn.onclick = () => {
+                if(opt.correct) {
+                    currentTurn++;
+                    loadTurn();
+                } else {
+                    alert("앗, 괴물의 마법에 말려들고 있어! 다시 곰곰이 생각해보자.");
+                }
+            };
+            optContainer.appendChild(btn);
+        });
+    }
+
+    document.getElementById('screen-stage2-convo').addEventListener('mouseenter', () => {
+        if(currentTurn === 1) loadTurn();
+    });
+
+    // 3단계
+    let betCount = 0;
+    function playMinigame() {
+        betCount++;
+        const msg = document.getElementById('mini-msg');
+        const coinDisplay = document.getElementById('coin-count');
+        msg.style.display = 'block';
+
+        if(betCount === 1) {
+            msg.innerHTML = "🎉 당첨! 동전이 늘어났어!<br><span style='color:var(--primary)'>'우와! 나 오늘 운이 좋나 봐!'</span>";
+            coinDisplay.innerText = "5";
+        } else if(betCount === 2) {
+            msg.innerHTML = "🎉 또 당첨! 동전 폭발!<br><span style='color:var(--primary)'>'조금만 더 하면 부자 되겠어!'</span>";
+            coinDisplay.innerText = "10";
+        } else {
+            msg.innerHTML = "<span style='color:var(--secondary);'>쾅! 꽝입니다. 동전을 전부 잃었습니다.</span><br><br>😈 <strong>꿀꺽 몬스터:</strong> 아깝지? 한 번만 더 하면 잃은 거 다 찾게 해줄게! 또 해봐!";
+            coinDisplay.innerText = "0";
+            document.getElementById('bet-btn').disabled = true;
+            document.getElementById('bet-btn').style.background = "#555";
+            document.getElementById('bet-btn').style.boxShadow = "none";
+            document.getElementById('btn-goto-slogan').style.display = 'block';
+        }
+    }
+
+    // 슬로건
+    let assembledSlogan = [];
+    const answerSlogan = "잃은 돈을 찾는 법은 도박을 더 하는 게 아니라 지금 당장 멈추는 것이다!";
+
+    function addWord(chip) {
+        assembledSlogan.push(chip.innerText);
+        chip.style.display = 'none';
+        document.getElementById('slogan-answer').innerText = assembledSlogan.join(" ");
+    }
+    
+    function resetSlogan() {
+        assembledSlogan = [];
+        document.getElementById('slogan-answer').innerText = "주문 조각을 여기에 모아보자.";
+        document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'inline-block');
+    }
+
+    function checkSlogan() {
+        if(assembledSlogan.join(" ") === answerSlogan) {
+            alert("💥 펑!! 완벽한 마법의 주문이야! 꿀꺽 몬스터가 사라졌어!");
+            goScreen('outro-quiz');
+        } else {
+            alert("주문이 좀 이상한데? 순서를 다시 잘 맞춰보자!");
+            resetSlogan();
+        }
+    }
+
+    function moveChasingBtn() {
+        const btn = document.getElementById('chasing-btn');
+        const randomY = Math.floor(Math.random() * 150) + 50; 
+        btn.style.bottom = randomY + 'px';
+    }
+
+    // 아웃트로 퀴즈
+    const quizData = {
+        1: { q: "Q1. 공짜 게임 코인을 준다는 문자는 무조건 눌러서 받는다?", ans: false },
+        2: { q: "Q2. 친구가 돈을 걸고 내기를 하자고 하면, 빚을 지더라도 같이 해준다?", ans: false },
+        3: { q: "Q3. 잃은 돈을 찾는 가장 좋은 방법은 지금 당장 게임을 멈추는 것이다!", ans: true }
+    };
+
+    function loadQuiz(qNum) {
+        if(qNum > 3) {
+            goScreen('outro-success');
+            return;
+        }
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = `<div class="box" style="font-size:20px;">${quizData[qNum].q}</div>`;
+        
+        const btnO = document.createElement('button');
+        btnO.className = 'btn';
+        btnO.style.width = '45%';
+        btnO.style.marginRight = '5%';
+        btnO.style.fontSize = '40px';
+        btnO.innerText = 'O';
+        btnO.onclick = () => answerQuiz(qNum, true);
+
+        const btnX = document.createElement('button');
+        btnX.className = 'btn btn-danger';
+        btnX.style.width = '45%';
+        btnX.style.fontSize = '40px';
+        btnX.innerText = 'X';
+        btnX.onclick = () => answerQuiz(qNum, false);
+
+        container.appendChild(btnO);
+        container.appendChild(btnX);
+    }
+
+    function answerQuiz(qNum, userAns) {
+        if(userAns === quizData[qNum].ans) {
+            alert("정답이야! 아주 잘했어!");
+            loadQuiz(qNum + 1);
+        } else {
+            alert("땡! 다시 한 번 잘 생각해봐!");
+        }
+    }
+</script>
+</body>
+</html>
