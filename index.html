@@ -10,13 +10,15 @@
     
     <style>
         :root {
-            --bg-color: #1e1e2f;
-            --phone-bg: #2b2b40;
-            --primary: #ffd700;
-            --secondary: #ff6b6b;
-            --text-main: #ffffff;
-            --monster: #9b59b6;
-            --success: #4cd137;
+            /* 1. 배경 및 텍스트 색상 수정 (하얀 스마트폰 화면에 맞춤) */
+            --bg-color: #1a1a3a; /* 페이지 바탕 남색 */
+            --phone-bg: #ffffff; /* 스마트폰 배경 하얀색 */
+            --primary: #ffd700;  /* 노란색 버튼 */
+            --secondary: #ff6b6b; /* 빨간색 경고/버튼 */
+            --text-main: #333333; /* 기본 글씨 짙은 회색 */
+            --heading-color: #0984e3; /* 제목 파란색 */
+            --monster: #9b59b6;  /* 몬스터 보라색 */
+            --success: #4cd137;  /* 성공 초록색 */
         }
 
         body {
@@ -67,29 +69,31 @@
             height: 100%;
             box-sizing: border-box;
             overflow-y: auto;
-            background: linear-gradient(180deg, #2b2b40 0%, #1a1a2e 100%);
+            background-color: var(--phone-bg); /* 배경색 하얀색 적용 */
         }
 
         .screen.active {
             display: flex;
         }
 
-        h1, h2, h3 { color: var(--primary); text-align: center; margin-top: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        /* 제목 색상을 또렷한 파란색/초록색 계열로 변경 */
+        h1, h2, h3 { color: var(--heading-color); text-align: center; margin-top: 10px; }
         
         .box {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: #f1f2f6; /* 밝은 회색 상자 */
+            color: var(--text-main);
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
             line-height: 1.6;
             font-size: 18px;
-            border: 2px solid #555;
+            border: 2px solid #ced6e0;
             text-align: center;
         }
 
         .monster-box {
             border-color: var(--monster);
-            background-color: rgba(155, 89, 182, 0.2);
+            background-color: #f8eff9; /* 연한 보라색 배경 */
         }
 
         .btn {
@@ -111,7 +115,7 @@
         .btn-danger { background-color: var(--secondary); color: white; box-shadow: 0 4px 0 #c0392b; }
         .btn-danger:hover { box-shadow: 0 6px 0 #c0392b; }
         .btn-danger:active { box-shadow: 0 2px 0 #c0392b; }
-        .btn:disabled { background-color: #555 !important; color: #aaa !important; box-shadow: none !important; cursor: not-allowed; transform: none; }
+        .btn:disabled { background-color: #e0e0e0 !important; color: #a0a0a0 !important; box-shadow: none !important; cursor: not-allowed; transform: none; }
 
         /* 힌트 모달 */
         #hint-btn {
@@ -144,7 +148,7 @@
         .popup-ad {
             position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
             padding: 15px; border-radius: 15px; z-index: 50; cursor: pointer;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.5); font-size: 16px; animation: pop 0.3s ease;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3); font-size: 16px; animation: pop 0.3s ease;
         }
         @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         
@@ -181,7 +185,7 @@
         <div class="box" style="font-size: 16px;">
             도움이 필요해! 도박 때문에 힘들 때 도와주는 <strong>천사 번호 4자리</strong>를 누르면 문이 열릴 거야.
         </div>
-        <h1 id="pass-display" style="letter-spacing: 20px; margin-bottom: 20px; font-size: 40px;">____</h1>
+        <h1 id="pass-display" style="letter-spacing: 20px; margin-bottom: 20px; font-size: 40px; color: var(--text-main);">____</h1>
         <div id="numpad">
             <button class="btn" onclick="inputPass(1)">1</button><button class="btn" onclick="inputPass(2)">2</button><button class="btn" onclick="inputPass(3)">3</button>
             <button class="btn" onclick="inputPass(4)">4</button><button class="btn" onclick="inputPass(5)">5</button><button class="btn" onclick="inputPass(6)">6</button>
@@ -198,7 +202,7 @@
         <button class="btn" id="btn-gallery" onclick="viewInvest('gallery')">🖼 사진첩 보기</button>
         <button class="btn" id="btn-memo" onclick="viewInvest('memo')">📝 메모장 보기</button>
         
-        <div id="invest-result" class="box" style="display:none; margin-top: 15px; border-color: var(--primary); font-size: 16px;"></div>
+        <div id="invest-result" class="box" style="display:none; margin-top: 15px; border-color: var(--heading-color); font-size: 16px;"></div>
         <button class="btn btn-danger" id="btn-goto-sns" style="display:none; margin-top: 15px;" onclick="goScreen('stage1-sns')">🚨 괴물의 문자 확인하기</button>
     </div>
 
@@ -240,7 +244,7 @@
 
     <div id="screen-stage3-mini" class="screen">
         <h2>3단계: 블랙홀의 방</h2>
-        <div class="box" style="font-size: 24px;">내 동전: <strong id="coin-count" style="color:var(--primary); font-size: 32px;">3</strong>개</div>
+        <div class="box" style="font-size: 24px;">내 동전: <strong id="coin-count" style="color:var(--secondary); font-size: 32px;">3</strong>개</div>
         <button class="btn" id="bet-btn" onclick="playMinigame()" style="padding: 40px 20px; font-size: 28px;">🎁 보물상자 뽑기 하기!</button>
         <div id="mini-msg" class="box" style="display:none; margin-top: 20px; font-size: 16px;"></div>
         <button class="btn btn-danger" id="btn-goto-slogan" style="display:none; margin-top:20px;" onclick="goScreen('stage3-slogan')">블랙홀 정지 버튼 만들기!</button>
@@ -250,7 +254,7 @@
         <h2>마법의 주문 완성하기</h2>
         <div class="box" style="font-size: 14px; padding: 10px;">아래로 쫓아다니는 가짜 버튼을 누르지 말고, 조각을 모아 주문을 완성해!</div>
         
-        <div id="slogan-answer" class="box" style="min-height: 50px; color: var(--primary); font-weight: bold; border-style: dashed;">주문 조각을 여기에 모아보자.</div>
+        <div id="slogan-answer" class="box" style="min-height: 50px; color: var(--heading-color); font-weight: bold; border: 2px dashed var(--heading-color);">주문 조각을 여기에 모아보자.</div>
         
         <div id="word-pool" style="margin-bottom: 60px;">
             <span class="word-chip" onclick="addWord(this)">도박을</span>
@@ -261,7 +265,7 @@
             <span class="word-chip" onclick="addWord(this)">더 하는 게 아니라</span>
         </div>
         
-        <button class="btn btn-danger" id="chasing-btn" style="position: absolute; width: 80%; padding: 25px; font-size: 24px; left: 10%; box-shadow: 0 0 20px rgba(255,107,107,0.8);" onclick="alert('앗! 괴물의 유혹에 넘어갔어요! 진짜 버튼을 만들어야 해요.')" onmouseover="moveChasingBtn()">🎰 한 판 더 하기! 🎰</button>
+        <button class="btn btn-danger" id="chasing-btn" style="position: absolute; width: 80%; padding: 25px; font-size: 24px; left: 10%; box-shadow: 0 0 20px rgba(255,107,107,0.5);" onclick="alert('앗! 괴물의 유혹에 넘어갔어요! 진짜 버튼을 만들어야 해요.')" onmouseover="moveChasingBtn()">🎰 한 판 더 하기! 🎰</button>
         
         <div style="display:flex; gap: 10px; margin-top: auto; position: relative; z-index: 100;">
             <button class="btn" style="flex:1; background:#95a5a6; box-shadow:0 4px 0 #7f8c8d; color:white;" onclick="resetSlogan()">다시 맞추기</button>
@@ -339,8 +343,9 @@
         }
     }
 
-    // 1단계 조사
+    // 2. 1단계 조사 (요청하신 로직대로 수정)
     let gViewed = false; let mViewed = false;
+    
     function viewInvest(type) {
         if(type === 'gallery') gViewed = true;
         if(type === 'memo') mViewed = true;
@@ -349,10 +354,15 @@
         res.style.display = 'block';
         
         if(gViewed && mViewed) {
-            res.innerHTML = "<strong>사진첩:</strong> 축구화 살 돈을 모았던 사진!<br><strong>메모장:</strong> '무료 코인은 다 거짓말이었어. 내 용돈...' 일기장 발견!<br><br><span style='color:var(--secondary)'>앗, 공짜는 없었어! 괴물의 함정이야!</span>";
+            // 둘 다 확인했을 때
+            res.innerHTML = "<strong>사진첩:</strong> 축구화 살 돈을 모았던 사진!<br><strong>메모장:</strong> '무료 코인은 다 거짓말이었어. 아까운 내 용돈...' 일기장 발견!<br><br><span style='color:var(--secondary)'>앗, 공짜는 없었어! 괴물의 함정이야!</span>";
             document.getElementById('btn-goto-sns').style.display = 'block';
-        } else {
-            res.innerHTML = "단서를 하나 더 찾아보자!";
+        } else if (gViewed) {
+            // 사진첩만 먼저 확인했을 때
+            res.innerHTML = "축구화 살 돈을 모았던 사진이 나왔다!!<br><br>단서를 하나 더 찾아보자!";
+        } else if (mViewed) {
+            // 메모장만 먼저 확인했을 때
+            res.innerHTML = "'무료 코인은 다 거짓말이었어. 아까운 내 용돈...' 이라고 쓰인 메모 발견!!<br><br>단서를 하나 더 찾아보자!";
         }
     }
 
@@ -382,7 +392,7 @@
         }
     }
 
-    // 2단계
+    // 2단계 조사
     function viewBoard() {
         document.getElementById('board-result').style.display = 'block';
         document.getElementById('btn-goto-convo').style.display = 'block';
@@ -441,7 +451,11 @@
         });
     }
 
-    // 3단계
+    document.getElementById('screen-stage2-convo').addEventListener('mouseenter', () => {
+        if(currentTurn === 1) loadTurn();
+    });
+
+    // 3단계 미니게임
     let betCount = 0;
     function playMinigame() {
         betCount++;
@@ -450,10 +464,10 @@
         msg.style.display = 'block';
 
         if(betCount === 1) {
-            msg.innerHTML = "🎉 당첨! 동전이 늘어났어!<br><span style='color:var(--primary)'>'우와! 나 오늘 운이 좋나 봐!'</span>";
+            msg.innerHTML = "🎉 당첨! 동전이 늘어났어!<br><span style='color:var(--heading-color)'>'우와! 나 오늘 운이 좋나 봐!'</span>";
             coinDisplay.innerText = "5";
         } else if(betCount === 2) {
-            msg.innerHTML = "🎉 또 당첨! 동전 폭발!<br><span style='color:var(--primary)'>'조금만 더 하면 부자 되겠어!'</span>";
+            msg.innerHTML = "🎉 또 당첨! 동전 폭발!<br><span style='color:var(--heading-color)'>'조금만 더 하면 부자 되겠어!'</span>";
             coinDisplay.innerText = "10";
         } else {
             msg.innerHTML = "<span style='color:var(--secondary);'>쾅! 꽝입니다. 동전을 전부 잃었습니다.</span><br><br>😈 <strong>꿀꺽 몬스터:</strong> 아깝지? 한 번만 더 하면 잃은 거 다 찾게 해줄게! 또 해봐!";
