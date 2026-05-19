@@ -6,25 +6,29 @@
     <title>수상한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* 1. 배경 및 텍스트 색상 수정 (하얀 스마트폰 화면에 맞춤) */
-            --bg-color: #1a1a3a; /* 페이지 바탕 남색 */
-            --phone-bg: #ffffff; /* 스마트폰 배경 하얀색 */
-            --primary: #ffd700;  /* 노란색 버튼 */
-            --secondary: #ff6b6b; /* 빨간색 경고/버튼 */
-            --text-main: #333333; /* 기본 글씨 짙은 회색 */
-            --heading-color: #0984e3; /* 제목 파란색 */
-            --monster: #9b59b6;  /* 몬스터 보라색 */
-            --success: #4cd137;  /* 성공 초록색 */
+            --bg-page: #0f172a;       /* 외부 전체 배경 (어두운 남색) */
+            --phone-frame: #1e293b;  /* 스마트폰 기기 프레임 색상 */
+            --screen-bg: #ffffff;    /* 스마트폰 내부 화면 (요청하신 하얀색 바탕) */
+            --primary: #0984e3;      /* 주요 포인트 파란색 */
+            --secondary: #d63031;    /* 경고/몬스터 빨간색 */
+            --text-dark: #2d3436;    /* 본문 어두운 글씨 */
+            --text-light: #ffffff;   /* 밝은 버튼용 글씨 */
+            --box-bg: #f5f6fa;       /* 콘텐츠 상자 연회색 바탕 */
+            --monster-bg: #f8eff9;   /* 몬스터 상자 연보라 배경 */
+            --monster-border: #9b59b6;
+            --success: #2ecc71;      /* 성공 초록색 */
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Jua', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            font-family: 'Nanum Gothic', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,524 +37,583 @@
             overflow: hidden;
         }
 
-        #game-container {
-            width: 100%;
-            max-width: 500px;
-            height: 800px;
-            background-color: var(--phone-bg);
-            border: 15px solid #111;
-            border-radius: 40px;
+        /* 스마트폰 형태 레이아웃 디자인 */
+        #phone-device {
+            width: 420px;
+            height: 840px;
+            background-color: var(--phone-frame);
+            border: 4px solid #334155;
+            border-radius: 45px;
             position: relative;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            padding: 12px;
         }
 
-        /* 스마트폰 상단 노치 디자인 */
-        #game-container::before {
-            content: '';
+        /* 디바이스 노치(Notch) 하드웨어 묘사 */
+        #phone-notch {
             position: absolute;
-            top: 0;
+            top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 150px;
+            width: 140px;
             height: 25px;
-            background-color: #111;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            z-index: 100;
+            background-color: #000000;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 999;
         }
 
         .screen {
+            flex: 1;
+            background-color: var(--screen-bg);
+            border-radius: 35px;
+            padding: 35px 20px 20px 20px;
             display: none;
             flex-direction: column;
-            padding: 40px 20px 20px 20px;
-            height: 100%;
-            box-sizing: border-box;
+            position: relative;
             overflow-y: auto;
-            background-color: var(--phone-bg); /* 배경색 하얀색 적용 */
         }
 
         .screen.active {
             display: flex;
         }
 
-        /* 제목 색상을 또렷한 파란색/초록색 계열로 변경 */
-        h1, h2, h3 { color: var(--heading-color); text-align: center; margin-top: 10px; }
+        /* 스타일 타이포그래피 */
+        h2 { color: var(--primary); text-align: center; font-size: 22px; font-weight: 800; margin-top: 10px; margin-bottom: 15px; }
+        h3 { color: var(--text-dark); font-size: 16px; margin: 10px 0; }
         
         .box {
-            background-color: #f1f2f6; /* 밝은 회색 상자 */
-            color: var(--text-main);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            background-color: var(--box-bg);
+            border: 2px solid #dfe4ea;
+            border-radius: 14px;
+            padding: 15px;
+            font-size: 15px;
             line-height: 1.6;
-            font-size: 18px;
-            border: 2px solid #ced6e0;
+            margin-bottom: 15px;
             text-align: center;
+            font-weight: 700;
         }
 
         .monster-box {
-            border-color: var(--monster);
-            background-color: #f8eff9; /* 연한 보라색 배경 */
+            border-color: var(--monster-border);
+            background-color: var(--monster-bg);
+            color: #4a148c;
         }
 
+        /* 공통 버튼 디자인 */
         .btn {
             background-color: var(--primary);
-            color: #333;
+            color: var(--text-light);
             border: none;
-            padding: 15px 20px;
-            font-size: 20px;
-            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
             cursor: pointer;
-            margin: 8px 0;
-            transition: all 0.2s;
-            font-family: 'Jua', sans-serif;
-            box-shadow: 0 4px 0 #b39700;
+            margin: 6px 0;
+            transition: transform 0.1s, opacity 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b39700; }
-        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b39700; }
-        .btn-danger { background-color: var(--secondary); color: white; box-shadow: 0 4px 0 #c0392b; }
-        .btn-danger:hover { box-shadow: 0 6px 0 #c0392b; }
-        .btn-danger:active { box-shadow: 0 2px 0 #c0392b; }
-        .btn:disabled { background-color: #e0e0e0 !important; color: #a0a0a0 !important; box-shadow: none !important; cursor: not-allowed; transform: none; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:active { transform: translateY(1px); }
+        .btn-danger { background-color: var(--secondary); }
+        .btn-success { background-color: var(--success); }
+        .btn:disabled { background-color: #b2bec3 !important; color: #636e72 !important; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        /* 힌트 모달 */
-        #hint-btn {
+        /* 독립형 힌트 시스템 모듈 */
+        #hint-trigger {
             position: absolute;
-            top: 40px;
-            right: 20px;
-            background-color: #00cec9;
-            color: white;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 24px;
+            top: 45px;
+            right: 25px;
+            background-color: #f1c40f;
+            color: #000;
             border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 0 #00b0b0;
-            font-family: 'Jua', sans-serif;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        #hint-modal {
+        #hint-layer {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 1001; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;
+            padding: 20px;
         }
-        .hint-content { background: #fff; color: #333; padding: 30px; border-radius: 20px; width: 80%; text-align: center; border: 5px solid #00cec9; }
+        .hint-window { background: #ffffff; border: 4px solid #f1c40f; border-radius: 20px; padding: 25px; text-align: center; width: 90%; }
 
-        /* 키패드 */
-        #numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 250px; margin: 0 auto; }
-        #numpad button { font-size: 24px; padding: 15px; }
+        /* 스테이지별 커스텀 그리드 및 인라인 모듈 */
+        #numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 220px; margin: 10px auto; }
+        #numpad-grid .btn { padding: 12px; font-size: 18px; margin: 0; }
         
-        /* 팝업 몬스터 */
-        .popup-ad {
-            position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
-            padding: 15px; border-radius: 15px; z-index: 50; cursor: pointer;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.3); font-size: 16px; animation: pop 0.3s ease;
+        .ad-monster {
+            position: absolute; background: #ff7675; border: 2px solid #fff; color: white;
+            padding: 10px; border-radius: 12px; z-index: 50; cursor: pointer; font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: bold;
         }
-        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        
-        .word-chip {
-            display: inline-block; background: #fff; color: #333; padding: 10px 15px; margin: 5px;
-            border-radius: 10px; cursor: pointer; user-select: none; font-size: 18px; border: 2px solid #ccc;
+
+        .signal-card {
+            background: #f1f2f6; border: 2px solid #ced6e0; border-radius: 8px;
+            padding: 10px; margin: 6px 0; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;
         }
+        .signal-card.selected { background: #ffeaa7; border-color: #fdcb6e; color: #d35400; }
+
+        .chip-element {
+            display: inline-block; background: #dfe4ea; color: #2d3436; padding: 8px 12px; margin: 4px;
+            border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; border: 1px solid #b2bec3;
+        }
+
+        #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
 <body>
 
-<div id="game-container">
-    <button id="hint-btn" onclick="showHint()">?</button>
-    <div id="hint-modal">
-        <div class="hint-content">
-            <h2 style="color: #00cec9; margin-top:0;">💡 힌트 요정</h2>
-            <p id="hint-text" style="font-size: 20px; line-height: 1.5;"></p>
-            <button class="btn" style="width: 100%; background: #00cec9; color: white; box-shadow: 0 4px 0 #00b0b0;" onclick="document.getElementById('hint-modal').style.display='none'">알겠어!</button>
+<div id="phone-device">
+    <div id="phone-notch"></div>
+    
+    <button id="hint-trigger" onclick="openHintSystem()">?</button>
+    <div id="hint-layer">
+        <div class="hint-window">
+            <h3 style="color: #e67e22; font-size: 18px; margin-top:0;">💡 시스템 복구 힌트</h3>
+            <p id="hint-body-text" style="font-size: 15px; line-height: 1.5; margin-bottom: 20px; color:#2d3436; font-weight:700;"></p>
+            <button class="btn" style="width:100%; background:#e67e22;" onclick="closeHintSystem()">확인 완료</button>
         </div>
     </div>
 
-    <div id="screen-intro" class="screen active">
-        <h1 style="font-size: 32px;">내 용돈을 지켜라!</h1>
+    <div id="view-intro" class="screen active">
+        <h2>스마트폰 요괴 습격</h2>
         <div class="box">
-            앗! 무료 게임 아이템을 준다는 문자를 눌렀더니 스마트폰 속에 갇혀버렸어!<br><br>
-            이건 아이들의 용돈을 노리는 나쁜 <strong>'꿀꺽 몬스터'</strong>의 함정이야.<br><br>
-            세 가지 방을 무사히 통과해서 다시 현실로 탈출하자!
+            앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
+            이건 우리들의 돈을 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
         </div>
-        <button class="btn btn-danger" onclick="goScreen('intro-lock')">방탈출 시작하기!</button>
+        <div class="box monster-box">
+            😈 <strong>겜블 몬스터:</strong><br>
+            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정을 절대 깨지 못할 걸?"
+        </div>
+        <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
     </div>
 
-    <div id="screen-intro-lock" class="screen">
-        <h2>🔒 잠겨버린 화면</h2>
-        <div class="box" style="font-size: 16px;">
-            도움이 필요해! 도박 때문에 힘들 때 도와주는 <strong>천사 번호 4자리</strong>를 누르면 문이 열릴 거야.
+    <div id="view-stage1-ad" class="screen">
+        <h2>1단계: 함정의 방</h2>
+        <div class="box" style="border-left: 5px solid var(--secondary); text-align: left;">
+            💌 <strong>알 수 없는 메시지:</strong><br>
+            "게임 머니 10만 원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
         </div>
-        <h1 id="pass-display" style="letter-spacing: 20px; margin-bottom: 20px; font-size: 40px; color: var(--text-main);">____</h1>
-        <div id="numpad">
-            <button class="btn" onclick="inputPass(1)">1</button><button class="btn" onclick="inputPass(2)">2</button><button class="btn" onclick="inputPass(3)">3</button>
-            <button class="btn" onclick="inputPass(4)">4</button><button class="btn" onclick="inputPass(5)">5</button><button class="btn" onclick="inputPass(6)">6</button>
-            <button class="btn" onclick="inputPass(7)">7</button><button class="btn" onclick="inputPass(8)">8</button><button class="btn" onclick="inputPass(9)">9</button>
-            <button class="btn btn-danger" onclick="clearPass()">지우기</button>
-            <button class="btn" onclick="inputPass(0)">0</button>
-            <button class="btn" style="background: var(--success); box-shadow: 0 4px 0 #3b9e2a; color:white;" onclick="checkPass()">열기</button>
+        <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px;">
+            ⚠️ 알림: 유혹 팝업창을 [X]를 눌러 빠르게 제거하며 숨겨진 방어 시스템을 작동하세요!
         </div>
-    </div>
-
-    <div id="screen-stage1-invest" class="screen">
-        <h2>1단계: 공짜 미끼를 조심해!</h2>
-        <div class="box">메시지를 확인하기 전에, 내 스마트폰을 조사해서 단서를 찾자!</div>
-        <button class="btn" id="btn-gallery" onclick="viewInvest('gallery')">🖼 사진첩 보기</button>
-        <button class="btn" id="btn-memo" onclick="viewInvest('memo')">📝 메모장 보기</button>
         
-        <div id="invest-result" class="box" style="display:none; margin-top: 15px; border-color: var(--heading-color); font-size: 16px;"></div>
-        <button class="btn btn-danger" id="btn-goto-sns" style="display:none; margin-top: 15px;" onclick="goScreen('stage1-sns')">🚨 괴물의 문자 확인하기</button>
-    </div>
+        <div id="ad-field" style="flex:1; position:relative; border:2px inset #ced6e0; border-radius:10px; margin-bottom:10px; background:#f8f9fa; overflow:hidden;"></div>
 
-    <div id="screen-stage1-sns" class="screen">
-        <h2>스팸 몬스터 차단!</h2>
-        <div class="box monster-box" style="position: relative; z-index: 10;">
-            👾 <strong>꿀꺽 몬스터:</strong><br>
-            "헤헤, 게임 머니 10만 원 즉시 지급해줄게! 밑에 링크 당장 클릭해봐!"
-        </div>
-        <div class="box" style="font-size: 16px; padding: 10px; position: relative; z-index: 10;">방해하는 팝업창을 끄고 메뉴를 찾아라!</div>
-        <div id="security-menu" style="display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 10;">
-            <button class="btn" id="sec-menu" onclick="secStep(1)">⚙️ 조용한 숨김 메뉴</button>
-            <button class="btn" id="sec-report" style="display:none;" onclick="secStep(2)">🚨 스팸 신고</button>
-            <button class="btn btn-danger" id="sec-delete" style="display:none;" onclick="secStep(3)">🚫 차단 및 영구 삭제!</button>
+        <div id="defense-control-rack" style="display: flex; flex-direction: column; position: relative; z-index: 100;">
+            <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
+            <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 신고] 접수</button>
+            <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [차단 및 삭제] 프로토콜</button>
         </div>
     </div>
 
-    <div id="screen-stage2-invest" class="screen">
-        <h2>2단계: 마법에 걸린 친구 구하기</h2>
-        <div class="box">교실 칠판에 누군가 쪽지를 붙여놨어. 확인해보자.</div>
-        <button class="btn" onclick="viewBoard()">📋 칠판 쪽지 보기</button>
-        <div id="board-result" class="box" style="display:none; margin-top:15px; font-size: 16px;">
-            [짝꿍의 쪽지들]<br>
-            "너도 돈 걸고 내기할래?"<br>
-            "나 어제 만원 땄다!"<br><br>
-            <strong style="color:var(--secondary);">앗! 짝꿍이 꿀꺽 몬스터에게 조종당하고 있어!</strong>
+    <div id="view-stage2-signals" class="screen">
+        <h2>2단계: 유혹의 방 (A)</h2>
+        <div class="box monster-box">
+            👤 <strong>조종당하는 친구:</strong><br>
+            "너도 돈 걸고 내기할래...?"
         </div>
-        <button class="btn btn-danger" id="btn-goto-convo" style="display:none; margin-top:15px;" onclick="goScreen('stage2-convo')">마법을 풀러 가기!</button>
+        <div class="box" style="font-size:13px; padding:10px;">
+            🔍 <strong>미션 A:</strong> 도박에 빠진 친구가 무의식중에 보낸 <u>위험신호(구조신호)를 모두</u> 선택하세요. (정상 신호 제외)
+        </div>
+        
+        <div id="signal-matrix" style="flex:1; overflow-y:auto; margin-bottom:10px;">
+            </div>
+        <button class="btn btn-success" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
     </div>
 
-    <div id="screen-stage2-convo" class="screen">
-        <h2>요술봉 대화법 (<span id="turn-count">1</span>/3)</h2>
-        <div class="box monster-box" id="friend-dialogue">
-            "야, 쫄았어? 딱 한 판만 돈 걸고 해보자!"
+    <div id="view-stage2-refusal" class="screen">
+        <h2>2단계: 유혹의 방 (B)</h2>
+        <div class="box monster-box" id="friend-speech">
+            "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 10만원 벌었어!"
         </div>
-        <div id="convo-options" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+        <div class="box" style="font-size:13px; padding:8px; color:var(--primary);">
+            📢 <strong>미션 B:</strong> 친구와 다투지 않고 올바르고 단호하게 거절하는 선택지를 고르세요.
+        </div>
+        <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
             </div>
     </div>
 
-    <div id="screen-stage3-mini" class="screen">
-        <h2>3단계: 블랙홀의 방</h2>
-        <div class="box" style="font-size: 24px;">내 동전: <strong id="coin-count" style="color:var(--secondary); font-size: 32px;">3</strong>개</div>
-        <button class="btn" id="bet-btn" onclick="playMinigame()" style="padding: 40px 20px; font-size: 28px;">🎁 보물상자 뽑기 하기!</button>
-        <div id="mini-msg" class="box" style="display:none; margin-top: 20px; font-size: 16px;"></div>
-        <button class="btn btn-danger" id="btn-goto-slogan" style="display:none; margin-top:20px;" onclick="goScreen('stage3-slogan')">블랙홀 정지 버튼 만들기!</button>
-    </div>
-
-    <div id="screen-stage3-slogan" class="screen">
-        <h2>마법의 주문 완성하기</h2>
-        <div class="box" style="font-size: 14px; padding: 10px;">아래로 쫓아다니는 가짜 버튼을 누르지 말고, 조각을 모아 주문을 완성해!</div>
-        
-        <div id="slogan-answer" class="box" style="min-height: 50px; color: var(--heading-color); font-weight: bold; border: 2px dashed var(--heading-color);">주문 조각을 여기에 모아보자.</div>
-        
-        <div id="word-pool" style="margin-bottom: 60px;">
-            <span class="word-chip" onclick="addWord(this)">도박을</span>
-            <span class="word-chip" onclick="addWord(this)">멈추는 것이다!</span>
-            <span class="word-chip" onclick="addWord(this)">찾는 법은</span>
-            <span class="word-chip" onclick="addWord(this)">잃은 돈을</span>
-            <span class="word-chip" onclick="addWord(this)">지금 당장</span>
-            <span class="word-chip" onclick="addWord(this)">더 하는 게 아니라</span>
+    <div id="view-stage2-unlock" class="screen">
+        <h2>2단계: 유혹의 방 (C)</h2>
+        <div class="box">
+            친구의 제안은 거절했지만, 아직 조종당하는 친구를 온전히 구출하려면 잠겨있는 구조 요청 화면을 열어야 합니다!
+        </div>
+        <div class="box monster-box" style="font-size:14px;">
+            ❓ <strong>잠금 힌트:</strong><br>도박 때문에 힘들 때 도와주는 천사 번호는 무엇일까요?
         </div>
         
-        <button class="btn btn-danger" id="chasing-btn" style="position: absolute; width: 80%; padding: 25px; font-size: 24px; left: 10%; box-shadow: 0 0 20px rgba(255,107,107,0.5);" onclick="alert('앗! 괴물의 유혹에 넘어갔어요! 진짜 버튼을 만들어야 해요.')" onmouseover="moveChasingBtn()">🎰 한 판 더 하기! 🎰</button>
+        <h1 id="pin-display" style="text-align:center; letter-spacing:15px; margin:10px 0; font-size:36px; color:var(--primary);">____</h1>
         
-        <div style="display:flex; gap: 10px; margin-top: auto; position: relative; z-index: 100;">
-            <button class="btn" style="flex:1; background:#95a5a6; box-shadow:0 4px 0 #7f8c8d; color:white;" onclick="resetSlogan()">다시 맞추기</button>
-            <button class="btn" style="flex:2; background:var(--success); box-shadow:0 4px 0 #3b9e2a; color:white;" onclick="checkSlogan()">주문 외치기!</button>
+        <div id="numpad-grid">
+            <button class="btn" onclick="pressPin(1)">1</button><button class="btn" onclick="inputPass(2)" onclick="pressPin(2)">2</button><button class="btn" onclick="pressPin(3)">3</button>
+            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)">6</button>
+            <button class="btn" onclick="pressPin(7)">7</button><button class="btn" onclick="pressPin(8)">8</button><button class="btn" onclick="pressPin(9)">9</button>
+            <button class="btn btn-danger" onclick="wipePin()">C</button><button class="btn" onclick="pressPin(0)">0</button>
+            <button class="btn btn-success" onclick="executeUnlock()">OK</button>
         </div>
     </div>
 
-    <div id="screen-outro-quiz" class="screen">
-        <h2>현실로 가는 문: OX 퀴즈</h2>
-        <div class="box">이제 다 왔어! 마지막 퀴즈 3개를 풀면 현실로 돌아갈 수 있어.</div>
-        <div id="quiz-container"></div>
+    <div id="view-stage3-gamble" class="screen">
+        <h2>3단계: 블랙홀의 방 (A)</h2>
+        <div class="box monster-box">
+            😈 <strong>겜블 몬스터의 마지막 장난:</strong><br>
+            "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 잃은 거 다 찾게 해줄게!"
+        </div>
+        
+        <div class="box" style="background:#fff3cd; border-color:#ffeaa7;">
+            보유 가상 동전: <strong id="token-tally" style="font-size:24px; color:var(--secondary);">3</strong>개
+        </div>
+
+        <div id="game-output-box" class="box" style="display:none; font-size:14px; min-height:80px; align-items:center; justify-content:center;"></div>
+
+        <div style="display:flex; flex-direction:column; margin-top:auto; gap:10px;">
+            <button class="btn" id="gamble-action-btn" style="background:#8e44ad;" onclick="triggerRiggedGamble()">🎁 [보물상자 뽑기] 도전하기 (2배 찬스)</button>
+            <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 선택하고 탈출하기</button>
+        </div>
     </div>
 
-    <div id="screen-outro-success" class="screen" style="justify-content: center; text-align: center;">
-        <h1 style="color: var(--success); font-size: 50px;">탈출 성공!</h1>
-        <div class="box" style="font-size: 22px;">
-            우와! 꿀꺽 몬스터를 무찌르고<br>내 용돈을 무사히 지켜냈어!<br><br>
-            앞으로도 공짜 미끼는 절대 조심하기 약속!
+    <div id="view-stage3-slogan" class="screen">
+        <h2>3단계: 블랙홀의 방 (B)</h2>
+        <div class="box" style="font-size:13px; padding:10px;">
+            ⚠️ <strong>경고:</strong> 마우스를 끌어당기는 거대한 베팅 버튼의 함정을 피하고, 주변의 단어 조각을 <u>정확한 순서대로</u> 조합해 백신 주문을 외치세요!
         </div>
-        <button class="btn" style="background:var(--success); box-shadow:0 4px 0 #3b9e2a; color:white;" onclick="location.reload()">처음으로 돌아가기</button>
+
+        <div id="slogan-assembly" class="box" style="min-height:70px; border:2px dashed var(--primary); color:var(--primary); font-weight:800;">
+            주문 배치 구역
+        </div>
+
+        <div id="chip-container" style="text-align:center; margin-bottom:120px;">
+            </div>
+
+        <button class="btn btn-danger" id="chasing-anchor" onclick="alert('함정에 빠졌습니다! 인지 제어력을 유지하세요.')" onmouseover="teleportChasingButton()">🎰 한 판 더 하기! 🎰</button>
+
+        <div style="display:flex; gap:10px; margin-top:auto; position:relative; z-index:200;">
+            <button class="btn" style="flex:1; background:#7f8c8d;" onclick="clearSloganFlow()">리셋</button>
+            <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 엔진 가동</button>
+        </div>
+    </div>
+
+    <div id="view-outro-quiz" class="screen">
+        <h2>최종 관문: 예방 OX 퀴즈</h2>
+        <div class="box" id="quiz-question-box" style="font-size:18px; min-height:100px; display:flex; align-items:center; justify-content:center;">
+            퀴즈 로드 중...
+        </div>
+        <div style="display:flex; gap:15px; margin-top:auto;">
+            <button class="btn btn-success" style="flex:1; font-size:40px; padding:20px;" onclick="submitQuizAnswer(true)">O</button>
+            <button class="btn btn-danger" style="flex:1; font-size:40px; padding:20px;" onclick="submitQuizAnswer(false)">X</button>
+        </div>
+    </div>
+
+    <div id="view-success-end" class="screen" style="justify-content:center; text-align:center;">
+        <h1 style="color:var(--success); font-size:44px; font-weight:800; margin:0 0 20px 0;">ESCAPE</h1>
+        <div class="box" style="border-color:var(--success); background-color:#ebf7ee;">
+            축하합니다! 친구와 함께 겜블 몬스터의 모든 함정을 격파하고 안전하게 현실 세계로 복귀했습니다!<br><br>
+            <strong>"도박은 설계된 함정, 지금 멈추는 것이 승리입니다."</strong>
+        </div>
+        <button class="btn" style="background:#2d3436;" onclick="location.reload()">처음으로 가기</button>
     </div>
 
 </div>
 
 <script>
-    let currentScreenId = 'intro';
+    // 시스템 뷰 디렉토리 상태 관리
+    let activeViewId = 'intro';
     
-    // 힌트 시스템
-    const hints = {
-        'intro': "방탈출 시작하기 버튼을 눌러 모험을 떠나보자!",
-        'intro-lock': "청소년 도박 문제 헬프라인 전화번호는 '1336'이야. 이 번호를 꾹꾹 눌러봐!",
-        'stage1-invest': "사진첩과 메모장을 둘 다 눌러서 확인해야 다음으로 갈 수 있어.",
-        'stage1-sns': "팝업창 괴물들의 [X]를 누르면서 방해를 피하고, 숨겨진 메뉴 ➡️ 스팸 신고 ➡️ 차단 및 영구 삭제 순서로 눌러봐!",
-        'stage2-invest': "칠판을 클릭해서 친구가 남긴 쪽지들을 꼭 읽어봐.",
-        'stage2-convo': "1번: 내 기분 말하기, 2번: 거짓 호의 거절하기, 3번: 건강한 놀이 제안하기를 골라야 해!",
-        'stage3-mini': "처음에 따는 건 괴물의 속임수야. 계속 버튼을 누르면 진실이 밝혀질 거야.",
-        'stage3-slogan': "아래쪽의 커다란 가짜 버튼은 함정이야! 조각들을 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서로 눌러.",
-        'outro-quiz': "1. 공짜는 조심해야 하니 X! 2. 빚지고 게임하는 건 나쁘니 X! 3. 지금 멈추는 게 정답이니 O!"
+    const operationalHints = {
+        'intro': "하단의 빨간색 [방탈출 시작하기] 버튼을 눌러 스마트폰 시스템 차원으로 진입하세요.",
+        'stage1-ad': "떠다니는 방해 요소를 [X]로 제거하면서, 하단의 [메뉴] ➔ [스팸 신고] ➔ [차단 및 삭제] 버튼을 순서대로 찾아 가공해내세요.",
+        'stage2-signals': "친구의 변화를 뜻하는 위험 행동 6가지를 골라내야 합니다. 건강하게 활동하는 정상 신호 3개는 제외하세요.",
+        'stage2-refusal': "감정 표현식 거절법 ➔ 빚에 대항하는 논리 ➔ 축구 제안 순으로 대화를 전개하세요.",
+        'stage2-unlock': "위험 상황 발생 시 전용 전문 기관 및 국가 통합 구제 헬프라인 번호 '1336'을 입력하세요.",
+        'stage3-gamble': "돈을 딸 수 없는 구조입니다. 속임수 게임을 피하고 단호하게 [동전 돌려주기] 버튼을 누르는 것이 핵심 해결책입니다.",
+        'stage3-slogan': "도망치는 베팅 버튼에 속지 말고 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서로 완성하세요.",
+        'outro-quiz': "도박의 유혹과 거짓 호의에는 X, 즉각적인 단절과 예방 수칙 준수에는 O를 선택하세요."
     };
 
-    function showHint() {
-        document.getElementById('hint-text').innerHTML = hints[currentScreenId] || "현재 단계에서는 힌트가 없어. 넌 할 수 있어!";
-        document.getElementById('hint-modal').style.display = 'flex';
+    function openHintSystem() {
+        document.getElementById('hint-body-text').innerText = operationalHints[activeViewId] || "유혹에 맞서 싸울 수 있는 제어력이 이미 당신 안에 있습니다.";
+        document.getElementById('hint-layer').style.display = 'flex';
     }
+    function closeHintSystem() { document.getElementById('hint-layer').style.display = 'none'; }
 
-    function goScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('screen-' + screenId).classList.add('active');
-        currentScreenId = screenId;
-
-        if(screenId === 'stage1-sns') startPopups();
-        if(screenId === 'stage2-convo') {
-            if(currentTurn === 1) loadTurn();
-        }
-        if(screenId === 'outro-quiz') loadQuiz(1);
-    }
-
-    // 미션 0
-    let passInput = "";
-    function inputPass(num) {
-        if(passInput.length < 4) passInput += num;
-        document.getElementById('pass-display').innerText = passInput.padEnd(4, "_");
-    }
-    function clearPass() { 
-        passInput = ""; 
-        document.getElementById('pass-display').innerText = "____"; 
-    }
-    function checkPass() {
-        if(passInput === "1336") {
-            alert("딩동댕! 첫 번째 방 문이 열렸어!");
-            goScreen('stage1-invest');
-        } else {
-            alert("삐빅! 비밀번호가 틀렸어. 다시 생각해봐!");
-            clearPass();
-        }
-    }
-
-    // 2. 1단계 조사 (요청하신 로직대로 수정)
-    let gViewed = false; let mViewed = false;
-    
-    function viewInvest(type) {
-        if(type === 'gallery') gViewed = true;
-        if(type === 'memo') mViewed = true;
+    function switchView(viewId) {
+        document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+        document.getElementById('view-' + viewId).classList.add('active');
+        activeViewId = viewId;
         
-        const res = document.getElementById('invest-result');
-        res.style.display = 'block';
-        
-        if(gViewed && mViewed) {
-            // 둘 다 확인했을 때
-            res.innerHTML = "<strong>사진첩:</strong> 축구화 살 돈을 모았던 사진!<br><strong>메모장:</strong> '무료 코인은 다 거짓말이었어. 아까운 내 용돈...' 메 발견!<br><br><span style='color:var(--secondary)'>앗, 공짜는 없었어! 괴물의 함정이야!</span>";
-            document.getElementById('btn-goto-sns').style.display = 'block';
-        } else if (gViewed) {
-            // 사진첩만 먼저 확인했을 때
-            res.innerHTML = "축구화 살 돈을 모았던 사진이 나왔다!!<br><br>단서를 하나 더 찾아보자!";
-        } else if (mViewed) {
-            // 메모장만 먼저 확인했을 때
-            res.innerHTML = "'무료 코인은 다 거짓말이었어. 아까운 내 용돈...' 이라고 쓰인 메모 발견!!<br><br>단서를 하나 더 찾아보자!";
+        // 뷰 전환 시 비동기 런타임 이벤트 초기화 트리거
+        if(viewId === 'stage1-ad') initializeAdSpamEngine();
+        if(viewId === 'stage2-signals') renderSignalMatrix();
+        if(viewId === 'stage2-refusal') currentTurnIndex = 1, advanceRefusalTurn();
+        if(viewId === 'stage3-slogan') populateSloganChips();
+        if(viewId === 'outro-quiz') activeQuizIndex = 1, renderQuizNode();
+    }
+
+    // --- 1단계 로직: 스팸 제어 공정 ---
+    let spamDestroyedCounter = 0;
+    function initializeAdSpamEngine() {
+        const field = document.getElementById('ad-field');
+        field.innerHTML = '';
+        spamDestroyedCounter = 0;
+        for(let i = 0; i < 8; i++) {
+            setTimeout(() => {
+                if(activeViewId !== 'stage1-ad') return;
+                const ad = document.createElement('div');
+                ad.className = 'ad-monster';
+                ad.style.top = Math.floor(Math.random() * 65 + 5) + '%';
+                ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
+                ad.innerHTML = "⚠️ 10만 원 지급! <span style='color:yellow; margin-left:5px;'>[X]</span>";
+                ad.onclick = function() { this.remove(); spamDestroyedCounter++; };
+                field.appendChild(ad);
+            }, i * 400);
         }
     }
 
-    // 1단계 SNS
-    let popupInterval;
-    function startPopups() {
-        popupInterval = setInterval(() => {
-            const popup = document.createElement('div');
-            popup.className = 'popup-ad';
-            popup.style.top = Math.random() * 50 + 10 + '%';
-            popup.style.left = Math.random() * 50 + 10 + '%';
-            const msgs = ["클릭해봐!", "빨리 눌러!", "선물 줄게!"];
-            popup.innerHTML = `😈 ${msgs[Math.floor(Math.random()*msgs.length)]} <strong>[X]</strong>`;
-            popup.onclick = function() { this.remove(); };
-            document.getElementById('screen-stage1-sns').appendChild(popup);
-        }, 2000);
-    }
-
-    function secStep(step) {
-        if(step === 1) { document.getElementById('sec-menu').style.display = 'none'; document.getElementById('sec-report').style.display = 'block'; }
-        if(step === 2) { document.getElementById('sec-report').style.display = 'none'; document.getElementById('sec-delete').style.display = 'block'; }
-        if(step === 3) { 
-            clearInterval(popupInterval);
-            document.querySelectorAll('.popup-ad').forEach(e => e.remove());
-            alert("성공! 귀찮은 팝업창 몬스터들을 모두 물리쳤어!");
-            goScreen('stage2-invest');
-        }
-    }
-
-    // 2단계 조사
-    function viewBoard() {
-        document.getElementById('board-result').style.display = 'block';
-        document.getElementById('btn-goto-convo').style.display = 'block';
-    }
-
-    let currentTurn = 1;
-    const convoData = {
-        1: {
-            text: "야, 쫄았어? 딱 한 판만 돈 걸고 해보자!",
-            options: [
-                { text: "네가 자꾸 쫄았냐고 놀리니까 내 기분이 나빠. 난 돈 내기는 안 해.", correct: true },
-                { text: "알았어.. 딱 한 번만 할게.", correct: false }
-            ]
-        },
-        2: {
-            text: "돈 없어? 내가 빌려줄 테니까 해봐. 재밌어!",
-            options: [
-                { text: "진짜? 그럼 조금만 빌려줘봐.", correct: false },
-                { text: "아니, 난 빚지면서 게임하는 건 싫어.", correct: true }
-            ]
-        },
-        3: {
-            text: "아휴, 재미없어. 그럼 뭐 하고 놀 건데?",
-            options: [
-                { text: "미안해.. 내가 맞출게.", correct: false },
-                { text: "돈 내기 말고 그냥 밖에 나가서 축구하자!", correct: true }
-            ]
-        }
-    };
-
-    function loadTurn() {
-        if(currentTurn > 3) {
-            alert("✨ 요술봉 빛이 반짝! 짝꿍이 꿀꺽 몬스터의 마법에서 풀려났어!");
-            goScreen('stage3-mini');
+    function runDefenseCore(stage) {
+        if(spamDestroyedCounter < 5) {
+            alert("방해하는 팝업창 몬스터를 먼저 제거(클릭)해야 제어 모듈이 작동합니다!");
             return;
         }
-        document.getElementById('turn-count').innerText = currentTurn;
-        document.getElementById('friend-dialogue').innerText = `"${convoData[currentTurn].text}"`;
-        
-        const optContainer = document.getElementById('convo-options');
-        optContainer.innerHTML = '';
-        convoData[currentTurn].options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'btn';
-            btn.style.fontSize = '18px';
-            btn.innerText = opt.text;
-            btn.onclick = () => {
-                if(opt.correct) {
-                    currentTurn++;
-                    loadTurn();
-                } else {
-                    alert("앗, 괴물의 마법에 말려들고 있어! 다시 곰곰이 생각해보자.");
-                }
-            };
-            optContainer.appendChild(btn);
+        if(stage === 1) {
+            document.getElementById('proc-menu').style.display = 'none';
+            document.getElementById('proc-report').style.display = 'block';
+        } else if(stage === 2) {
+            document.getElementById('proc-report').style.display = 'none';
+            document.getElementById('proc-purge').style.display = 'block';
+        } else if(stage === 3) {
+            alert("가짜 미끼 및 유입 경로 영구 파쇄 완료!");
+            switchView('stage2-signals');
+        }
+    }
+
+    // --- 2단계 로직: 위험신호 및 거절 메커니즘 ---
+    const signalsDatabase = [
+        { txt: "친구들에게 자주 돈을 빌린다.", dangerous: true },
+        { txt: "비싼 물건을 사거나 주변 사람에게 선물한다.", dangerous: true },
+        { txt: "친구들과 함께 운동을 한다.", dangerous: false },
+        { txt: "작은 일에도 짜증을 내거나 예민하게 반응한다.", dangerous: true },
+        { txt: "정해진 시간 동안 스마트폰을 즐긴다.", dangerous: false },
+        { txt: "비밀스러운 행동이 많아졌다.", dangerous: true },
+        { txt: "친구들과 대화가 줄고 갈등이 잦아진다.", dangerous: true },
+        { txt: "게임 결과에 신경 쓰지 않는다.", dangerous: false },
+        { txt: "스마트폰을 손에서 놓지 않고 푹 빠져있다.", dangerous: true }
+    ];
+
+    function renderSignalMatrix() {
+        const wrapper = document.getElementById('signal-matrix');
+        wrapper.innerHTML = '';
+        signalsDatabase.forEach((sig, idx) => {
+            const card = document.createElement('div');
+            card.className = 'signal-card';
+            card.innerText = sig.txt;
+            card.onclick = function() { this.classList.toggle('selected'); };
+            card.setAttribute('data-index', idx);
+            wrapper.appendChild(card);
         });
     }
 
-    document.getElementById('screen-stage2-convo').addEventListener('mouseenter', () => {
-        if(currentTurn === 1) loadTurn();
-    });
+    function evaluateSignalMatrix() {
+        const cards = document.querySelectorAll('.signal-card');
+        let perfectlyMatched = true;
+        
+        cards.forEach(card => {
+            const idx = parseInt(card.getAttribute('data-index'));
+            const isSelected = card.classList.contains('selected');
+            if(signalsDatabase[idx].dangerous !== isSelected) {
+                perfectlyMatched = false;
+            }
+        });
 
-    // 3단계 미니게임
-    let betCount = 0;
-    function playMinigame() {
-        betCount++;
-        const msg = document.getElementById('mini-msg');
-        const coinDisplay = document.getElementById('coin-count');
-        msg.style.display = 'block';
-
-        if(betCount === 1) {
-            msg.innerHTML = "🎉 당첨! 동전이 늘어났어!<br><span style='color:var(--heading-color)'>'우와! 나 오늘 운이 좋나 봐!'</span>";
-            coinDisplay.innerText = "5";
-        } else if(betCount === 2) {
-            msg.innerHTML = "🎉 또 당첨! 동전 폭발!<br><span style='color:var(--heading-color)'>'조금만 더 하면 부자 되겠어!'</span>";
-            coinDisplay.innerText = "10";
+        if(perfectlyMatched) {
+            alert("정답입니다! 친구가 보낸 변화의 신호들을 정확히 인지했습니다.");
+            switchView('stage2-refusal');
         } else {
-            msg.innerHTML = "<span style='color:var(--secondary);'>쾅! 꽝입니다. 동전을 전부 잃었습니다.</span><br><br>😈 <strong>꿀꺽 몬스터:</strong> 아깝지? 한 번만 더 하면 잃은 거 다 찾게 해줄게! 또 해봐!";
-            coinDisplay.innerText = "0";
-            document.getElementById('bet-btn').disabled = true;
-            document.getElementById('btn-goto-slogan').style.display = 'block';
+            alert("틀린 분석이 포함되어 있습니다. 조종당하는 친구의 위험 신호를 다시 꼼꼼히 구별해 보세요.");
         }
     }
 
-    // 슬로건
-    let assembledSlogan = [];
-    const answerSlogan = "잃은 돈을 찾는 법은 도박을 더 하는 게 아니라 지금 당장 멈추는 것이다!";
-
-    function addWord(chip) {
-        assembledSlogan.push(chip.innerText);
-        chip.style.display = 'none';
-        document.getElementById('slogan-answer').innerText = assembledSlogan.join(" ");
-    }
-    
-    function resetSlogan() {
-        assembledSlogan = [];
-        document.getElementById('slogan-answer').innerText = "주문 조각을 여기에 모아보자.";
-        document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'inline-block');
-    }
-
-    function checkSlogan() {
-        if(assembledSlogan.join(" ") === answerSlogan) {
-            alert("💥 펑!! 완벽한 마법의 주문이야! 꿀꺽 몬스터가 사라졌어!");
-            goScreen('outro-quiz');
-        } else {
-            alert("주문이 좀 이상한데? 순서를 다시 잘 맞춰보자!");
-            resetSlogan();
+    let currentTurnIndex = 1;
+    const refusalConversationBranch = {
+        1: {
+            friend: "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 10만원 벌었어!",
+            opts: [
+                { text: "네가 자꾸 쫄았냐고 놀리니까 내 기분이 나빠. 난 돈 내기는 안 해.", valid: true },
+                { text: "우와 부럽다.. 나도 하는 법 좀 알려줘.", valid: false },
+                { text: "내기? 딱 한 판만 가볍게 해볼까?", valid: false }
+            ]
+        },
+        2: {
+            friend: "돈이 없어서 그래? 걱정 마, 내가 돈 빌려줄 테니까 너도 따서 갚아!",
+            opts: [
+                { text: "돈 빌려준다고? 아니, 난 빚지면서 게임하는 건 싫어.", valid: true },
+                { text: "나중에 금방 딸 수 있으면 만원만 빌려줘.", valid: false }
+            ]
+        },
+        3: {
+            friend: "아.. 진짜 재미없게 구네. 그럼 이제 우리 뭐 하고 놀 건데?",
+            opts: [
+                { text: "돈 내기 말고 그냥 밖에 나가서 축구하자!", valid: true },
+                { text: "미안해 화내지 마, 그럼 한 판만 구경할게.", valid: false }
+            ]
         }
-    }
-
-    function moveChasingBtn() {
-        const btn = document.getElementById('chasing-btn');
-        const randomY = Math.floor(Math.random() * 150) + 50; 
-        btn.style.bottom = randomY + 'px';
-    }
-
-    // 아웃트로 퀴즈
-    const quizData = {
-        1: { q: "Q1. 공짜 게임 코인을 준다는 문자는 무조건 눌러서 받는다?", ans: false },
-        2: { q: "Q2. 친구가 돈을 걸고 내기를 하자고 하면, 빚을 지더라도 같이 해준다?", ans: false },
-        3: { q: "Q3. 잃은 돈을 찾는 가장 좋은 방법은 지금 당장 게임을 멈추는 것이다!", ans: true }
     };
 
-    function loadQuiz(qNum) {
-        if(qNum > 3) {
-            goScreen('outro-success');
+    function advanceRefusalTurn() {
+        if(currentTurnIndex > 3) {
+            alert("의사소통 거절 프로토콜 성공! 나의 유혹은 방어해냈습니다.");
+            switchView('stage2-unlock');
             return;
         }
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = `<div class="box" style="font-size:20px;">${quizData[qNum].q}</div>`;
+        const currentNode = refusalConversationBranch[currentTurnIndex];
+        document.getElementById('friend-speech').innerText = `👤 친구: "${currentNode.friend}"`;
         
-        const btnO = document.createElement('button');
-        btnO.className = 'btn';
-        btnO.style.width = '45%';
-        btnO.style.marginRight = '5%';
-        btnO.style.fontSize = '40px';
-        btnO.innerText = 'O';
-        btnO.onclick = () => answerQuiz(qNum, true);
-
-        const btnX = document.createElement('button');
-        btnX.className = 'btn btn-danger';
-        btnX.style.width = '45%';
-        btnX.style.fontSize = '40px';
-        btnX.innerText = 'X';
-        btnX.onclick = () => answerQuiz(qNum, false);
-
-        container.appendChild(btnO);
-        container.appendChild(btnX);
+        const hub = document.getElementById('refusal-options-hub');
+        hub.innerHTML = '';
+        currentNode.opts.forEach(opt => {
+            const button = document.createElement('button');
+            button.className = 'btn';
+            button.innerText = opt.text;
+            button.onclick = function() {
+                if(opt.valid) {
+                    currentTurnIndex++;
+                    advanceRefusalTurn();
+                } else {
+                    alert("몬스터의 유혹 시나리오에 휘말렸습니다! 대화 거절 선택지를 다시 판단하세요.");
+                }
+            };
+            hub.appendChild(button);
+        });
     }
 
-    function answerQuiz(qNum, userAns) {
-        if(userAns === quizData[qNum].ans) {
-            alert("정답이야! 아주 잘했어!");
-            loadQuiz(qNum + 1);
+    let activePinBuffer = "";
+    function pressPin(val) {
+        if(activePinBuffer.length < 4) activePinBuffer += val;
+        document.getElementById('pin-display').innerText = activePinBuffer.padEnd(4, "_");
+    }
+    function wipePin() {
+        activePinBuffer = "";
+        document.getElementById('pin-display').innerText = "____";
+    }
+    function executeUnlock() {
+        if(activePinBuffer === "1336") {
+            alert("정확합니다! 구제 전용 전문 기관 연락망 활성화 완료. 친구를 구출해냈습니다!");
+            switchView('stage3-gamble');
         } else {
-            alert("땡! 다시 한 번 잘 생각해봐!");
+            alert("잘못된 인증 보안 번호입니다. 힌트를 다시 유추해보세요.");
+            wipePin();
+        }
+    }
+
+    // --- 3단계 로직: 블랙홀 굴레 돌파 ---
+    let trialCount = 0;
+    function triggerRiggedGamble() {
+        trialCount++;
+        const outBox = document.getElementById('game-output-box');
+        const tokenDisplay = document.getElementById('token-tally');
+        outBox.style.display = 'flex';
+        
+        if(trialCount === 1) {
+            outBox.innerHTML = "🎉 당첨! 동전이 두 배(6개)로 증가했습니다!<br><span style='color:blue;'>(내면의 충동 뇌파: 어? 진짜 쉽게 돈을 버네?)</span>";
+            tokenDisplay.innerText = "6";
+        } else {
+            outBox.innerHTML = "<span style='color:var(--secondary); font-weight:800;'>⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</span><br><br>👿 <strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 내 시계나 폰이라도 담보로 잡고 한 판 더 해!";
+            tokenDisplay.innerText = "0";
+            document.getElementById('gamble-action-btn').disabled = true;
+        }
+    }
+
+    function abortGambleLoop() {
+        alert("현명한 선택입니다! 몬스터의 조작된 확률 트랩을 눈치채고 즉각적으로 이탈에 성공했습니다.");
+        switchView('stage3-slogan');
+    }
+
+    // 슬로건 주문 대형 설계 조각 데이터
+    const targetOrderedSlogan = ["잃은 돈을", "찾는 법은", "도박을", "더 하는 게 아니라", "지금 당장", "멈추는 것이다!"];
+    let accumulatedSloganTrack = [];
+
+    function populateSloganChips() {
+        const pool = document.getElementById('chip-container');
+        pool.innerHTML = '';
+        accumulatedSloganTrack = [];
+        document.getElementById('slogan-assembly').innerText = "주문 배치 구역";
+        
+        // 무작위로 뒤섞어 배치하기 위한 정렬 가공
+        const structuralShuffled = [...targetOrderedSlogan].sort(() => Math.random() - 0.5);
+        structuralShuffled.forEach(txt => {
+            const chip = document.createElement('span');
+            chip.className = 'chip-element';
+            chip.innerText = txt;
+            chip.onclick = function() {
+                accumulatedSloganTrack.push(this.innerText);
+                document.getElementById('slogan-assembly').innerText = accumulatedSloganTrack.join(" ");
+                this.style.display = 'none';
+            };
+            pool.appendChild(chip);
+        });
+    }
+
+    function clearSloganFlow() { populateSloganChips(); }
+
+    function teleportChasingButton() {
+        const btn = document.getElementById('chasing-anchor');
+        const randomizedOffsetTop = Math.floor(Math.random() * 140) + 20; // 20px - 160px 범위 랜덤 점프
+        const sideToggle = Math.random() > 0.5 ? '5%' : '15%';
+        btn.style.left = sideToggle;
+        btn.style.transform = `translateY(${randomizedOffsetTop}px)`;
+    }
+
+    function evaluateSloganVaccine() {
+        if(JSON.stringify(accumulatedSloganTrack) === JSON.stringify(targetOrderedSlogan)) {
+            alert("인지 보호 주문 발동 성공! 몬스터의 마지막 추격 유혹 버튼이 산산조각 났습니다.");
+            switchView('outro-quiz');
+        } else {
+            alert("주문의 논리적 구성 순서가 일치하지 않아 시스템 방어막이 파괴되지 않았습니다. 다시 빌드하세요.");
+            clearSloganFlow();
+        }
+    }
+
+    // --- 아웃트로 관문: 3단계 형성평가 시스템 ---
+    let activeQuizIndex = 1;
+    const quizCoreRepository = {
+        1: { text: "인터넷 광고 문자로 날아온 무료 게임 칩 지급 주소는 호기심에 한 번쯤 열어봐도 안전하다.", correct: false },
+        2: { q: "친구의 부적절한 도박성 내기 제안에는 나의 상태와 감정을 주어로 단호히 표현하는 '나-전달법'으로 거절한다.", correct: true },
+        3: { q: "도박으로 한 번 잃은 돈은 본전 생각이 나더라도 추가 베팅을 하지 않고 '지금 당장 멈추는 것'이 가장 확실하게 돈을 지키는 법이다.", correct: true }
+    };
+
+    function renderQuizNode() {
+        const box = document.getElementById('quiz-question-box');
+        const currentData = quizCoreRepository[activeQuizIndex];
+        box.innerText = currentData.text || currentData.q;
+    }
+
+    function submitQuizAnswer(chosenBool) {
+        if(chosenBool === quizCoreRepository[activeQuizIndex].correct) {
+            alert("정답입니다! 올바른 예방 지식을 갖추었습니다.");
+            activeQuizIndex++;
+            if(activeQuizIndex > 3) {
+                switchView('success-end');
+            } else {
+                renderQuizNode();
+            }
+        } else {
+            alert("오답입니다. 유혹에서 완전히 벗어나기 위해 예방 안전 규칙을 다시 상기하세요.");
         }
     }
 </script>
+
 </body>
 </html>
