@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>미션! 유혹의 폰 탈출: 디바이스 잔혹사</title>
+    <title>수상한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
-        
         :root {
-            --bg-color: #0f172a;
-            --container-bg: #1e293b;
-            --primary: #06b6d4;
-            --danger: #ef4444;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg-color: #1e1e2f;
+            --phone-bg: #2b2b40;
+            --primary: #ffd700;
+            --secondary: #ff6b6b;
+            --text-main: #ffffff;
+            --monster: #9b59b6;
+            --success: #4cd137;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Gowun Dodum', sans-serif;
+            font-family: 'Jua', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,100 +33,123 @@
 
         #game-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             height: 800px;
-            background-color: var(--container-bg);
-            border: 4px solid var(--primary);
-            border-radius: 20px;
+            background-color: var(--phone-bg);
+            border: 15px solid #111;
+            border-radius: 40px;
             position: relative;
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
+        /* 스마트폰 상단 노치 디자인 */
+        #game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background-color: #111;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 100;
+        }
+
         .screen {
             display: none;
             flex-direction: column;
-            padding: 30px;
+            padding: 40px 20px 20px 20px;
             height: 100%;
             box-sizing: border-box;
             overflow-y: auto;
+            background: linear-gradient(180deg, #2b2b40 0%, #1a1a2e 100%);
         }
 
         .screen.active {
             display: flex;
         }
 
-        h1, h2, h3 { color: var(--primary); text-align: center; margin-top: 0; }
+        h1, h2, h3 { color: var(--primary); text-align: center; margin-top: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        .story-box, .chat-box, .info-box {
-            background-color: rgba(0, 0, 0, 0.5);
+        .box {
+            background-color: rgba(0, 0, 0, 0.6);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin-bottom: 20px;
             line-height: 1.6;
-            border: 1px solid #334155;
+            font-size: 18px;
+            border: 2px solid #555;
+            text-align: center;
+        }
+
+        .monster-box {
+            border-color: var(--monster);
+            background-color: rgba(155, 89, 182, 0.2);
         }
 
         .btn {
             background-color: var(--primary);
-            color: #000;
+            color: #333;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 20px;
+            border-radius: 12px;
             cursor: pointer;
-            margin: 5px;
+            margin: 8px 0;
             transition: all 0.2s;
+            font-family: 'Jua', sans-serif;
+            box-shadow: 0 4px 0 #b39700;
         }
         
-        .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
-        .btn:disabled { background-color: #475569; color: #94a3b8; cursor: not-allowed; transform: none; }
-        .btn-danger { background-color: var(--danger); color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b39700; }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b39700; }
+        .btn-danger { background-color: var(--secondary); color: white; box-shadow: 0 4px 0 #c0392b; }
+        .btn-danger:hover { box-shadow: 0 6px 0 #c0392b; }
+        .btn-danger:active { box-shadow: 0 2px 0 #c0392b; }
 
-        /* 힌트 버튼 & 모달 */
+        /* 힌트 모달 */
         #hint-btn {
             position: absolute;
-            top: 20px;
+            top: 40px;
             right: 20px;
-            background-color: #f59e0b;
-            color: #000;
+            background-color: #00cec9;
+            color: white;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-weight: bold;
+            width: 45px;
+            height: 45px;
+            font-size: 24px;
             border: none;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            box-shadow: 0 4px 0 #00b0b0;
+            font-family: 'Jua', sans-serif;
         }
         #hint-modal {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 1001; justify-content: center; align-items: center;
         }
-        .hint-content { background: #334155; padding: 20px; border-radius: 10px; width: 80%; border: 2px solid #f59e0b; text-align: center; }
+        .hint-content { background: #fff; color: #333; padding: 30px; border-radius: 20px; width: 80%; text-align: center; border: 5px solid #00cec9; }
 
-        /* 각 스테이지별 특수 스타일 */
-        .glitch-text { color: var(--danger); font-family: monospace; position: absolute; opacity: 0.7; }
+        /* 키패드 */
         #numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 250px; margin: 0 auto; }
-        #numpad button { padding: 15px; font-size: 20px; }
+        #numpad button { font-size: 24px; padding: 15px; }
         
+        /* 팝업 몬스터 */
         .popup-ad {
-            position: absolute; background: #ff0055; border: 2px solid #fff; color: white;
-            padding: 15px; border-radius: 10px; z-index: 50; cursor: pointer; box-shadow: 5px 5px 0px #000;
+            position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
+            padding: 15px; border-radius: 15px; z-index: 50; cursor: pointer;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5); font-size: 16px; animation: pop 0.3s ease;
         }
-        
-        .quiz-option { display: block; width: 100%; margin-bottom: 10px; text-align: left; }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         
         .word-chip {
-            display: inline-block; background: #475569; padding: 8px 12px; margin: 5px;
-            border-radius: 5px; cursor: pointer; user-select: none;
-        }
-        
-        #chasing-btn {
-            position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.3s ease;
+            display: inline-block; background: #fff; color: #333; padding: 10px 15px; margin: 5px;
+            border-radius: 10px; cursor: pointer; user-select: none; font-size: 18px; border: 2px solid #ccc;
         }
     </style>
 </head>
@@ -133,405 +159,88 @@
     <button id="hint-btn" onclick="showHint()">?</button>
     <div id="hint-modal">
         <div class="hint-content">
-            <h3 style="color: #f59e0b;">💡 힌트</h3>
-            <p id="hint-text"></p>
-            <button class="btn" onclick="document.getElementById('hint-modal').style.display='none'">닫기</button>
+            <h2 style="color: #00cec9; margin-top:0;">💡 힌트 요정</h2>
+            <p id="hint-text" style="font-size: 20px; line-height: 1.5;"></p>
+            <button class="btn" style="width: 100%; background: #00cec9; color: white; box-shadow: 0 4px 0 #00b0b0;" onclick="document.getElementById('hint-modal').style.display='none'">알겠어!</button>
         </div>
     </div>
 
-    <div id="screen-intro-story" class="screen active">
-        <h2>프롤로그</h2>
-        <div class="story-box">
-            단순한 게임인 줄 알고 깔았던 '돈따무.apk'.<br><br>
-            정신을 차려보니 내 아바타가 스마트폰 속 <strong>'불법 데이터 감옥'</strong>에 갇혔다.<br>
-            감옥의 창살은 내가 도박에 잃은 '시간과 돈'으로 만들어져 있다.<br><br>
-            탈출하려면 시스템의 로그(Log) 파일과 앱들을 탐색해 유혹의 버그를 치료해야 한다!
+    <div id="screen-intro" class="screen active">
+        <h1 style="font-size: 32px;">내 용돈을 지켜라!</h1>
+        <div class="box">
+            앗! 무료 게임 아이템을 준다는 문자를 눌렀더니 스마트폰 속에 갇혀버렸어!<br><br>
+            이건 아이들의 용돈을 노리는 나쁜 <strong>'꿀꺽 몬스터'</strong>의 함정이야.<br><br>
+            세 가지 방을 무사히 통과해서 다시 현실로 탈출하자!
         </div>
-        <button class="btn" onclick="goScreen('intro-prison')">감옥 문 앞으로 이동</button>
+        <button class="btn btn-danger" onclick="goScreen('intro-lock')">방탈출 시작하기!</button>
     </div>
 
-    <div id="screen-intro-prison" class="screen">
-        <h2>미션 0: 디지털 도어락</h2>
-        <div style="position: relative; height: 150px; border: 2px dashed #475569; margin-bottom: 20px;">
-            <span class="glitch-text" style="top: 20px; left: 20px;">내 생일은..</span>
-            <span class="glitch-text" style="top: 80px; left: 150px;">청소년 도박 신고는</span>
-            <span class="glitch-text" style="top: 40px; right: 20px;">13...</span>
-            <span class="glitch-text" style="bottom: 20px; left: 80px;">..36번</span>
+    <div id="screen-intro-lock" class="screen">
+        <h2>🔒 잠겨버린 화면</h2>
+        <div class="box" style="font-size: 16px;">
+            도움이 필요해! 도박 때문에 힘들 때 도와주는 <strong>천사 번호 4자리</strong>를 누르면 문이 열릴 거야.
         </div>
-        <h1 id="pass-display" style="letter-spacing: 15px; margin-bottom: 20px;">____</h1>
+        <h1 id="pass-display" style="letter-spacing: 20px; margin-bottom: 20px; font-size: 40px;">____</h1>
         <div id="numpad">
-            <button class="btn" onclick="inputPass(1)">1</button>
-            <button class="btn" onclick="inputPass(2)">2</button>
-            <button class="btn" onclick="inputPass(3)">3</button>
-            <button class="btn" onclick="inputPass(4)">4</button>
-            <button class="btn" onclick="inputPass(5)">5</button>
-            <button class="btn" onclick="inputPass(6)">6</button>
-            <button class="btn" onclick="inputPass(7)">7</button>
-            <button class="btn" onclick="inputPass(8)">8</button>
-            <button class="btn" onclick="inputPass(9)">9</button>
-            <button class="btn btn-danger" onclick="clearPass()">C</button>
+            <button class="btn" onclick="inputPass(1)">1</button><button class="btn" onclick="inputPass(2)">2</button><button class="btn" onclick="inputPass(3)">3</button>
+            <button class="btn" onclick="inputPass(4)">4</button><button class="btn" onclick="inputPass(5)">5</button><button class="btn" onclick="inputPass(6)">6</button>
+            <button class="btn" onclick="inputPass(7)">7</button><button class="btn" onclick="inputPass(8)">8</button><button class="btn" onclick="inputPass(9)">9</button>
+            <button class="btn btn-danger" onclick="clearPass()">지우기</button>
             <button class="btn" onclick="inputPass(0)">0</button>
-            <button class="btn" style="background: #10b981;" onclick="checkPass()">OK</button>
+            <button class="btn" style="background: var(--success); box-shadow: 0 4px 0 #3b9e2a; color:white;" onclick="checkPass()">열기</button>
         </div>
     </div>
 
     <div id="screen-stage1-invest" class="screen">
-        <h2>1단계: 공짜는 독이 든 성배</h2>
-        <div class="info-box">메신저 확인 전, 내 스마트폰을 조사해 단서를 찾자.</div>
-        <button class="btn" id="btn-gallery" onclick="viewGallery()">🖼 갤러리 앱 조사</button>
-        <button class="btn" id="btn-memo" onclick="viewMemo()">📝 메모장 앱 조사</button>
-        <div id="invest-result" class="info-box" style="display:none; margin-top: 20px; border-color: var(--primary);"></div>
-        <button class="btn btn-danger" id="btn-goto-sns" style="display:none; margin-top: 20px;" onclick="goScreen('stage1-sns')">🚨 SNS 메신저 확인하기</button>
+        <h2>1단계: 공짜 미끼를 조심해!</h2>
+        <div class="box">메시지를 확인하기 전에, 내 스마트폰을 조사해서 단서를 찾자!</div>
+        <button class="btn" id="btn-gallery" onclick="viewInvest('gallery')">🖼 사진첩 보기</button>
+        <button class="btn" id="btn-memo" onclick="viewInvest('memo')">📝 메모장 보기</button>
+        
+        <div id="invest-result" class="box" style="display:none; margin-top: 15px; border-color: var(--primary); font-size: 16px;"></div>
+        <button class="btn btn-danger" id="btn-goto-sns" style="display:none; margin-top: 15px;" onclick="goScreen('stage1-sns')">🚨 괴물의 문자 확인하기</button>
     </div>
 
     <div id="screen-stage1-sns" class="screen">
-        <h2>SNS 보안 차단</h2>
-        <div class="chat-box" style="position: relative; z-index: 10;">
-            <strong>Glitch:</strong><br>
-            이 링크 클릭하면 게임 머니 10만 원 즉시 지급!<br>
-            <span style="color:var(--primary); text-decoration:underline;">[bit.ly/GlitchGold]</span>
+        <h2>스팸 몬스터 차단!</h2>
+        <div class="box monster-box" style="position: relative; z-index: 10;">
+            👾 <strong>꿀꺽 몬스터:</strong><br>
+            "헤헤, 게임 머니 10만 원 즉시 지급해줄게! 밑에 링크 당장 클릭해봐!"
         </div>
+        <div class="box" style="font-size: 16px; padding: 10px; position: relative; z-index: 10;">방해하는 팝업창을 끄고 메뉴를 찾아라!</div>
         <div id="security-menu" style="display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 10;">
-            <button class="btn" id="sec-menu" onclick="secStep(1)">⚙️ 메뉴 열기</button>
-            <button class="btn" id="sec-report" style="display:none;" onclick="secStep(2)">🚨 계정 신고</button>
-            <button class="btn" id="sec-block" style="display:none;" onclick="secStep(3)">🚫 IP 차단</button>
-            <button class="btn" id="sec-delete" style="display:none;" onclick="secStep(4)">🗑️ 메시지 영구 삭제</button>
+            <button class="btn" id="sec-menu" onclick="secStep(1)">⚙️ 조용한 숨김 메뉴</button>
+            <button class="btn" id="sec-report" style="display:none;" onclick="secStep(2)">🚨 스팸 신고</button>
+            <button class="btn btn-danger" id="sec-delete" style="display:none;" onclick="secStep(3)">🚫 차단 및 영구 삭제!</button>
         </div>
     </div>
 
     <div id="screen-stage2-invest" class="screen">
-        <h2>2단계: 또래 압박 탈출</h2>
-        <div class="info-box">교실 뒤판 게시판에 깨진 대화록 파일이 있다.</div>
-        <button class="btn" onclick="viewChatLog()">📋 '우리반 카톡방 대화록' 복구</button>
-        <div id="chat-log-result" class="chat-box" style="display:none; margin-top:20px;">
-            [지훈] 어제 5만원 땄음 ㅋㅋ 대박<br>
-            [친구] 와 미쳤다 나도 할래<br>
-            [친구] 야 민준아(나) 너 도박 안하냐? 선비냐?<br>
-            <strong style="color:var(--danger);">- 단순 장난이 아닌 가스라이팅(Gaslighting) 흔적 발견 -</strong>
+        <h2>2단계: 마법에 걸린 친구 구하기</h2>
+        <div class="box">교실 칠판에 누군가 쪽지를 붙여놨어. 확인해보자.</div>
+        <button class="btn" onclick="viewBoard()">📋 칠판 쪽지 보기</button>
+        <div id="board-result" class="box" style="display:none; margin-top:15px; font-size: 16px;">
+            [짝꿍의 쪽지들]<br>
+            "너도 돈 걸고 내기할래?"<br>
+            "나 어제 만원 땄다!"<br><br>
+            <strong style="color:var(--secondary);">앗! 짝꿍이 꿀꺽 몬스터에게 조종당하고 있어!</strong>
         </div>
-        <button class="btn" id="btn-goto-convo" style="display:none; margin-top:20px;" onclick="goScreen('stage2-convo')">친구 아바타와 대화하기</button>
+        <button class="btn btn-danger" id="btn-goto-convo" style="display:none; margin-top:15px;" onclick="goScreen('stage2-convo')">마법을 풀러 가기!</button>
     </div>
 
     <div id="screen-stage2-convo" class="screen">
-        <h2>단호한 거절 (Turn <span id="turn-count">1</span>/3)</h2>
-        <div class="chat-box" id="friend-dialogue" style="border-left: 5px solid var(--danger);">
-            "야, 쫄았냐? 한 판만 해."
+        <h2>요술봉 대화법 (<span id="turn-count">1</span>/3)</h2>
+        <div class="box monster-box" id="friend-dialogue">
+            "야, 쫄았어? 딱 한 판만 돈 걸고 해보자!"
         </div>
-        <div id="convo-options" style="display: flex; flex-direction: column; gap: 10px;">
+        <div id="convo-options" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
             </div>
     </div>
 
     <div id="screen-stage3-mini" class="screen">
-        <h2>3단계: 중독의 늪</h2>
-        <div class="info-box">보유 코인: <strong id="coin-count" style="color:gold; font-size: 24px;">3</strong>개</div>
-        <button class="btn" id="bet-btn" onclick="playMinigame()" style="padding: 30px; font-size: 20px;">🎲 홀/짝 베팅하기</button>
-        <div id="mini-msg" class="info-box" style="display:none; margin-top: 20px;"></div>
-        <button class="btn btn-danger" id="btn-goto-slogan" style="display:none; margin-top:20px;" onclick="goScreen('stage3-slogan')">버그 해제 슬로건 외치기</button>
+        <h2>3단계: 블랙홀의 방</h2>
+        <div class="box" style="font-size: 24px;">내 동전: <strong id="coin-count" style="color:var(--primary); font-size: 32px;">3</strong>개</div>
+        <button class="btn" id="bet-btn" onclick="playMinigame()" style="padding: 40px 20px; font-size: 28px;">🎁 보물상자 뽑기 하기!</button>
+        <div id="mini-msg" class="box" style="display:none; margin-top: 20px; font-size: 16px;"></div>
+        <button class="btn btn-danger" id="btn-goto-slogan" style="display:none; margin-top:20px;" onclick="goScreen('stage3-slogan')">블랙홀 정지 버튼 만들기!</button>
     </div>
-
-    <div id="screen-stage3-slogan" class="screen">
-        <h2>백신 슬로건 완성</h2>
-        <div class="info-box" style="font-size:14px;">흩어진 단어 조각을 클릭해 뇌 백신 문장을 정확히 완성하세요.</div>
-        <div id="slogan-answer" class="story-box" style="min-height: 50px; color: gold; font-weight: bold;"></div>
-        <div id="word-pool" style="margin-bottom: 60px;">
-            <span class="word-chip" onclick="addWord(this)">도박을</span>
-            <span class="word-chip" onclick="addWord(this)">멈추는 것이다.</span>
-            <span class="word-chip" onclick="addWord(this)">찾는 법은</span>
-            <span class="word-chip" onclick="addWord(this)">잃은 돈을</span>
-            <span class="word-chip" onclick="addWord(this)">지금 그 손을</span>
-            <span class="word-chip" onclick="addWord(this)">더 하는 것이 아니라,</span>
-        </div>
-        
-        <button class="btn btn-danger" id="chasing-btn" onclick="alert('유혹에 넘어갔습니다! 집중하세요.')" onmouseover="moveChasingBtn()">🎰 한 번 더 베팅! 🎰</button>
-        
-        <button class="btn" style="margin-top: auto; background:#10b981;" onclick="checkSlogan()">엔터키 (폭파)</button>
-        <button class="btn" style="background:#64748b;" onclick="resetSlogan()">문장 초기화</button>
-    </div>
-
-    <div id="screen-outro-quiz" class="screen">
-        <h2>시스템 복구 골든벨</h2>
-        <div class="info-box">현실 세계로 돌아가기 위한 마지막 3문제입니다.</div>
-        <div id="quiz-container"></div>
-    </div>
-
-    <div id="screen-outro-success" class="screen" style="justify-content: center;">
-        <h1 style="color: #10b981; font-size: 40px;">MISSION<br>COMPLETED</h1>
-        <div class="story-box" style="text-align: center;">
-            스마트폰의 메인 시스템 전원(Power)이 복구되었습니다.<br><br>
-            당신은 유혹의 버그를 모두 치료했습니다.<br>
-            현실의 안전한 일상으로 복귀합니다!
-        </div>
-        <button class="btn" onclick="location.reload()">시스템 종료 (처음으로)</button>
-    </div>
-
-</div>
-
-<script>
-    let currentScreenId = 'intro-story';
-    
-    // --- 힌트 시스템 ---
-    const hints = {
-        'intro-story': "스토리를 읽고 '감옥 문 앞으로 이동' 버튼을 누르세요.",
-        'intro-prison': "주변의 깨진 텍스트를 조합하세요. '청소년 도박 신고 전화번호'는 1336입니다.",
-        'stage1-invest': "갤러리와 메모장 버튼을 모두 눌러 단서를 확인해야 다음 단계로 갈 수 있습니다.",
-        'stage1-sns': "팝업창이 나타나면 [X]를 눌러 닫고, 메뉴 -> 계정 신고 -> IP 차단 -> 영구 삭제 순으로 버튼을 누르세요.",
-        'stage2-invest': "게시판 파일을 복구하여 친구들의 대화를 확인하세요.",
-        'stage2-convo': "1턴: 기분을 표현하는 나-전달법 / 2턴: 빚의 위험성 강조 / 3턴: 건전한 대안(PC방, 축구) 제시를 선택하세요.",
-        'stage3-mini': "초반의 승리는 뇌를 속이는 함정입니다. 계속 베팅 버튼을 누르세요.",
-        'stage3-slogan': "아래로 도망다니는 '베팅' 버튼을 무시하고 [잃은 돈을] [찾는 법은] [도박을] [더 하는 것이 아니라,] [지금 그 손을] [멈추는 것이다.] 순으로 조각을 맞추세요.",
-        'outro-quiz': "1. IP차단/삭제, 2. 나-전달법, 3. 지금 멈추기를 선택하세요."
-    };
-
-    function showHint() {
-        document.getElementById('hint-text').innerHTML = hints[currentScreenId] || "현재 단계에서는 힌트가 없습니다.";
-        document.getElementById('hint-modal').style.display = 'flex';
-    }
-
-    // --- 화면 이동 ---
-    function goScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('screen-' + screenId).classList.add('active');
-        currentScreenId = screenId;
-
-        // 화면 진입 시 특수 효과 트리거
-        if(screenId === 'stage1-sns') startPopups();
-        if(screenId === 'outro-quiz') loadQuiz(1);
-    }
-
-    // --- 미션 0 ---
-    let passInput = "";
-    function inputPass(num) {
-        if(passInput.length < 4) passInput += num;
-        updatePassDisplay();
-    }
-    function clearPass() { passInput = ""; updatePassDisplay(); }
-    function updatePassDisplay() {
-        document.getElementById('pass-display').innerText = passInput.padEnd(4, "_");
-    }
-    function checkPass() {
-        if(passInput === "1336") {
-            alert("도어락 해제 완료!");
-            goScreen('stage1-invest');
-        } else {
-            alert("비밀번호가 틀렸습니다.");
-            clearPass();
-        }
-    }
-
-    // --- 1단계 조사 ---
-    let gViewed = false; let mViewed = false;
-    function viewGallery() {
-        gViewed = true;
-        document.getElementById('btn-gallery').style.background = '#475569';
-        checkInvest();
-    }
-    function viewMemo() {
-        mViewed = true;
-        document.getElementById('btn-memo').style.background = '#475569';
-        checkInvest();
-    }
-    function checkInvest() {
-        const res = document.getElementById('invest-result');
-        res.style.display = 'block';
-        if(gViewed && mViewed) {
-            res.innerHTML = "<strong>갤러리:</strong> 점차 피폐해지는 사진들...<br><strong>메모장:</strong> 도박 사이트 추천인 코드 발견!<br><br><span style='color:var(--danger)'>결론: 메신저의 이벤트 링크는 함정이다!</span>";
-            document.getElementById('btn-goto-sns').style.display = 'block';
-        } else {
-            res.innerHTML = "단서를 더 조사해야 합니다.";
-        }
-    }
-
-    // --- 1단계 SNS ---
-    let popupInterval;
-    function startPopups() {
-        popupInterval = setInterval(() => {
-            const popup = document.createElement('div');
-            popup.className = 'popup-ad';
-            popup.style.top = Math.random() * 60 + 10 + '%';
-            popup.style.left = Math.random() * 60 + 10 + '%';
-            const msgs = ["너만 빼고 다 벌었어!", "지금 1+1 이벤트!", "가입 즉시 5만원!"];
-            popup.innerHTML = `${msgs[Math.floor(Math.random()*msgs.length)]} <strong style="cursor:pointer; margin-left:10px;">[X]</strong>`;
-            popup.onclick = function() { this.remove(); };
-            document.getElementById('screen-stage1-sns').appendChild(popup);
-        }, 3000);
-    }
-
-    function secStep(step) {
-        if(step === 1) { document.getElementById('sec-menu').style.display = 'none'; document.getElementById('sec-report').style.display = 'block'; }
-        if(step === 2) { document.getElementById('sec-report').style.display = 'none'; document.getElementById('sec-block').style.display = 'block'; }
-        if(step === 3) { document.getElementById('sec-block').style.display = 'none'; document.getElementById('sec-delete').style.display = 'block'; }
-        if(step === 4) { 
-            clearInterval(popupInterval);
-            document.querySelectorAll('.popup-ad').forEach(e => e.remove());
-            alert("보안 공정 완료! 팝업 버그가 소멸했습니다.");
-            goScreen('stage2-invest');
-        }
-    }
-
-    // --- 2단계 조사 ---
-    function viewChatLog() {
-        document.getElementById('chat-log-result').style.display = 'block';
-        document.getElementById('btn-goto-convo').style.display = 'block';
-    }
-
-    // --- 2단계 턴 ---
-    let currentTurn = 1;
-    const convoData = {
-        1: {
-            text: "야, 쫄았냐? 한 판만 해.",
-            options: [
-                { text: "네가 겁쟁이라고 놀리니까 기분이 나빠. 난 내 돈을 거는 내기는 안 해.", correct: true },
-                { text: "알았어.. 딱 한 판만 할게.", correct: false },
-                { text: "너나 해라 이 자식아!", correct: false }
-            ]
-        },
-        2: {
-            text: "돈 없어? 돈 빌려줄 테니까 해봐.",
-            options: [
-                { text: "그래? 그럼 만원만 빌려줘.", correct: false },
-                { text: "돈을 빌려서까지 게임을 하고 싶지 않아. 빚을 지는 건 위험해.", correct: true },
-                { text: "너 돈 많냐? 재수없게.", correct: false }
-            ]
-        },
-        3: {
-            text: "아 완전 선비네. 재미없게.",
-            options: [
-                { text: "미안.. 화났어?", correct: false },
-                { text: "내가 왜 선비야! 취소해!", correct: false },
-                { text: "우린 도박 없이도 친한 친구잖아. 지금 당장 PC방 가거나 축구 하러 가자.", correct: true }
-            ]
-        }
-    };
-
-    function loadTurn() {
-        if(currentTurn > 3) {
-            alert("세 번의 거절 콤보 성공! 친구의 눈빛이 원래대로 돌아왔습니다.");
-            goScreen('stage3-mini');
-            return;
-        }
-        document.getElementById('turn-count').innerText = currentTurn;
-        document.getElementById('friend-dialogue').innerText = `"${convoData[currentTurn].text}"`;
-        
-        const optContainer = document.getElementById('convo-options');
-        optContainer.innerHTML = '';
-        convoData[currentTurn].options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'btn';
-            btn.innerText = opt.text;
-            btn.onclick = () => {
-                if(opt.correct) {
-                    currentTurn++;
-                    loadTurn();
-                } else {
-                    alert("오답입니다. 친구의 가스라이팅에 휘말렸습니다. 다시 시도하세요.");
-                }
-            };
-            optContainer.appendChild(btn);
-        });
-    }
-
-    // --- 3단계 미니게임 ---
-    let betCount = 0;
-    function playMinigame() {
-        betCount++;
-        const msg = document.getElementById('mini-msg');
-        const coinDisplay = document.getElementById('coin-count');
-        msg.style.display = 'block';
-
-        if(betCount === 1) {
-            msg.innerText = "승리! 코인 2개 획득.\n(내면의 소리: 어? 진짜 따지네?)";
-            coinDisplay.innerText = "5";
-        } else if(betCount === 2) {
-            msg.innerText = "연속 승리! 코인 5개 획득.\n(내면의 소리: 대박! 오늘 운이 좋은데?)";
-            coinDisplay.innerText = "10";
-        } else {
-            msg.innerHTML = "<span style='color:var(--danger);'>패배... 모든 코인을 잃었습니다.</span><br><br><strong>몬스터 '돈따무':</strong> 아깝지? 한 번만 더 하면 복구할 수 있어. 스마트폰이라도 걸어봐!";
-            coinDisplay.innerText = "0";
-            document.getElementById('bet-btn').disabled = true;
-            document.body.style.backgroundColor = "#450a0a"; // 붉은 배경
-            document.getElementById('btn-goto-slogan').style.display = 'block';
-        }
-    }
-
-    // --- 3단계 슬로건 ---
-    let assembledSlogan = [];
-    const answerSlogan = "잃은 돈을 찾는 법은 도박을 더 하는 것이 아니라, 지금 그 손을 멈추는 것이다.";
-
-    function addWord(chip) {
-        assembledSlogan.push(chip.innerText);
-        chip.style.display = 'none';
-        updateSloganDisplay();
-    }
-    
-    function updateSloganDisplay() {
-        document.getElementById('slogan-answer').innerText = assembledSlogan.join(" ");
-    }
-    
-    function resetSlogan() {
-        assembledSlogan = [];
-        updateSloganDisplay();
-        document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'inline-block');
-    }
-
-    function checkSlogan() {
-        if(assembledSlogan.join(" ") === answerSlogan) {
-            alert("백신 완성! 거대한 유혹 버튼이 폭파되었습니다.");
-            document.body.style.backgroundColor = "var(--bg-color)";
-            goScreen('outro-quiz');
-        } else {
-            alert("문장이 정확하지 않습니다. 다시 조합해 보세요.");
-            resetSlogan();
-        }
-    }
-
-    function moveChasingBtn() {
-        const btn = document.getElementById('chasing-btn');
-        const randomX = Math.floor(Math.random() * 60) + 20; // 20% to 80%
-        const randomY = Math.floor(Math.random() * 300); // 0px to 300px transform
-        btn.style.left = randomX + '%';
-        btn.style.transform = `translate(-50%, ${randomY}px)`;
-    }
-
-    // --- 아웃트로 퀴즈 ---
-    let currentQuiz = 1;
-    const quizData = {
-        1: { q: "Q1. 불법 도박 사이트 문자가 왔을 때 가장 올바른 대처는?", 
-             options: [{t:"궁금하니 클릭만 해본다.", c:false}, {t:"신고 후 IP차단 및 삭제한다.", c:true}] },
-        2: { q: "Q2. 친구가 도박을 권유할 때 내 감정을 표현하며 단호히 거절하는 대화법은?", 
-             options: [{t:"너-전달법", c:false}, {t:"나-전달법", c:true}] },
-        3: { q: "Q3. 도박으로 잃은 돈을 되찾는 가장 확실한 방법은?", 
-             options: [{t:"지금 당장 도박을 멈추는 것", c:true}, {t:"딱 한 번만 더 베팅하는 것", c:false}] }
-    };
-
-    function loadQuiz(qNum) {
-        if(qNum > 3) {
-            goScreen('outro-success');
-            return;
-        }
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = `<h3>${quizData[qNum].q}</h3>`;
-        
-        quizData[qNum].options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'btn quiz-option';
-            btn.innerText = opt.t;
-            btn.onclick = () => {
-                if(opt.c) {
-                    alert("정답입니다!");
-                    loadQuiz(qNum + 1);
-                } else {
-                    alert("오답입니다. 배운 내용을 다시 떠올려보세요.");
-                }
-            };
-            container.appendChild(btn);
-        });
-    }
-
-    // 초기화 트리거
-    document.getElementById('screen-stage2-convo').addEventListener('mouseenter', () => {
-        if(currentTurn === 1) loadTurn();
-    });
-
-</script>
-</body>
-</html>
