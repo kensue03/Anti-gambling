@@ -539,22 +539,25 @@
     }
 
     // --- 3단계 로직: 블랙홀 굴레 돌파 ---
-    let trialCount = 0;
-    function triggerRiggedGamble() {
-        trialCount++;
-        const outBox = document.getElementById('game-output-box');
-        const tokenDisplay = document.getElementById('token-tally');
-        outBox.style.display = 'flex';
-        
-        if(trialCount === 1) {
-            outBox.innerHTML = "🎉 당첨! 동전이 두 배(6개)로 증가했습니다!<br><span style='color:blue;'>(내면의 충동 뇌파: 어? 진짜 쉽게 돈을 버네?)</span>";
-            tokenDisplay.innerText = "6";
-        } else {
-            outBox.innerHTML = "<span style='color:var(--secondary); font-weight:800;'>⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</span><br><br><strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 내 시계나 폰이라도 담보로 잡고 한 판 더 해!";
-            tokenDisplay.innerText = "0";
-            document.getElementById('gamble-action-btn').disabled = true;
-        }
+let trialCount = 0;
+function triggerRiggedGamble() {
+    trialCount++;
+    const outBox = document.getElementById('game-output-box');
+    const tokenDisplay = document.getElementById('token-tally');
+    
+    // Flex 수직 정렬(Column) 설정을 추가하여 내부 요소들이 아래로 바르게 배열되도록 합니다.
+    outBox.style.display = 'flex';
+    outBox.style.flexDirection = 'column'; 
+    
+    if(trialCount === 1) {
+        outBox.innerHTML = "🎉 당첨! 동전이 두 배(6개)로 증가했습니다!<br><span style='color:blue;'>(내면의 충동 뇌파: 어? 진짜 쉽게 돈을 버네?)</span>";
+        tokenDisplay.innerText = "6";
+    } else {
+        outBox.innerHTML = "<span style='color:var(--secondary); font-weight:800;'>⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</span><br><br><strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 내 시계나 폰이라도 담보로 잡고 한 판 더 해!";
+        tokenDisplay.innerText = "0";
+        document.getElementById('gamble-action-btn').disabled = true;
     }
+}
 
     function abortGambleLoop() {
         alert("현명한 선택입니다! 몬스터의 조작된 확률 트랩을 눈치채고 즉각적으로 이탈에 성공했습니다.");
