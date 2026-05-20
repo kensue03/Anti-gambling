@@ -6,7 +6,7 @@
     <title>수상한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght \@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -37,7 +37,7 @@
             overflow: hidden;
         }
 
-        /* [수정] 모바일 화면 잘림 방지 반응형 스마트폰 레이아웃 */
+        /* 모바일 화면 잘림 방지 반응형 스마트폰 레이아웃 */
         #phone-device {
             height: 840px;
             max-height: 92vh;       /* 화면 세로 크기의 92%를 넘지 않음 */
@@ -103,17 +103,6 @@
             border-color: var(--monster-border);
             background-color: var(--monster-bg);
             color: #4a148c;
-        }
-
-        /* 카툰 일러스트 레이아웃용 공통 스타일 */
-        .cartoon-banner {
-            width: 100%;
-            height: 110px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            border: 2px dashed #b2bec3;
-            object-fit: cover;
-            flex-shrink: 0;
         }
 
         /* 공통 버튼 디자인 */
@@ -186,7 +175,7 @@
 
         #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-        /* [수정] 3단계 미니게임 결과 텍스트가 위아래로 정렬되도록 세로방향 정렬 적용 */
+        /* 3단계 미니게임 결과 텍스트가 위아래로 정렬되도록 세로방향 정렬 적용 */
         #game-output-box {
             display: none; 
             flex-direction: column; 
@@ -215,7 +204,6 @@
 
     <div id="view-intro" class="screen active">
         <h2>스마트폰 도박 괴물의 습격</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f8eff9/9b59b6?font=open+sans&text=👾+Gamble+Monster+World!" alt="Gamble Monster Intro Banner">
         <div class="box">
             앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
             이건 우리들이 망가지기를 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
@@ -229,7 +217,6 @@
 
     <div id="view-stage1-ad" class="screen">
         <h2>1단계: 함정의 방</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/fff5f5/d63031?font=open+sans&text=🚨+Warning:+Spam+Attack!" alt="Spam Attack Warning Banner">
         <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
             💌 <strong>알 수 없는 메시지:</strong><br>
             "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
@@ -250,7 +237,6 @@
 
     <div id="view-stage2-signals" class="screen">
         <h2>2단계: 유혹의 방 (A)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f1f2f6/2d3436?font=open+sans&text=🔍+Find+The+Danger+Signals" alt="Forensics Investigation Banner">
         <div class="box monster-box" style="margin-bottom: 10px;">
             👤 <strong>조종당하는 친구:</strong><br>
             "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
@@ -266,7 +252,6 @@
 
     <div id="view-stage2-refusal" class="screen">
         <h2>2단계: 유혹의 방 (B)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/e8f4fd/0984e3?font=open+sans&text=💬+Assertive+Refusal+Magic" alt="Communication Banner">
         <div class="box monster-box" id="friend-speech">
             "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!"
         </div>
@@ -279,7 +264,6 @@
 
     <div id="view-stage2-unlock" class="screen">
         <h2>2단계: 유혹의 방 (C)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/fef9e7/f1c40f?font=open+sans&text=🔓+Emergency+Call:+1336" alt="Security Password Banner">
         <div class="box" style="margin-bottom: 10px;">
             친구의 제안은 거절했지만, 아직 조종당하는 친구를 온전히 구출하려면 잠겨있는 구조 요청 화면을 열어야 합니다!
         </div>
@@ -300,7 +284,6 @@
 
     <div id="view-stage3-gamble" class="screen">
         <h2>3단계: 미련의 방 (A)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f8eff9/9b59b6?font=open+sans&text=🎰+The+Rigged+Game+Trap" alt="Rigged Casino Banner">
         <div class="box monster-box" style="margin-bottom: 10px;">
             😈 <strong>겜블 몬스터의 마지막 장난:</strong><br>
             "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 잃은 거 다 찾게 해줄게!"
@@ -320,7 +303,6 @@
 
     <div id="view-stage3-slogan" class="screen">
         <h2>3단계: 미련의 방 (B)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/e8f4fd/0984e3?font=open+sans&text=🛡️+Cognitive+Vaccine+Active" alt="Slogan Brain Reset Banner">
         <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
             ⚠️ <strong>경고:</strong> 마우스를 끌어당기는 거대한 베팅 버튼의 함정을 피하고, 주변의 단어 조각을 <u>정확한 순서대로</u> 조합해 백신 주문을 외치세요!
         </div>
@@ -342,7 +324,6 @@
 
     <div id="view-outro-quiz" class="screen">
         <h2>최종 관문: 예방 OX 퀴즈</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/ebf7ee/2ecc71?font=open+sans&text=📝+Final+Prevention+Quiz" alt="Prevention Quiz Golden Bell Banner">
         <div class="box" id="quiz-question-box" style="font-size:18px; min-height:100px; display:flex; align-items:center; justify-content:center;">
             퀴즈 로드 중...
         </div>
@@ -567,7 +548,7 @@
         }
     }
 
-    // --- [요청 사항 수정] 3단계 로직: 블랙홀 굴레 돌파 및 한글 텍스트 정렬 배정 ---
+    // --- 3단계 로직: 블랙홀 굴레 돌파 및 한글 텍스트 정렬 배정 ---
     let trialCount = 0;
     function triggerRiggedGamble() {
         trialCount++;
@@ -576,14 +557,12 @@
         outBox.style.display = 'flex';
         
         if(trialCount === 1) {
-            // 줄바꿈 및 서브 텍스트 수직 하단 배열 교정
             outBox.innerHTML = `
                 <div style="font-weight: 800; color: #0984e3;">🎉 당첨! 동전이 두 배(6개)로 증가했습니다!</div>
                 <div style="color: blue; font-size: 13px;">(내면의 충동 뇌파: 어? 진짜 쉽게 돈을 버네?)</div>
             `;
             tokenDisplay.innerText = "6";
         } else {
-            // 실패 시 도발 문구가 무조건 아래쪽에 깔리도록 묶음 처리 교정
             outBox.innerHTML = `
                 <div style="color: var(--secondary); font-weight: 800;">⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</div>
                 <div style="font-size: 13px; margin-top: 4px; color: #555;"><strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 내 시계나 스마트폰이라도 걸고 한 판 더 해!</div>
