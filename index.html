@@ -189,7 +189,7 @@
     </div>
 
     <div id="view-intro" class="screen active">
-        <h2>스마트폰 요괴 습격</h2>
+        <h2>스마트폰 도박 괴물의 습격</h2>
         <div class="box">
             앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
             이건 우리들의 돈을 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
@@ -214,7 +214,7 @@
         <div id="ad-field" style="flex:1; position:relative; border:2px inset #ced6e0; border-radius:10px; margin-bottom:10px; background:#f8f9fa; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:10px;">
             
             <div id="defense-control-rack" style="display: none; flex-direction: column; position: relative; z-index: 10; width: 100%;">
-                <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
+                <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [방어 시스템] 탐색</button>
                 <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 메세지 신고] </button>
                 <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [메세지 차단 및 삭제] </button>
             </div>
@@ -225,7 +225,7 @@
         <h2>2단계: 유혹의 방 (A)</h2>
         <div class="box monster-box">
             👤 <strong>조종당하는 친구:</strong><br>
-            "너도 돈 걸고 내기할래...?"
+            "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
         </div>
         <div class="box" style="font-size:13px; padding:10px;">
             🔍 <strong>미션 A:</strong> 도박에 빠진 친구가 무의식중에 보낸 <u>위험신호(구조신호)를 모두</u> 선택하세요. (정상 신호 제외)
@@ -338,7 +338,7 @@
         'stage1-ad': "메뉴 버튼이 숨겨진 위치 앞쪽까지 팝업창들이 가로막고 있습니다. [X]를 다 지워야만 탐색 버튼이 아래에서 모습을 드러냅니다.",
         'stage2-signals': "친구의 변화를 뜻하는 위험 행동 6가지를 골라내야 합니다. 건강하게 활동하는 정상 신호 3개는 제외하세요.",
         'stage2-refusal': "감정 표현식 거절법 ➔ 빚에 대항하는 논리 ➔ 건전한 놀이 제안 순으로 대화를 전개하세요.",
-        'stage2-unlock': "위험 상황 발생 시 전용 전문 기관 및 국가 통합 구제 헬프라인 번호 '1336'을 입력하세요.",
+        'stage2-unlock': "위험 상황 발생시 전문 기관 및 국가 통합 구제 헬프라인 번호 '1336'을 입력하세요.",
         'stage3-gamble': "돈을 딸 수 없는 구조입니다. 속임수 게임을 피하고 단호하게 [동전 돌려주기] 버튼을 누르는 것이 핵심 해결책입니다.",
         'stage3-slogan': "도망치는 베팅 버튼에 속지 말고 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서로 완성하세요.",
         'outro-quiz': "도박의 유혹과 거짓 호의에는 X, 즉각적인 단절과 예방 수칙 준수에는 O를 선택하세요."
@@ -387,7 +387,7 @@
                 ad.style.top = Math.floor(Math.random() * 80 + 5) + '%';
                 ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
                 ad.style.zIndex = '150'; // 버튼(z-index: 10)의 완벽한 앞쪽 배치
-                ad.innerHTML = "⚠️ 10만 원 지급! <span style='color:yellow; margin-left:5px; cursor:pointer;'>[X]</span>";
+                ad.innerHTML = "⚠️ 게임머니 10만원 즉시 지급! <span style='color:yellow; margin-left:5px; cursor:pointer;'>[X]</span>";
                 
                 ad.onclick = function() { 
                     this.remove(); 
@@ -494,7 +494,7 @@
 
     function advanceRefusalTurn() {
         if(currentTurnIndex > 3) {
-            alert("의사소통 거절 프로토콜 성공! 나의 유혹은 방어해냈습니다.");
+            alert("유혹 거절 프로토콜 성공! 유혹을 성공적으로 방어해냈습니다.");
             switchView('stage2-unlock');
             return;
         }
