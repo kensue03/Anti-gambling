@@ -103,17 +103,6 @@
             color: #4a148c;
         }
 
-        /* 카툰 일러스트 레이아웃용 공통 스타일 추가 */
-        .cartoon-banner {
-            width: 100%;
-            height: 130px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            border: 2px dashed #b2bec3;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
         /* 공통 버튼 디자인 */
         .btn {
             background-color: var(--primary);
@@ -201,26 +190,24 @@
 
     <div id="view-intro" class="screen active">
         <h2>스마트폰 요괴 습격</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f8eff9/9b59b6?font=open+sans&text=👾+Gamble+Monster+World!" alt="Gamble Monster Intro Banner">
         <div class="box">
             앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
             이건 우리들의 돈을 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
         </div>
         <div class="box monster-box">
             😈 <strong>겜블 몬스터:</strong><br>
-            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정을 절대 깨지 못할 걸?"
+            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정에서 절대 벗어나지 못할 걸?"
         </div>
         <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
     </div>
 
     <div id="view-stage1-ad" class="screen">
         <h2>1단계: 함정의 방</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/fff5f5/d63031?font=open+sans&text=🚨+Warning:+Spam+Attack!" alt="Spam Attack Warning Banner">
-        <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
+        <div class="box" style="border-left: 5px solid var(--secondary); text-align: left;">
             💌 <strong>알 수 없는 메시지:</strong><br>
-            "게임 머니 10만 원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
+            "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
         </div>
-        <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px; margin-bottom: 10px;">
+        <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px;">
             ⚠️ 알림: 유혹 팝업창을 [X]를 눌러 모두 제거하면 숨겨진 방어 시스템이 나타납니다!
         </div>
         
@@ -228,21 +215,20 @@
             
             <div id="defense-control-rack" style="display: none; flex-direction: column; position: relative; z-index: 10; width: 100%;">
                 <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
-                <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 신고] 접수</button>
-                <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [차단 및 삭제] 프로토콜</button>
+                <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 메세지 신고] </button>
+                <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [메세지 차단 및 삭제] </button>
             </div>
         </div>
     </div>
 
     <div id="view-stage2-signals" class="screen">
         <h2>2단계: 유혹의 방 (A)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f1f2f6/2d3436?font=open+sans&text=🔍+Find+The+Danger+Signals" alt="Forensics Investigation Banner">
-        <div class="box monster-box" style="margin-bottom: 10px;">
+        <div class="box monster-box">
             👤 <strong>조종당하는 친구:</strong><br>
             "너도 돈 걸고 내기할래...?"
         </div>
-        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
-            🔍 <strong>미션 A:</strong> 도박에 빠진 친구가 무의식중에 보낸 <u>위험신호(구조신호)를 모두</u> 선택하세요.
+        <div class="box" style="font-size:13px; padding:10px;">
+            🔍 <strong>미션 A:</strong> 도박에 빠진 친구가 무의식중에 보낸 <u>위험신호(구조신호)를 모두</u> 선택하세요. (정상 신호 제외)
         </div>
         
         <div id="signal-matrix" style="flex:1; overflow-y:auto; margin-bottom:10px;">
@@ -252,7 +238,6 @@
 
     <div id="view-stage2-refusal" class="screen">
         <h2>2단계: 유혹의 방 (B)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/e8f4fd/0984e3?font=open+sans&text=💬+Assertive+Refusal+Magic" alt="Communication Banner">
         <div class="box monster-box" id="friend-speech">
             "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 10만원 벌었어!"
         </div>
@@ -265,15 +250,14 @@
 
     <div id="view-stage2-unlock" class="screen">
         <h2>2단계: 유혹의 방 (C)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/fef9e7/f1c40f?font=open+sans&text=🔓+Emergency+Call:+1336" alt="Security Password Banner">
-        <div class="box" style="margin-bottom: 10px;">
+        <div class="box">
             친구의 제안은 거절했지만, 아직 조종당하는 친구를 온전히 구출하려면 잠겨있는 구조 요청 화면을 열어야 합니다!
         </div>
-        <div class="box monster-box" style="font-size:14px; margin-bottom: 5px;">
-            ❓ <strong>잠금 힌트:</strong> 도박 때문에 힘들 때 도와주는 천사 번호는 무엇일까요?
+        <div class="box monster-box" style="font-size:14px;">
+            ❓ <strong>잠금 힌트:</strong><br>도박 때문에 힘들 때 도와주는 천사 번호는 무엇일까요?
         </div>
         
-        <h1 id="pin-display" style="text-align:center; letter-spacing:15px; margin:5px 0; font-size:36px; color:var(--primary);">____</h1>
+        <h1 id="pin-display" style="text-align:center; letter-spacing:15px; margin:10px 0; font-size:36px; color:var(--primary);">____</h1>
         
         <div id="numpad-grid">
             <button class="btn" onclick="pressPin(1)">1</button><button class="btn" onclick="pressPin(2)">2</button><button class="btn" onclick="pressPin(3)">3</button>
@@ -285,14 +269,13 @@
     </div>
 
     <div id="view-stage3-gamble" class="screen">
-        <h2>3단계: 블랙홀의 방 (A)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/f8eff9/9b59b6?font=open+sans&text=🎰+The+Rigged+Game+Trap" alt="Rigged Casino Banner">
-        <div class="box monster-box" style="margin-bottom: 10px;">
+        <h2>3단계: 미련의 방 (A)</h2>
+        <div class="box monster-box">
             😈 <strong>겜블 몬스터의 마지막 장난:</strong><br>
             "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 잃은 거 다 찾게 해줄게!"
         </div>
         
-        <div class="box" style="background:#fff3cd; border-color:#ffeaa7; margin-bottom: 10px;">
+        <div class="box" style="background:#fff3cd; border-color:#ffeaa7;">
             보유 가상 동전: <strong id="token-tally" style="font-size:24px; color:var(--secondary);">3</strong>개
         </div>
 
@@ -305,13 +288,12 @@
     </div>
 
     <div id="view-stage3-slogan" class="screen">
-        <h2>3단계: 블랙홀의 방 (B)</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/e8f4fd/0984e3?font=open+sans&text=🛡️+Cognitive+Vaccine+Active" alt="Slogan Brain Reset Banner">
-        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
+        <h2>3단계: 미련의 방 (B)</h2>
+        <div class="box" style="font-size:13px; padding:10px;">
             ⚠️ <strong>경고:</strong> 마우스를 끌어당기는 거대한 베팅 버튼의 함정을 피하고, 주변의 단어 조각을 <u>정확한 순서대로</u> 조합해 백신 주문을 외치세요!
         </div>
 
-        <div id="slogan-assembly" class="box" style="min-height:60px; border:2px dashed var(--primary); color:var(--primary); font-weight:800; margin-bottom: 10px;">
+        <div id="slogan-assembly" class="box" style="min-height:70px; border:2px dashed var(--primary); color:var(--primary); font-weight:800;">
             주문 배치 구역
         </div>
 
@@ -328,7 +310,6 @@
 
     <div id="view-outro-quiz" class="screen">
         <h2>최종 관문: 예방 OX 퀴즈</h2>
-        <img class="cartoon-banner" src="https://placehold.co/360x130/ebf7ee/2ecc71?font=open+sans&text=📝+Final+Prevention+Quiz" alt="Prevention Quiz Golden Bell Banner">
         <div class="box" id="quiz-question-box" style="font-size:18px; min-height:100px; display:flex; align-items:center; justify-content:center;">
             퀴즈 로드 중...
         </div>
@@ -356,7 +337,7 @@
         'intro': "하단의 빨간색 [방탈출 시작하기] 버튼을 눌러 스마트폰 시스템 차원으로 진입하세요.",
         'stage1-ad': "메뉴 버튼이 숨겨진 위치 앞쪽까지 팝업창들이 가로막고 있습니다. [X]를 다 지워야만 탐색 버튼이 아래에서 모습을 드러냅니다.",
         'stage2-signals': "친구의 변화를 뜻하는 위험 행동 6가지를 골라내야 합니다. 건강하게 활동하는 정상 신호 3개는 제외하세요.",
-        'stage2-refusal': "감정 표현식 거절법 ➔ 빚에 대항하는 논리 ➔ 축구 제안 순으로 대화를 전개하세요.",
+        'stage2-refusal': "감정 표현식 거절법 ➔ 빚에 대항하는 논리 ➔ 건전한 놀이 제안 순으로 대화를 전개하세요.",
         'stage2-unlock': "위험 상황 발생 시 전용 전문 기관 및 국가 통합 구제 헬프라인 번호 '1336'을 입력하세요.",
         'stage3-gamble': "돈을 딸 수 없는 구조입니다. 속임수 게임을 피하고 단호하게 [동전 돌려주기] 버튼을 누르는 것이 핵심 해결책입니다.",
         'stage3-slogan': "도망치는 베팅 버튼에 속지 말고 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서로 완성하세요.",
@@ -382,12 +363,13 @@
     }
 
     // --- 1단계 로직: 스팸 제어 공정 ---
-    let totalSpamCount = 8;
+    let totalSpamCount = 8; // 총 팝업 개수
     let spamDestroyedCounter = 0;
 
     function initializeAdSpamEngine() {
         const field = document.getElementById('ad-field');
         
+        // 초기화 리셋
         document.querySelectorAll('.ad-monster').forEach(e => e.remove());
         document.getElementById('defense-control-rack').style.display = 'none';
         document.getElementById('proc-menu').style.display = 'block';
@@ -401,9 +383,10 @@
                 if(activeViewId !== 'stage1-ad') return;
                 const ad = document.createElement('div');
                 ad.className = 'ad-monster';
+                // 메뉴 탐색 버튼이 생길 아래쪽 구역(최대 85%)까지 앞쪽에서 무작위로 겹쳐 나타나도록 범위 조절
                 ad.style.top = Math.floor(Math.random() * 80 + 5) + '%';
                 ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
-                ad.style.zIndex = '150';
+                ad.style.zIndex = '150'; // 버튼(z-index: 10)의 완벽한 앞쪽 배치
                 ad.innerHTML = "⚠️ 10만 원 지급! <span style='color:yellow; margin-left:5px; cursor:pointer;'>[X]</span>";
                 
                 ad.onclick = function() { 
@@ -416,8 +399,10 @@
         }
     }
 
+    // 팝업창이 모두 지워졌는지 실시간 확인하는 함수
     function checkAllSpamCleared() {
         if(spamDestroyedCounter === totalSpamCount) {
+            // 모든 "10만원 지급!" 몬스터가 제거되면 그제서야 숨겨진 버튼이 보이게 활성화
             document.getElementById('defense-control-rack').style.display = 'flex';
         }
     }
@@ -501,7 +486,7 @@
         3: {
             friend: "아.. 진짜 재미없게 구네. 그럼 이제 우리 뭐 하고 놀 건데?",
             opts: [
-                { text: "돈 내기 말고 그냥 밖에 나가서 축구하자!", valid: true },
+                { text: "돈 내기 말고 그냥 밖에 나가서 운동하자!", valid: true },
                 { text: "미안해 화내지 마, 그럼 한 판만 구경할게.", valid: false }
             ]
         }
@@ -545,7 +530,7 @@
     }
     function executeUnlock() {
         if(activePinBuffer === "1336") {
-            alert("정확합니다! 구제 전용 전문 기관 연락망 활성화 완료. 친구를 구출해냈습니다!");
+            alert("정확합니다! 구조 전용 전문 기관 연락망 활성화 완료. 친구를 구출해냈습니다!");
             switchView('stage3-gamble');
         } else {
             alert("잘못된 인증 보안 번호입니다. 힌트를 다시 유추해보세요.");
@@ -623,7 +608,7 @@
     let activeQuizIndex = 1;
     const quizCoreRepository = {
         1: { text: "인터넷 광고 문자로 날아온 무료 게임 칩 지급 주소는 호기심에 한 번쯤 열어봐도 안전하다.", correct: false },
-        2: { text: "친구의 부적절한 도박성 내기 제안에는 나의 상태와 감정을 주어로 단호히 표현하는 '나-전달법'으로 거절한다.", correct: true },
+        2: { text: "친구의 부적절한 도박성 내기 제안에는 단호히 거절한다.", correct: true },
         3: { text: "도박으로 한 번 잃은 돈은 본전 생각이 나더라도 추가 베팅을 하지 않고 '지금 당장 멈추는 것'이 가장 확실하게 돈을 지키는 법이다.", correct: true }
     };
 
