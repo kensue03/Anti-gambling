@@ -371,6 +371,7 @@
         if(viewId === 'stage1-ad') initializeAdSpamEngine();
         if(viewId === 'stage2-signals') renderSignalMatrix();
         if(viewId === 'stage2-refusal') currentTurnIndex = 1, advanceRefusalTurn();
+        if(viewId === 'stage3-gamble') resetStage3Gamble(); // 진입 시 초기화 함수 추가
         if(viewId === 'stage3-slogan') populateSloganChips();
         if(viewId === 'outro-quiz') activeQuizIndex = 1, renderQuizNode();
     }
@@ -547,12 +548,28 @@
         }
     }
 
-    // --- 3단계 로직: 블랙홀 굴레 돌파 및 한글 텍스트 정렬 배정 ---
+    // --- 3단계 로직: 블랙홀 굴레 돌파 및 한글 텍스트 정렬 배정 (수정) ---
     let trialCount = 0;
+    
+    // 스테이지 재진입 등을 대비한 초기화 함수
+    function resetStage3Gamble() {
+        trialCount = 0;
+        document.getElementById('token-tally').innerText = "3";
+        document.getElementById('game-output-box').style.display = 'none';
+        document.getElementById('gamble-action-btn').disabled = false;
+        
+        // 동전 돌려주기 버튼 초기 상태 복구
+        const abortBtn = document.getElementById('abort-action-btn');
+        abortBtn.disabled = false;
+        abortBtn.className = "btn btn-success";
+        abortBtn.innerText = "💰 [동전 돌려주기] 선택하고 탈출하기";
+    }
+
     function triggerRiggedGamble() {
         trialCount++;
         const outBox = document.getElementById('game-output-box');
         const tokenDisplay = document.getElementById('token-tally');
+        const abortBtn = document.getElementById('abort-action-btn');
         outBox.style.display = 'flex';
         
         if(trialCount === 1) {
@@ -561,6 +578,11 @@
                 <div style="color: blue; font-size: 13px;">(내면의 충동 뇌파: 어? 진짜 쉽게 돈을 버네?)</div>
             `;
             tokenDisplay.innerText = "6";
+            
+            // [교육상 설계 변경] 한 번이라도 도박에 참여하면 실패 전까지 탈출 불가
+            abortBtn.disabled = true;
+            abortBtn.className = "btn"; // 초록색 비활성화 스타일
+            abortBtn.innerText = "🔒 유혹의 늪에 빠져 지금은 나갈 수 없습니다!";
         } else {
             outBox.innerHTML = `
                 <div style="color: var(--secondary); font-weight: 800;">⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</div>
@@ -568,11 +590,20 @@
             `;
             tokenDisplay.innerText = "0";
             document.getElementById('gamble-action-btn').disabled = true;
+            
+            // 다 잃고 파산해야 탈출 버튼이 다른 목적으로 재활성화됨
+            abortBtn.disabled = false;
+            abortBtn.className = "btn btn-danger";
+            abortBtn.innerText = "🏃‍♂️ 모든 걸 잃고 빈손으로 도망치기";
         }
     }
 
     function abortGambleLoop() {
-        alert("현명한 선택입니다! 몬스터의 조작된 확률 트랩을 눈치채고 즉각적으로 이탈에 성공했습니다.");
+        if(trialCount === 0) {
+            alert("현명한 선택입니다! 몬스터의 조작된 확률 트랩을 눈치채고 즉각적으로 이탈에 성공했습니다.");
+        } else {
+            alert("결국 가상 세계의 용돈을 전부 잃고 나서야 끔찍한 함정에서 빠져나오게 되었습니다...");
+        }
         switchView('stage3-slogan');
     }
 
