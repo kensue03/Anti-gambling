@@ -348,7 +348,6 @@
     let activeViewId = 'intro';
     
     const operationalHints = {
-        'intro': "하단의 빨간색 [방탈출 시작하기] 버튼을 눌러 스마트폰 시스템 차원으로 진입하세요.",
         'stage1-ad': "메뉴 버튼이 숨겨진 위치 앞쪽까지 팝업창들이 가로막고 있습니다. [X]를 다 지워야만 탐색 버튼이 아래에서 모습을 드러냅니다.",
         'stage2-signals': "친구의 변화를 뜻하는 위험 행동 6가지를 골라내야 합니다. 건강하게 활동하는 정상 신호 3개는 제외하세요.",
         'stage2-refusal': "감정 표현식 거절법 ➔ 빚에 대항하는 논리 ➔ 건강한 놀이 제안 순으로 대화를 전개하세요.",
@@ -565,7 +564,7 @@
         } else {
             outBox.innerHTML = `
                 <div style="color: var(--secondary); font-weight: 800;">⚠️ [실패] 몬스터의 설계 작동!! 동전을 전부 잃었습니다.</div>
-                <div style="font-size: 13px; margin-top: 4px; color: #555;"><strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 내 시계나 스마트폰이라도 걸고 한 판 더 해!</div>
+                <div style="font-size: 13px; margin-top: 4px; color: #555;"><strong>겜블 몬스터:</strong> 억울하지? 본전 생각나지? 돈이 없으면 시계나 스마트폰이라도 걸고 한 판 더 해!</div>
             `;
             tokenDisplay.innerText = "0";
             document.getElementById('gamble-action-btn').disabled = true;
