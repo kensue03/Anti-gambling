@@ -6,16 +6,15 @@
     <title>아기자기한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             /* 캔바(Canva) 특유의 아기자기하고 화사한 파스텔 감성 컬러 팔레트 */
             --bg-page: #f0f3ff;        /* 외부 배경 (은은한 라일락 블루) */
-            /* [수정] 스마트폰 하우징 프레임을 블랙 아이폰 감성에 맞추어 다크 메탈 톤으로 변경 */
             --phone-frame: #1e293b;   /* 스마트폰 내부 기기 하우징 (매트 블랙) */
             --phone-border: #0f172a;  /* 스마트폰 외부 테두리 베젤 (딥 블랙) */
-            --screen-bg: #ffffff;     /* [수정] 스마트폰 화면 하얀색으로 변경 */
+            --screen-bg: #ffffff;     /* 스마트폰 화면 하얀색 */
             --primary: #ff70a6;       /* 주요 포인트 (러블리 핑크) */
             --primary-hover: #ff5c96;
             --secondary: #ff9770;     /* 몬스터 / 유혹 (솜사탕 코랄 오렌지) */
@@ -29,8 +28,9 @@
         }
         * { 
             box-sizing: border-box; 
-            /* [수정] 기본 폰트를 나눔고딕으로 설정하여 시인성을 높이고, 필요 부위에만 Jua 글꼴 적용 */
+            /* [수정] 글꼴 시인성을 위해 기본 두께를 700(Bold)으로 상향 조정 */
             font-family: 'Nanum Gothic', sans-serif;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
         body {
@@ -50,7 +50,7 @@
             max-width: 95vw;
             aspect-ratio: 420 / 840;
             background-color: var(--phone-frame);
-            border: 10px solid var(--phone-border); /* 선명한 고품질 블랙 아이폰 외관 유도 */
+            border: 10px solid var(--phone-border); 
             border-radius: 48px;
             position: relative;
             box-shadow: 0 25px 60px rgba(15, 23, 42, 0.4);
@@ -61,7 +61,7 @@
             transition: all 0.3s ease;
         }
         
-        /* [수정] 디바이스 노치를 검은색 아이폰 알약 스타일(Dynamic Island 구현)로 수정 */
+        /* 디바이스 노치를 검은색 아이폰 알약 스타일(Dynamic Island 구현)로 수정 */
         #phone-notch {
             position: absolute;
             top: 16px;
@@ -69,19 +69,19 @@
             transform: translateX(-50%);
             width: 120px;
             height: 28px;
-            background-color: #000000; /* 선명한 블랙 하드웨어 처리 */
-            border-radius: 20px;       /* 둥글둥글한 알약 형태 마감 */
+            background-color: #000000; 
+            border-radius: 20px;       
             z-index: 999;
             box-shadow: inset 0 1px 3px rgba(255,255,255,0.2);
         }
         
-        /* 모바일 상단 미니 툴바 (오디오 컨트롤 & 힌트 배치) */
+        /* 모바일 상단 미니 툴바 */
         #phone-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 15px 5px 15px;
-            margin-top: 16px; /* 노치 크기 확장에 맞춰 콘텐츠 영역 간격 확보 */
+            margin-top: 16px; 
             z-index: 990;
         }
         /* 캔바 스타일 아이콘 제어 버튼 */
@@ -89,7 +89,7 @@
             border: none;
             border-radius: 20px;
             padding: 6px 14px;
-            font-size: 14px;
+            font-size: 15px; /* [수정] 헤더 버튼 크기 살짝 확대 */
             font-family: 'Jua', sans-serif;
             font-weight: bold;
             cursor: pointer;
@@ -111,7 +111,7 @@
         #hint-trigger {
             background-color: var(--hint-bg);
             color: var(--text-dark);
-            display: none; /* 첫 화면 숨김 */
+            display: none; 
         }
         .screen {
             flex: 1;
@@ -132,15 +132,15 @@
             font-family: 'Jua', sans-serif;
             color: var(--primary); 
             text-align: center; 
-            font-size: 24px; 
+            font-size: 27px; /* [수정] 가시성을 위해 타이틀 크기 상향 */
             margin-top: 5px; 
             margin-bottom: 15px; 
             text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
         }
         h3 { 
-            font-weight: 700;
+            font-weight: 800; /* [수정] 두께감 강화 */
             color: var(--text-dark); 
-            font-size: 17px; 
+            font-size: 19px; /* [수정] 지시문 타이틀 크기 확대 */
             margin: 10px 0; 
         }
         
@@ -149,7 +149,7 @@
             border: 3px solid #fbecc4;
             border-radius: 22px;
             padding: 16px;
-            font-size: 15px;
+            font-size: 17px; /* [수정] 텍스트 크기 확대 */
             line-height: 1.6;
             margin-bottom: 15px;
             text-align: center;
@@ -162,6 +162,16 @@
             color: #6b21a8;
             box-shadow: 0 6px 12px rgba(216, 180, 254, 0.3);
         }
+        
+        /* [추가] 인트로 페이지 전용 캐릭터 부착 스타일 */
+        .intro-monster-img {
+            display: block;
+            width: 170px;
+            height: auto;
+            margin: 10px auto 0 auto;
+            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.15));
+        }
+
         /* 캔바 일러스트풍 아기자기한 버튼 */
         .btn {
             font-family: 'Jua', sans-serif;
@@ -169,7 +179,7 @@
             color: var(--text-light);
             border: none;
             padding: 14px;
-            font-size: 17px;
+            font-size: 19px; /* [수정] 조작 편의성을 위한 버튼 크기 확대 */
             border-radius: 20px;
             cursor: pointer;
             margin: 6px 0;
@@ -177,6 +187,7 @@
             box-shadow: 0 6px 0px #e0538a;
             position: relative;
             top: 0;
+            flex-shrink: 0;
         }
         .btn:hover { 
             background-color: var(--primary-hover); 
@@ -235,18 +246,18 @@
         }
         /* 스테이지 2 그리드 */
         #numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 10px auto; }
-        #numpad-grid .btn { padding: 12px; font-size: 20px; margin: 0; }
+        #numpad-grid .btn { padding: 12px; font-size: 22px; margin: 0; }
         
         .ad-monster {
             position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
-            padding: 10px 14px; border-radius: 18px; z-index: 150; cursor: pointer; font-size: 13px;
+            padding: 10px 14px; border-radius: 18px; z-index: 150; cursor: pointer; font-size: 15px;
             box-shadow: 0 6px 15px rgba(255, 151, 112, 0.3); font-weight: bold;
             transition: transform 0.1s;
         }
         .ad-monster:hover { transform: scale(1.05); }
         .signal-card {
             background: #fff; border: 3px solid #e2e8f0; border-radius: 18px;
-            padding: 12px; margin: 8px 0; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+            padding: 12px; margin: 8px 0; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.2s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             text-align: center;
         }
@@ -258,8 +269,8 @@
             box-shadow: 0 6px 12px rgba(250, 204, 21, 0.2);
         }
         .chip-element {
-            display: inline-block; background: #fff; color: var(--text-dark); padding: 8px 14px; margin: 5px;
-            border-radius: 16px; cursor: pointer; font-weight: bold; font-size: 14px; border: 3px solid #e2e8f0;
+            display: inline-block; background: #fff; color: var(--text-dark); padding: 10px 16px; margin: 5px;
+            border-radius: 16px; cursor: pointer; font-weight: 800; font-size: 16px; border: 3px solid #e2e8f0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.03);
             transition: all 0.2s;
         }
@@ -268,11 +279,11 @@
             border-color: var(--primary);
             color: var(--primary);
         }
-        #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 18px; }
         #game-output-box {
             display: none; 
             flex-direction: column; 
-            font-size: 14px; 
+            font-size: 16px; 
             min-height: 90px; 
             align-items: center; 
             justify-content: center;
@@ -293,10 +304,11 @@
     <div id="hint-layer">
         <div class="hint-window">
             <h3 style="color: #ea580c; font-size: 19px; margin-top:0;">💡 시스템 복구 힌트</h3>
-            <p id="hint-body-text" style="font-size: 15px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark); font-weight: 700;"></p>
+            <p id="hint-body-text" style="font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark); font-weight: 800;"></p>
             <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
         </div>
     </div>
+    
     <div id="view-intro" class="screen active">
         <h2>👾 스마트폰 도박 괴물의 습격 👾</h2>
         <div class="box">
@@ -305,17 +317,20 @@
         </div>
         <div class="box monster-box">
             😈 <strong>겜블 몬스터:</strong><br>
-            "크크크.. 탈출하고 싶나? 내가 준비한 유혹의 함정에서 절대 벗어나지 못할 걸?"
+            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정에서 절대 벗어나지 못할 걸?"
         </div>
+        <img class="intro-monster-img" src="https://i.ibb.co/689Nf3X/image-a908c3.png" alt="Gamble Monster Character">
+        
         <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
     </div>
+    
     <div id="view-stage1-ad" class="screen">
         <h2>1단계: 함정의 방 💌</h2>
         <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
             💌 <strong>알 수 없는 메시지:</strong><br>
             "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
         </div>
-        <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px; margin-bottom: 10px; border-color: #ffccd5;">
+        <div class="box" style="font-size: 15px; color: var(--secondary); padding: 8px; margin-bottom: 10px; border-color: #ffccd5;">
             ⚠️ 유혹 팝업창을 [X]를 눌러 모두 제거하면 숨겨진 방어 시스템이 나타납니다!
         </div>
         
@@ -328,13 +343,14 @@
             </div>
         </div>
     </div>
+    
     <div id="view-stage2-signals" class="screen">
         <h2>2단계: 유혹의 방 (A) 🔍</h2>
         <div class="box monster-box" style="margin-bottom: 10px;">
             👤 <strong>조종당하는 친구:</strong><br>
             "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
         </div>
-        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
+        <div class="box" style="font-size:15px; padding:10px; margin-bottom: 10px;">
             🔍 <strong>미션 A:</strong> 친구가 도박에 빠졌을 때 보이는 <u>위험 신호</u>를 모두 선택하세요!
         </div>
         
@@ -342,23 +358,25 @@
             </div>
         <button class="btn btn-success" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
     </div>
+    
     <div id="view-stage2-refusal" class="screen">
         <h2>2단계: 유혹의 방 (B) 🗣️</h2>
         <div class="box monster-box" id="friend-speech">
             "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!"
         </div>
-        <div class="box" style="font-size:13px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
+        <div class="box" style="font-size:15px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
             📢 <strong>미션 B:</strong> 친구의 도박 제안을 단호하면서도 현명하게 거절해볼까요?
         </div>
         <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
             </div>
     </div>
+    
     <div id="view-stage2-unlock" class="screen">
         <h2>2단계: 유혹의 방 (C) 🔐</h2>
         <div class="box" style="margin-bottom: 10px;">
             잠겨있는 스마트폰 구조 요청 화면을 열어 친구를 구출해내야 합니다!
         </div>
-        <div class="box monster-box" style="font-size:14px; margin-bottom: 5px;">
+        <div class="box monster-box" style="font-size:15px; margin-bottom: 5px;">
             ❓ <strong>잠금 힌트:</strong> 청소년 도박 등 중독 문제를 겪을 때 도움을 요청하는 헬프라인 전문 전화번호는?
         </div>
         
@@ -366,12 +384,13 @@
         
         <div id="numpad-grid">
             <button class="btn" onclick="pressPin(1)">1</button><button class="btn" onclick="pressPin(2)">2</button><button class="btn" onclick="pressPin(3)">3</button>
-            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)">6</button>
+            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)/">6</button>
             <button class="btn" onclick="pressPin(7)">7</button><button class="btn" onclick="pressPin(8)">8</button><button class="btn" onclick="pressPin(9)">9</button>
             <button class="btn btn-danger" onclick="wipePin()">C</button><button class="btn" onclick="pressPin(0)">0</button>
             <button class="btn btn-success" onclick="executeUnlock()">OK</button>
         </div>
     </div>
+    
     <div id="view-stage3-gamble" class="screen">
         <h2>3단계: 미련의 방 (A) 🎰</h2>
         <div class="box monster-box" style="margin-bottom: 10px;">
@@ -380,7 +399,7 @@
         </div>
         
         <div class="box" style="background:#fef08a; border-color:#facc15; margin-bottom: 10px; color: #854d0e;">
-            보유 가상 동전: <strong id="token-tally" style="font-size:26px; color:var(--primary);">3</strong>개 🪙
+            보유 가상 동전: <strong id="token-tally" style="font-size:28px; color:var(--primary);">3</strong>개 🪙
         </div>
         <div id="game-output-box" class="box" style="background:#fff;"></div>
         <div style="display:flex; flex-direction:column; margin-top:auto; gap:10px;">
@@ -388,9 +407,10 @@
             <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 누르고 나가기</button>
         </div>
     </div>
+    
     <div id="view-stage3-slogan" class="screen">
         <h2>3단계: 미련의 방 (B) 🛡️</h2>
-        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
+        <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
             ⚠️ 주변의 핵심 단어 조각을 <u>올바른 예방 메시지 순서대로</u> 조합해 방어 백신을 작동시키세요!
         </div>
         <div id="slogan-assembly" class="box" style="min-height:75px; border:3px dashed var(--primary); color:var(--primary); margin-bottom: 10px; background:#fff;">
@@ -404,9 +424,10 @@
             <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 장착 완료</button>
         </div>
     </div>
+    
     <div id="view-outro-quiz" class="screen">
         <h2>최종 관문: OX 예방 퀴즈 📝</h2>
-        <div class="box" id="quiz-question-box" style="font-size:17px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff; font-weight: 700;">
+        <div class="box" id="quiz-question-box" style="font-size:19px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff; font-weight: 800;">
             퀴즈를 로딩하고 있습니다...
         </div>
         <div style="display:flex; gap:15px; margin-top:auto;">
@@ -414,15 +435,17 @@
             <button class="btn btn-danger" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(false)">X</button>
         </div>
     </div>
+    
     <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
-        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
-        <div class="box" style="border-color:var(--success); background-color:#fff;">
+        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:46px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
+        <div class="box" style="border-color:var(--success); background-color:#fff; font-size: 18px;">
             축하합니다! 친구와 함께 겜블 몬스터의 함정을 격파하고 안전하게 현실로 탈출했습니다!<br><br>
             <strong>"도박은 설계된 함정,<br>지금 멈추는 것이 진정한 승리입니다!"</strong>
         </div>
         <button class="btn" style="background:#475569; box-shadow: 0 6px 0px #334155;" onclick="location.reload()">처음으로 가기 🔄</button>
     </div>
 </div>
+
 <script>
     let activeViewId = 'intro';
     
@@ -658,7 +681,7 @@
         { txt: "돈이 걸려있는 게임이나 내기에 강한 집착을 보인다.", dangerous: true },
         { txt: "친구들과 함께 야외에서 운동을 즐긴다.", dangerous: false },
         { txt: "작은 일에도 크게 짜증내 예민하게 행동한다.", dangerous: true },
-        { txt: "게임을 즐기지만 정해진 시간만 사용한.", dangerous: false },
+        { txt: "게임을 즐기지만 정해진 시간만 사용한다.", dangerous: false },
         { txt: "스마트폰 화면을 숨기며 비밀스러운 행동이 부쩍 많아졌다.", dangerous: true },
         { txt: "친구들과 대화가 눈에 띄게 줄고 다툼이 잦다.", dangerous: true },
         { txt: "게임 점수나 승패에 크게 연연하지 않는다.", dangerous: false },
