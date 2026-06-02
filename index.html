@@ -305,7 +305,7 @@
         </div>
         <div class="box monster-box">
             😈 <strong>겜블 몬스터:</strong><br>
-            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정에서 절대 벗어나지 못할 걸?"
+            "크크크.. 탈출하고 싶나? 내가 준비한 유혹의 함정에서 절대 벗어나지 못할 걸?"
         </div>
         <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
     </div>
@@ -656,13 +656,13 @@
     const signalsDatabase = [
         { txt: "친구들에게 자주 용돈을 빌리기 시작했다.", dangerous: true },
         { txt: "돈이 걸려있는 게임이나 내기에 강한 집착을 보인다.", dangerous: true },
-        { txt: "친구들과 함께 넓은 야외 구장에서 운동을 즐긴다.", dangerous: false },
-        { txt: "작은 일에도 크게 짜증 내며 예민하게 행동한다.", dangerous: true },
-        { txt: "약속한 사용 규칙을 준수하며 부모님과 소통한다.", dangerous: false },
-        { txt: "스마트폰을 숨기며 비밀스러운 행동이 부쩍 많아졌다.", dangerous: true },
+        { txt: "친구들과 함께 야외에서 운동을 즐긴다.", dangerous: false },
+        { txt: "작은 일에도 크게 짜증내 예민하게 행동한다.", dangerous: true },
+        { txt: "게임을 즐기지만 정해진 시간만 사용한.", dangerous: false },
+        { txt: "스마트폰 화면을 숨기며 비밀스러운 행동이 부쩍 많아졌다.", dangerous: true },
         { txt: "친구들과 대화가 눈에 띄게 줄고 다툼이 잦다.", dangerous: true },
         { txt: "게임 점수나 승패에 크게 연연하지 않는다.", dangerous: false },
-        { txt: "스마트폰을 손에서 단 1분도 놓지 못하고 몰입한다.", dangerous: true }
+        { txt: "스마트폰을 손에서 잠시도 놓지 못하고 몰입한다.", dangerous: true }
     ];
     function renderSignalMatrix() {
         const wrapper = document.getElementById('signal-matrix');
