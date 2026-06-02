@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아기자기한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
-    <!-- 캔바 스타일의 둥글둥글하고 아기자기한 무료 폰트 적용 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@700;800&display=swap" rel="stylesheet">
@@ -13,8 +12,9 @@
         :root {
             /* 캔바(Canva) 특유의 아기자기하고 화사한 파스텔 감성 컬러 팔레트 */
             --bg-page: #f0f3ff;        /* 외부 배경 (은은한 라일락 블루) */
-            --phone-frame: #fff5f6;   /* 스마트폰 프레임 (러블리한 피치 핑크) */
-            --phone-border: #ffccd5;  /* 스마트폰 테두리 (베이비 핑크) */
+            /* [수정] 스마트폰 하우징 프레임을 블랙 아이폰 감성에 맞추어 다크 메탈 톤으로 변경 */
+            --phone-frame: #1e293b;   /* 스마트폰 내부 기기 하우징 (매트 블랙) */
+            --phone-border: #0f172a;  /* 스마트폰 외부 테두리 베젤 (딥 블랙) */
             --screen-bg: #fffdf9;     /* 스마트폰 화면 (부드러운 우유 크림색) */
             --primary: #ff70a6;       /* 주요 포인트 (러블리 핑크) */
             --primary-hover: #ff5c96;
@@ -49,36 +49,38 @@
             max-width: 95vw;
             aspect-ratio: 420 / 840;
             background-color: var(--phone-frame);
-            border: 8px solid var(--phone-border);
+            border: 10px solid var(--phone-border); /* 선명한 고품질 블랙 아이폰 외관 유도 */
             border-radius: 48px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(255, 112, 166, 0.12);
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.4);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             padding: 14px;
             transition: all 0.3s ease;
         }
-        /* 디바이스 노치(Notch) 하드웨어 */
+        
+        /* [수정] 디바이스 노치를 검은색 아이폰 알약 스타일(Dynamic Island 구현)로 수정 */
         #phone-notch {
             position: absolute;
-            top: 14px;
+            top: 16px;
             left: 50%;
             transform: translateX(-50%);
-            width: 130px;
-            height: 22px;
-            background-color: var(--phone-border);
-            border-bottom-left-radius: 14px;
-            border-bottom-right-radius: 14px;
+            width: 120px;
+            height: 28px;
+            background-color: #000000; /* 선명한 블랙 하드웨어 처리 */
+            border-radius: 20px;       /* 둥글둥글한 알약 형태 마감 */
             z-index: 999;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.2);
         }
+        
         /* 모바일 상단 미니 툴바 (오디오 컨트롤 & 힌트 배치) */
         #phone-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 15px 5px 15px;
-            margin-top: 10px;
+            margin-top: 16px; /* 노치 크기 확장에 맞춰 콘텐츠 영역 간격 확보 */
             z-index: 990;
         }
         /* 캔바 스타일 아이콘 제어 버튼 */
@@ -278,7 +280,6 @@
 <div id="phone-device">
     <div id="phone-notch"></div>
     
-    <!-- 모바일 스마트폰 상단 툴바 구성 -->
     <div id="phone-header">
         <button id="bgm-toggle-btn" class="header-btn" onclick="toggleBgm()">🔇 BGM OFF</button>
         <button id="hint-trigger" class="header-btn" onclick="openHintSystem()">💡 힌트</button>
@@ -291,7 +292,6 @@
             <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
         </div>
     </div>
-    <!-- 인트로 화면 -->
     <div id="view-intro" class="screen active">
         <h2>👾 스마트폰 겜블 괴물 👾</h2>
         <div class="box">
@@ -304,7 +304,6 @@
         </div>
         <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
     </div>
-    <!-- 1단계: 함정의 방 -->
     <div id="view-stage1-ad" class="screen">
         <h2>1단계: 함정의 방 💌</h2>
         <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
@@ -324,7 +323,6 @@
             </div>
         </div>
     </div>
-    <!-- 2단계: 유혹의 방 (A) -->
     <div id="view-stage2-signals" class="screen">
         <h2>2단계: 유혹의 방 (A) 🔍</h2>
         <div class="box monster-box" style="margin-bottom: 10px;">
@@ -339,7 +337,6 @@
             </div>
         <button class="btn btn-success" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
     </div>
-    <!-- 2단계: 유혹의 방 (B) -->
     <div id="view-stage2-refusal" class="screen">
         <h2>2단계: 유혹의 방 (B) 🗣️</h2>
         <div class="box monster-box" id="friend-speech">
@@ -351,7 +348,6 @@
         <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
             </div>
     </div>
-    <!-- 2단계: 유혹의 방 (C) -->
     <div id="view-stage2-unlock" class="screen">
         <h2>2단계: 유혹의 방 (C) 🔐</h2>
         <div class="box" style="margin-bottom: 10px;">
@@ -371,7 +367,6 @@
             <button class="btn btn-success" onclick="executeUnlock()">OK</button>
         </div>
     </div>
-    <!-- 3단계: 미련의 방 (A) -->
     <div id="view-stage3-gamble" class="screen">
         <h2>3단계: 미련의 방 (A) 🎰</h2>
         <div class="box monster-box" style="margin-bottom: 10px;">
@@ -388,7 +383,6 @@
             <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 누르고 나가기</button>
         </div>
     </div>
-    <!-- 3단계: 미련의 방 (B) -->
     <div id="view-stage3-slogan" class="screen">
         <h2>3단계: 미련의 방 (B) 🛡️</h2>
         <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
@@ -399,14 +393,12 @@
         </div>
         <div id="chip-container" style="text-align:center; margin-bottom:110px;">
             </div>
-        <!-- 도망치는 오락 버튼 -->
         <button class="btn btn-danger" id="chasing-anchor" onclick="playSfx('failure'); alert('함정에 빠졌습니다! 흔들리지 마세요!')" onmouseover="teleportChasingButton()">🎰 딱 한판만 더 하기! 🎰</button>
         <div style="display:flex; gap:10px; margin-top:auto; position:relative; z-index:200;">
             <button class="btn" style="flex:1; background:#94a3b8; box-shadow: 0 6px 0px #64748b;" onclick="clearSloganFlow()">초기화</button>
             <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 장착 완료</button>
         </div>
     </div>
-    <!-- 아웃트로 OX 퀴즈 -->
     <div id="view-outro-quiz" class="screen">
         <h2>최종 관문: OX 예방 퀴즈 📝</h2>
         <div class="box" id="quiz-question-box" style="font-size:17px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff;">
@@ -417,7 +409,6 @@
             <button class="btn btn-danger" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(false)">X</button>
         </div>
     </div>
-    <!-- 해피엔딩 -->
     <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
         <h1 style="color:var(--success); font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
         <div class="box" style="border-color:var(--success); background-color:#fff;">
@@ -440,13 +431,11 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
     }
-    // 아기자기하고 살짝 으스스한(마이너 스케일) 8비트 사운드트랙 정의
     const notes = {
         'A3': 220.00, 'B3': 246.94, 'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00,
         'A4': 440.00, 'B4': 493.88, 'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99,
         'Rest': 0
     };
-    // 귀여운 겜블 몬스터 테마 BGM 리프
     const bgmMelody = [
         {note: 'A4', duration: 0.25}, {note: 'C5', duration: 0.25}, {note: 'E5', duration: 0.25}, {note: 'D5', duration: 0.25},
         {note: 'C5', duration: 0.25}, {note: 'A4', duration: 0.25}, {note: 'B4', duration: 0.5},
@@ -464,7 +453,6 @@
             let osc = audioCtx.createOscillator();
             let gainNode = audioCtx.createGain();
             
-            // 8비트 레트로 풍의 Triangle 파형 사용
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             
@@ -505,7 +493,6 @@
             playNextBgmNote();
         }
     }
-    // 효과음 재생 시스템
     function playSfx(type) {
         initAudio();
         if (audioCtx.state === 'suspended') {
@@ -520,7 +507,6 @@
         let now = audioCtx.currentTime;
         
         if (type === 'click') {
-            // 아기자기한 통통 튀는 물방울 클릭음
             osc.type = 'sine';
             osc.frequency.setValueAtTime(450, now);
             osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
@@ -529,7 +515,6 @@
             osc.start(now);
             osc.stop(now + 0.08);
         } else if (type === 'pop') {
-            // 스팸 광고 제거 시 촉! 소리
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(700, now);
             osc.frequency.exponentialRampToValueAtTime(120, now + 0.12);
@@ -538,7 +523,6 @@
             osc.start(now);
             osc.stop(now + 0.12);
         } else if (type === 'success') {
-            // 경쾌한 정답음 아르페지오 (도-미-솔-도)
             let notesSeq = [523.25, 659.25, 783.99, 1046.50];
             notesSeq.forEach((f, idx) => {
                 let noteOsc = audioCtx.createOscillator();
@@ -553,7 +537,6 @@
                 noteOsc.stop(now + idx * 0.08 + 0.18);
             });
         } else if (type === 'failure') {
-            // 오답 또는 실패음 (뿌우우-)
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(260, now);
             osc.frequency.linearRampToValueAtTime(130, now + 0.35);
@@ -562,7 +545,6 @@
             osc.start(now);
             osc.stop(now + 0.35);
         } else if (type === 'transition') {
-            // 스테이지 슬라이드 효과음
             osc.type = 'sine';
             osc.frequency.setValueAtTime(320, now);
             osc.frequency.exponentialRampToValueAtTime(700, now + 0.18);
@@ -584,7 +566,7 @@
     };
     function openHintSystem() {
         playSfx('click');
-        document.getElementById('hint-body-text').innerText = operationalHints[activeViewId] || "흔들리지 않는 올바른 인지력이 최고의 탈출 비결입니다!";
+        document.getElementById('hint-body-text').innerText = operationalHints[activeViewId] || "유혹에 맞서 싸울 수 있는 제어력이 이미 당신 안에 있습니다.";
         document.getElementById('hint-layer').style.display = 'flex';
     }
     
@@ -630,8 +612,9 @@
                 if(activeViewId !== 'stage1-ad') return;
                 const ad = document.createElement('div');
                 ad.className = 'ad-monster';
-                ad.style.top = Math.floor(Math.random() * 65 + 5) + '%';
-                ad.style.left = Math.floor(Math.random() * 50 + 5) + '%';
+                ad.style.top = Math.floor(Math.random() * 80 + 5) + '%';
+                ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
+                ad.style.zIndex = '150';
                 ad.innerHTML = "🎁 대박 기회! <span style='color:#ffd166; margin-left:6px; cursor:pointer;'>[X]</span>";
                 
                 ad.onclick = function() { 
@@ -739,7 +722,7 @@
     function advanceRefusalTurn() {
         if(currentTurnIndex > 3) {
             playSfx('success');
-            alert("도박 유혹 현명하게 격퇴 완료!");
+            alert("도박 유혹 거절 프로토콜 성공! 유혹을 방어해냈습니다.");
             switchView('stage2-unlock');
             return;
         }
@@ -783,11 +766,11 @@
             switchView('stage3-gamble');
         } else {
             playSfx('failure');
-            alert("잘못된 비밀 구제 번호입니다. 힌트를 유심히 살펴보세요!");
+            alert("잘못된 비밀 구제 번호입니다. 힌트를 다시 유심히 살펴보세요!");
             wipePin();
         }
     }
-    // --- 3단계: 겜블 몬스터 도박 트랩 ---
+    // --- 3단계 로직 ---
     let trialCount = 0;
     
     function resetStage3Gamble() {
@@ -811,8 +794,8 @@
         if(trialCount === 1) {
             playSfx('success');
             outBox.innerHTML = `
-                <div style="font-weight: 800; color: var(--success);">🎉 당첨! 동전이 두 배(6개)가 되었습니다!</div>
-                <div style="color: var(--primary); font-size: 13px;">(충동 기제: 어라? 생각보다 더 쉽게 벌리는 걸?)</div>
+                <div style="font-weight: 800; color: #0984e3;">🎉 당첨! 동전이 두 배(6개)가 되었습니다!</div>
+                <div style="color: blue; font-size: 13px;">(충동 기제: 어라? 생각보다 더 쉽게 벌리는 걸?)</div>
             `;
             tokenDisplay.innerText = "6";
             
@@ -823,7 +806,7 @@
             playSfx('failure');
             outBox.innerHTML = `
                 <div style="color: var(--secondary); font-weight: 800;">⚠️ [실패] 겜블 몬스터의 함정 작동! 모든 돈을 잃었습니다.</div>
-                <div style="font-size: 13px; margin-top: 4px; color: #64748b;"><strong>몬스터:</strong> 억울하지? 본전 뽑아야 하니 시계나 핸드폰이라도 걸고 한 번 더 해봐!</div>
+                <div style="font-size: 13px; margin-top: 4px; color: #555;"><strong>몬스터:</strong> 억울하지? 본전 뽑아야 하니 시계나 핸드폰이라도 걸고 한 번 더 해봐!</div>
             `;
             tokenDisplay.innerText = "0";
             document.getElementById('gamble-action-btn').disabled = true;
@@ -892,7 +875,7 @@
     const quizCoreRepository = {
         1: { text: "무료로 아이템이나 칩을 준다는 무명 주소 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
         2: { text: "친구로부터 내기성 도박을 제안받았을 땐 절대 휘말리지 않고 즉시 거부 의사를 보인다.", correct: true },
-        3: { text: "이미 잃은 돈이 있다면 복구하려 들지 않고 '지금 당장 멈추는 것'이 온전하게 돈을 구제하는 법이다.", correct: true }
+        3: { text: "이미 잃은 돈이 있다면 복구하려 들지 않고 '지금 당장 멈추는 것'이 가장 확실하게 돈을 지키는 법이다.", correct: true }
     };
     function renderQuizNode() {
         const box = document.getElementById('quiz-question-box');
