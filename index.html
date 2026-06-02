@@ -1,930 +1,1814 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>아기자기한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@700;800&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+
     
+
     <style>
+
         :root {
+
             /* 캔바(Canva) 특유의 아기자기하고 화사한 파스텔 감성 컬러 팔레트 */
+
             --bg-page: #f0f3ff;        /* 외부 배경 (은은한 라일락 블루) */
+
+            /* [수정] 스마트폰 하우징 프레임을 블랙 아이폰 감성에 맞추어 다크 메탈 톤으로 변경 */
+
             --phone-frame: #1e293b;   /* 스마트폰 내부 기기 하우징 (매트 블랙) */
+
             --phone-border: #0f172a;  /* 스마트폰 외부 테두리 베젤 (딥 블랙) */
-            --screen-bg: #ffffff;     /* 스마트폰 화면 하얀색 */
+
+            --screen-bg: #ffffff;     /* [수정] 스마트폰 화면 하얀색으로 변경 */
+
             --primary: #ff70a6;       /* 주요 포인트 (러블리 핑크) */
+
             --primary-hover: #ff5c96;
+
             --secondary: #ff9770;     /* 몬스터 / 유혹 (솜사탕 코랄 오렌지) */
+
             --success: #06d6a0;       /* 성공 (상큼한 민트 그린) */
+
             --text-dark: #4a3e3d;     /* 글씨 (부드러운 초콜릿 브라운) */
+
             --text-light: #ffffff;
+
             --box-bg: #fdf6e2;        /* 콘텐츠 상자 (연노랑 버터 크림색) */
+
             --monster-bg: #f3e8ff;    /* 몬스터 상자 (라벤더 솜사탕) */
+
             --monster-border: #d8b4fe;
+
             --hint-bg: #ffd166;       /* 힌트 (바나나 옐로우) */
+
         }
+
         * { 
+
             box-sizing: border-box; 
-            /* [수정] 글꼴 시인성을 위해 기본 두께를 700(Bold)으로 상향 조정 */
+
+            /* [수정] 기본 폰트를 나눔고딕으로 설정하여 시인성을 높이고, 필요 부위에만 Jua 글꼴 적용 */
+
             font-family: 'Nanum Gothic', sans-serif;
-            font-weight: 700;
+
             letter-spacing: 0.5px;
+
         }
+
         body {
+
             background: linear-gradient(135deg, #e0e6ed 0%, #f5f7fa 100%);
+
             color: var(--text-dark);
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             height: 100vh;
+
             margin: 0;
+
             overflow: hidden;
+
         }
+
         /* 캔바 일러스트풍 스마트폰 디바이스 프레임 */
+
         #phone-device {
+
             height: 840px;
+
             max-height: 92vh;
+
             max-width: 95vw;
+
             aspect-ratio: 420 / 840;
+
             background-color: var(--phone-frame);
-            border: 10px solid var(--phone-border); 
+
+            border: 10px solid var(--phone-border); /* 선명한 고품질 블랙 아이폰 외관 유도 */
+
             border-radius: 48px;
+
             position: relative;
+
             box-shadow: 0 25px 60px rgba(15, 23, 42, 0.4);
+
             overflow: hidden;
+
             display: flex;
+
             flex-direction: column;
+
             padding: 14px;
+
             transition: all 0.3s ease;
+
         }
+
         
-        /* 디바이스 노치를 검은색 아이폰 알약 스타일(Dynamic Island 구현)로 수정 */
+
+        /* [수정] 디바이스 노치를 검은색 아이폰 알약 스타일(Dynamic Island 구현)로 수정 */
+
         #phone-notch {
+
             position: absolute;
+
             top: 16px;
+
             left: 50%;
+
             transform: translateX(-50%);
+
             width: 120px;
+
             height: 28px;
-            background-color: #000000; 
-            border-radius: 20px;       
+
+            background-color: #000000; /* 선명한 블랙 하드웨어 처리 */
+
+            border-radius: 20px;       /* 둥글둥글한 알약 형태 마감 */
+
             z-index: 999;
+
             box-shadow: inset 0 1px 3px rgba(255,255,255,0.2);
+
         }
+
         
-        /* 모바일 상단 미니 툴바 */
+
+        /* 모바일 상단 미니 툴바 (오디오 컨트롤 & 힌트 배치) */
+
         #phone-header {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             padding: 10px 15px 5px 15px;
-            margin-top: 16px; 
+
+            margin-top: 16px; /* 노치 크기 확장에 맞춰 콘텐츠 영역 간격 확보 */
+
             z-index: 990;
+
         }
+
         /* 캔바 스타일 아이콘 제어 버튼 */
+
         .header-btn {
+
             border: none;
+
             border-radius: 20px;
+
             padding: 6px 14px;
-            font-size: 15px; /* [수정] 헤더 버튼 크기 살짝 확대 */
+
+            font-size: 14px;
+
             font-family: 'Jua', sans-serif;
+
             font-weight: bold;
+
             cursor: pointer;
+
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
             transition: transform 0.2s, background-color 0.2s;
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 4px;
+
         }
+
         .header-btn:hover { transform: scale(1.05); }
+
         .header-btn:active { transform: scale(0.95); }
+
         #bgm-toggle-btn {
+
             background-color: #ff9770;
+
             color: #fff;
+
         }
+
         #bgm-toggle-btn.playing {
+
             background-color: var(--success);
+
         }
+
         #hint-trigger {
+
             background-color: var(--hint-bg);
+
             color: var(--text-dark);
-            display: none; 
+
+            display: none; /* 첫 화면 숨김 */
+
         }
+
         .screen {
+
             flex: 1;
+
             background-color: var(--screen-bg);
+
             border-radius: 36px;
+
             padding: 25px 20px 20px 20px;
+
             display: none;
+
             flex-direction: column;
+
             position: relative;
+
             overflow-y: auto;
+
             border: 3px solid #ffebed;
+
         }
+
         .screen.active {
+
             display: flex;
+
         }
+
         /* 캔바 스타일 둥글둥글 타이포그래피 */
+
         h2 { 
+
             font-family: 'Jua', sans-serif;
+
             color: var(--primary); 
+
             text-align: center; 
-            font-size: 27px; /* [수정] 가시성을 위해 타이틀 크기 상향 */
+
+            font-size: 24px; 
+
             margin-top: 5px; 
+
             margin-bottom: 15px; 
+
             text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+
         }
+
         h3 { 
-            font-weight: 800; /* [수정] 두께감 강화 */
+
+            font-weight: 700;
+
             color: var(--text-dark); 
-            font-size: 19px; /* [수정] 지시문 타이틀 크기 확대 */
+
+            font-size: 17px; 
+
             margin: 10px 0; 
+
         }
+
         
+
         .box {
+
             background-color: var(--box-bg);
+
             border: 3px solid #fbecc4;
+
             border-radius: 22px;
+
             padding: 16px;
-            font-size: 17px; /* [수정] 텍스트 크기 확대 */
+
+            font-size: 15px;
+
             line-height: 1.6;
+
             margin-bottom: 15px;
+
             text-align: center;
+
             box-shadow: 0 6px 12px rgba(253, 246, 226, 0.5);
+
             word-break: keep-all;
+
         }
+
         .monster-box {
+
             border-color: var(--monster-border);
+
             background-color: var(--monster-bg);
+
             color: #6b21a8;
+
             box-shadow: 0 6px 12px rgba(216, 180, 254, 0.3);
-        }
-        
-        /* [추가] 인트로 페이지 전용 캐릭터 부착 스타일 */
-        .intro-monster-img {
-            display: block;
-            width: 170px;
-            height: auto;
-            margin: 10px auto 0 auto;
-            filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.15));
+
         }
 
         /* 캔바 일러스트풍 아기자기한 버튼 */
+
         .btn {
+
             font-family: 'Jua', sans-serif;
+
             background-color: var(--primary);
+
             color: var(--text-light);
+
             border: none;
+
             padding: 14px;
-            font-size: 19px; /* [수정] 조작 편의성을 위한 버튼 크기 확대 */
+
+            font-size: 17px;
+
             border-radius: 20px;
+
             cursor: pointer;
+
             margin: 6px 0;
+
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
             box-shadow: 0 6px 0px #e0538a;
+
             position: relative;
+
             top: 0;
-            flex-shrink: 0;
+
         }
+
         .btn:hover { 
+
             background-color: var(--primary-hover); 
+
             transform: translateY(-2px);
+
             box-shadow: 0 8px 0px #e0538a;
+
         }
+
         .btn:active { 
+
             transform: translateY(4px);
+
             box-shadow: 0 2px 0px #e0538a;
+
         }
+
         
+
         .btn-danger { 
+
             background-color: var(--secondary); 
+
             box-shadow: 0 6px 0px #e0744c;
+
         }
+
         .btn-danger:hover {
+
             background-color: #ff8559;
+
             box-shadow: 0 8px 0px #e0744c;
+
         }
+
         .btn-danger:active {
+
             box-shadow: 0 2px 0px #e0744c;
+
         }
+
         .btn-success { 
+
             background-color: var(--success); 
+
             box-shadow: 0 6px 0px #03a87c;
+
         }
+
         .btn-success:hover {
+
             background-color: #05c28f;
+
             box-shadow: 0 8px 0px #03a87c;
+
         }
+
         .btn-success:active {
+
             box-shadow: 0 2px 0px #03a87c;
+
         }
+
         .btn:disabled { 
+
             background-color: #e2e8f0 !important; 
+
             color: #94a3b8 !important; 
+
             cursor: not-allowed; 
+
             box-shadow: 0 4px 0px #cbd5e1 !important; 
+
             transform: none !important; 
+
         }
+
         /* 힌트 팝업 디자인 */
+
         #hint-layer {
+
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+
             background: rgba(74,62,61,0.5); z-index: 10000; justify-content: center; align-items: center;
+
             padding: 20px;
+
             backdrop-filter: blur(4px);
+
         }
+
         .hint-window { 
+
             background: #ffffff; 
+
             border: 4px solid var(--hint-bg); 
+
             border-radius: 28px; 
+
             padding: 25px; 
+
             text-align: center; 
+
             width: 90%; 
+
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
         }
+
         /* 스테이지 2 그리드 */
+
         #numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 10px auto; }
-        #numpad-grid .btn { padding: 12px; font-size: 22px; margin: 0; }
+
+        #numpad-grid .btn { padding: 12px; font-size: 20px; margin: 0; }
+
         
+
         .ad-monster {
+
             position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
-            padding: 10px 14px; border-radius: 18px; z-index: 150; cursor: pointer; font-size: 15px;
+
+            padding: 10px 14px; border-radius: 18px; z-index: 150; cursor: pointer; font-size: 13px;
+
             box-shadow: 0 6px 15px rgba(255, 151, 112, 0.3); font-weight: bold;
+
             transition: transform 0.1s;
+
         }
+
         .ad-monster:hover { transform: scale(1.05); }
+
         .signal-card {
+
             background: #fff; border: 3px solid #e2e8f0; border-radius: 18px;
-            padding: 12px; margin: 8px 0; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.2s;
+
+            padding: 12px; margin: 8px 0; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+
             text-align: center;
+
         }
+
         .signal-card.selected { 
+
             background: #fef08a; 
+
             border-color: #facc15; 
+
             color: #a16207; 
+
             transform: scale(1.02);
+
             box-shadow: 0 6px 12px rgba(250, 204, 21, 0.2);
+
         }
+
         .chip-element {
-            display: inline-block; background: #fff; color: var(--text-dark); padding: 10px 16px; margin: 5px;
-            border-radius: 16px; cursor: pointer; font-weight: 800; font-size: 16px; border: 3px solid #e2e8f0;
+
+            display: inline-block; background: #fff; color: var(--text-dark); padding: 8px 14px; margin: 5px;
+
+            border-radius: 16px; cursor: pointer; font-weight: bold; font-size: 14px; border: 3px solid #e2e8f0;
+
             box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+
             transition: all 0.2s;
+
         }
+
         .chip-element:hover {
+
             transform: translateY(-2px);
+
             border-color: var(--primary);
+
             color: var(--primary);
+
         }
-        #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 18px; }
+
+        #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
         #game-output-box {
+
             display: none; 
+
             flex-direction: column; 
-            font-size: 16px; 
+
+            font-size: 14px; 
+
             min-height: 90px; 
+
             align-items: center; 
+
             justify-content: center;
+
             text-align: center;
+
             gap: 6px;
+
         }
+
     </style>
+
 </head>
+
 <body>
+
 <div id="phone-device">
+
     <div id="phone-notch"></div>
+
     
+
     <div id="phone-header">
+
         <button id="bgm-toggle-btn" class="header-btn" onclick="toggleBgm()">🔇 BGM OFF</button>
+
         <button id="hint-trigger" class="header-btn" onclick="openHintSystem()">💡 힌트</button>
+
     </div>
+
     
+
     <div id="hint-layer">
+
         <div class="hint-window">
+
             <h3 style="color: #ea580c; font-size: 19px; margin-top:0;">💡 시스템 복구 힌트</h3>
-            <p id="hint-body-text" style="font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark); font-weight: 800;"></p>
+
+            <p id="hint-body-text" style="font-size: 15px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark); font-weight: 700;"></p>
+
             <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
+
         </div>
+
     </div>
-    
+
     <div id="view-intro" class="screen active">
+
         <h2>👾 스마트폰 도박 괴물의 습격 👾</h2>
+
         <div class="box">
+
             앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
+
             이건 우리들이 망가지기를 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
+
         </div>
+
         <div class="box monster-box">
+
             😈 <strong>겜블 몬스터:</strong><br>
-            "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정에서 절대 벗어나지 못할 걸?"
+
+            "크크크.. 탈출하고 싶나? 내가 준비한 유혹의 함정에서 절대 벗어나지 못할 걸?"
+
         </div>
-        <img class="intro-monster-img" src="https://i.ibb.co/689Nf3X/image-a908c3.png" alt="Gamble Monster Character">
-        
+
         <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
+
     </div>
-    
+
     <div id="view-stage1-ad" class="screen">
+
         <h2>1단계: 함정의 방 💌</h2>
+
         <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
+
             💌 <strong>알 수 없는 메시지:</strong><br>
+
             "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
+
         </div>
-        <div class="box" style="font-size: 15px; color: var(--secondary); padding: 8px; margin-bottom: 10px; border-color: #ffccd5;">
+
+        <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px; margin-bottom: 10px; border-color: #ffccd5;">
+
             ⚠️ 유혹 팝업창을 [X]를 눌러 모두 제거하면 숨겨진 방어 시스템이 나타납니다!
+
         </div>
+
         
+
         <div id="ad-field" style="flex:1; position:relative; border:3px dashed var(--primary); border-radius:20px; margin-bottom:10px; background:#fff; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:10px;">
+
             
+
             <div id="defense-control-rack" style="display: none; flex-direction: column; position: relative; z-index: 10; width: 100%;">
+
                 <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
+
                 <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 메세지 신고] </button>
+
                 <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [메세지 차단 및 삭제] </button>
+
             </div>
+
         </div>
+
     </div>
-    
+
     <div id="view-stage2-signals" class="screen">
+
         <h2>2단계: 유혹의 방 (A) 🔍</h2>
+
         <div class="box monster-box" style="margin-bottom: 10px;">
+
             👤 <strong>조종당하는 친구:</strong><br>
+
             "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
+
         </div>
-        <div class="box" style="font-size:15px; padding:10px; margin-bottom: 10px;">
+
+        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
+
             🔍 <strong>미션 A:</strong> 친구가 도박에 빠졌을 때 보이는 <u>위험 신호</u>를 모두 선택하세요!
+
         </div>
+
         
+
         <div id="signal-matrix" style="flex:1; overflow-y:auto; margin-bottom:10px;">
+
             </div>
+
         <button class="btn btn-success" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
+
     </div>
-    
+
     <div id="view-stage2-refusal" class="screen">
+
         <h2>2단계: 유혹의 방 (B) 🗣️</h2>
+
         <div class="box monster-box" id="friend-speech">
+
             "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!"
+
         </div>
-        <div class="box" style="font-size:15px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
+
+        <div class="box" style="font-size:13px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
+
             📢 <strong>미션 B:</strong> 친구의 도박 제안을 단호하면서도 현명하게 거절해볼까요?
+
         </div>
+
         <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+
             </div>
+
     </div>
-    
+
     <div id="view-stage2-unlock" class="screen">
+
         <h2>2단계: 유혹의 방 (C) 🔐</h2>
+
         <div class="box" style="margin-bottom: 10px;">
+
             잠겨있는 스마트폰 구조 요청 화면을 열어 친구를 구출해내야 합니다!
+
         </div>
-        <div class="box monster-box" style="font-size:15px; margin-bottom: 5px;">
+
+        <div class="box monster-box" style="font-size:14px; margin-bottom: 5px;">
+
             ❓ <strong>잠금 힌트:</strong> 청소년 도박 등 중독 문제를 겪을 때 도움을 요청하는 헬프라인 전문 전화번호는?
+
         </div>
+
         
+
         <h1 id="pin-display" style="text-align:center; letter-spacing:15px; margin:5px 0; font-size:38px; color:var(--primary); text-shadow: 1px 1px 0 #fff;">____</h1>
+
         
+
         <div id="numpad-grid">
+
             <button class="btn" onclick="pressPin(1)">1</button><button class="btn" onclick="pressPin(2)">2</button><button class="btn" onclick="pressPin(3)">3</button>
-            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)/">6</button>
+
+            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)">6</button>
+
             <button class="btn" onclick="pressPin(7)">7</button><button class="btn" onclick="pressPin(8)">8</button><button class="btn" onclick="pressPin(9)">9</button>
+
             <button class="btn btn-danger" onclick="wipePin()">C</button><button class="btn" onclick="pressPin(0)">0</button>
+
             <button class="btn btn-success" onclick="executeUnlock()">OK</button>
+
         </div>
+
     </div>
-    
+
     <div id="view-stage3-gamble" class="screen">
+
         <h2>3단계: 미련의 방 (A) 🎰</h2>
+
         <div class="box monster-box" style="margin-bottom: 10px;">
+
             😈 <strong>겜블 몬스터의 장난:</strong><br>
+
             "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 다 찾게 해줄게!"
+
         </div>
+
         
+
         <div class="box" style="background:#fef08a; border-color:#facc15; margin-bottom: 10px; color: #854d0e;">
-            보유 가상 동전: <strong id="token-tally" style="font-size:28px; color:var(--primary);">3</strong>개 🪙
+
+            보유 가상 동전: <strong id="token-tally" style="font-size:26px; color:var(--primary);">3</strong>개 🪙
+
         </div>
+
         <div id="game-output-box" class="box" style="background:#fff;"></div>
+
         <div style="display:flex; flex-direction:column; margin-top:auto; gap:10px;">
+
             <button class="btn" id="gamble-action-btn" style="background:#c084fc; box-shadow: 0 6px 0px #a855f7;" onclick="triggerRiggedGamble()">🎁 [보물상자 뽑기] 도전! (2배 기회)</button>
+
             <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 누르고 나가기</button>
+
         </div>
+
     </div>
-    
+
     <div id="view-stage3-slogan" class="screen">
+
         <h2>3단계: 미련의 방 (B) 🛡️</h2>
-        <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
+
+        <div class="box" style="font-size:13px; padding:10px; margin-bottom: 10px;">
+
             ⚠️ 주변의 핵심 단어 조각을 <u>올바른 예방 메시지 순서대로</u> 조합해 방어 백신을 작동시키세요!
+
         </div>
+
         <div id="slogan-assembly" class="box" style="min-height:75px; border:3px dashed var(--primary); color:var(--primary); margin-bottom: 10px; background:#fff;">
+
             백신 메시지 완성 구역
+
         </div>
+
         <div id="chip-container" style="text-align:center; margin-bottom:110px;">
+
             </div>
+
         <button class="btn btn-danger" id="chasing-anchor" onclick="playSfx('failure'); alert('함정에 빠졌습니다! 흔들리지 마세요!')" onmouseover="teleportChasingButton()">🎰 딱 한판만 더 하기! 🎰</button>
+
         <div style="display:flex; gap:10px; margin-top:auto; position:relative; z-index:200;">
+
             <button class="btn" style="flex:1; background:#94a3b8; box-shadow: 0 6px 0px #64748b;" onclick="clearSloganFlow()">초기화</button>
+
             <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 장착 완료</button>
+
         </div>
+
     </div>
-    
+
     <div id="view-outro-quiz" class="screen">
+
         <h2>최종 관문: OX 예방 퀴즈 📝</h2>
-        <div class="box" id="quiz-question-box" style="font-size:19px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff; font-weight: 800;">
+
+        <div class="box" id="quiz-question-box" style="font-size:17px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff; font-weight: 700;">
+
             퀴즈를 로딩하고 있습니다...
+
         </div>
+
         <div style="display:flex; gap:15px; margin-top:auto;">
+
             <button class="btn btn-success" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(true)">O</button>
+
             <button class="btn btn-danger" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(false)">X</button>
+
         </div>
+
     </div>
-    
+
     <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
-        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:46px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
-        <div class="box" style="border-color:var(--success); background-color:#fff; font-size: 18px;">
+
+        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
+
+        <div class="box" style="border-color:var(--success); background-color:#fff;">
+
             축하합니다! 친구와 함께 겜블 몬스터의 함정을 격파하고 안전하게 현실로 탈출했습니다!<br><br>
+
             <strong>"도박은 설계된 함정,<br>지금 멈추는 것이 진정한 승리입니다!"</strong>
+
         </div>
+
         <button class="btn" style="background:#475569; box-shadow: 0 6px 0px #334155;" onclick="location.reload()">처음으로 가기 🔄</button>
+
     </div>
+
 </div>
 
 <script>
+
     let activeViewId = 'intro';
+
     
+
     // --- Web Audio API 오디오 합성 시스템 ---
+
     let audioCtx = null;
+
     let isBgmPlaying = false;
+
     let melodyIndex = 0;
+
     
+
     function initAudio() {
+
         if (!audioCtx) {
+
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
         }
+
     }
+
     const notes = {
+
         'A3': 220.00, 'B3': 246.94, 'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00,
+
         'A4': 440.00, 'B4': 493.88, 'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99,
+
         'Rest': 0
+
     };
+
     const bgmMelody = [
+
         {note: 'A4', duration: 0.25}, {note: 'C5', duration: 0.25}, {note: 'E5', duration: 0.25}, {note: 'D5', duration: 0.25},
+
         {note: 'C5', duration: 0.25}, {note: 'A4', duration: 0.25}, {note: 'B4', duration: 0.5},
+
         {note: 'G4', duration: 0.25}, {note: 'B4', duration: 0.25}, {note: 'D5', duration: 0.25}, {note: 'C5', duration: 0.25},
+
         {note: 'B4', duration: 0.25}, {note: 'G4', duration: 0.25}, {note: 'A4', duration: 0.5}
+
     ];
+
     function playNextBgmNote() {
+
         if (!isBgmPlaying) return;
+
         initAudio();
+
         
+
         let item = bgmMelody[melodyIndex];
+
         let freq = notes[item.note];
+
         
+
         if (freq > 0) {
+
             let osc = audioCtx.createOscillator();
+
             let gainNode = audioCtx.createGain();
+
             
+
             osc.type = 'triangle';
+
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
             
+
             gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); 
+
             gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + item.duration - 0.05);
+
             
+
             osc.connect(gainNode);
+
             gainNode.connect(audioCtx.destination);
+
             
+
             osc.start();
+
             osc.stop(audioCtx.currentTime + item.duration);
+
         }
+
         
+
         setTimeout(() => {
+
             if (isBgmPlaying) {
+
                 melodyIndex = (melodyIndex + 1) % bgmMelody.length;
+
                 playNextBgmNote();
+
             }
+
         }, item.duration * 1000);
+
     }
+
     function toggleBgm() {
+
         initAudio();
+
         const bgmBtn = document.getElementById('bgm-toggle-btn');
+
         
+
         if (audioCtx.state === 'suspended') {
+
             audioCtx.resume();
+
         }
+
         
+
         if (isBgmPlaying) {
+
             isBgmPlaying = false;
+
             bgmBtn.innerText = "🔇 BGM OFF";
+
             bgmBtn.classList.remove('playing');
+
         } else {
+
             isBgmPlaying = true;
+
             bgmBtn.innerText = "🔊 BGM ON";
+
             bgmBtn.classList.add('playing');
+
             melodyIndex = 0;
+
             playNextBgmNote();
+
         }
+
     }
+
     function playSfx(type) {
+
         initAudio();
+
         if (audioCtx.state === 'suspended') {
+
             audioCtx.resume();
+
         }
+
         
+
         let osc = audioCtx.createOscillator();
+
         let gainNode = audioCtx.createGain();
+
         osc.connect(gainNode);
+
         gainNode.connect(audioCtx.destination);
+
         
+
         let now = audioCtx.currentTime;
+
         
+
         if (type === 'click') {
+
             osc.type = 'sine';
+
             osc.frequency.setValueAtTime(450, now);
+
             osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
+
             gainNode.gain.setValueAtTime(0.08, now);
+
             gainNode.gain.linearRampToValueAtTime(0.01, now + 0.08);
+
             osc.start(now);
+
             osc.stop(now + 0.08);
+
         } else if (type === 'pop') {
+
             osc.type = 'triangle';
+
             osc.frequency.setValueAtTime(700, now);
+
             osc.frequency.exponentialRampToValueAtTime(120, now + 0.12);
+
             gainNode.gain.setValueAtTime(0.12, now);
+
             gainNode.gain.linearRampToValueAtTime(0.01, now + 0.12);
+
             osc.start(now);
+
             osc.stop(now + 0.12);
+
         } else if (type === 'success') {
+
             let notesSeq = [523.25, 659.25, 783.99, 1046.50];
+
             notesSeq.forEach((f, idx) => {
+
                 let noteOsc = audioCtx.createOscillator();
+
                 let noteGain = audioCtx.createGain();
+
                 noteOsc.connect(noteGain);
+
                 noteGain.connect(audioCtx.destination);
+
                 noteOsc.type = 'sine';
+
                 noteOsc.frequency.setValueAtTime(f, now + idx * 0.08);
+
                 noteGain.gain.setValueAtTime(0.05, now + idx * 0.08);
+
                 noteGain.gain.linearRampToValueAtTime(0.001, now + idx * 0.08 + 0.18);
+
                 noteOsc.start(now + idx * 0.08);
+
                 noteOsc.stop(now + idx * 0.08 + 0.18);
+
             });
+
         } else if (type === 'failure') {
+
             osc.type = 'sawtooth';
+
             osc.frequency.setValueAtTime(260, now);
+
             osc.frequency.linearRampToValueAtTime(130, now + 0.35);
+
             gainNode.gain.setValueAtTime(0.06, now);
+
             gainNode.gain.linearRampToValueAtTime(0.001, now + 0.35);
+
             osc.start(now);
+
             osc.stop(now + 0.35);
+
         } else if (type === 'transition') {
+
             osc.type = 'sine';
+
             osc.frequency.setValueAtTime(320, now);
+
             osc.frequency.exponentialRampToValueAtTime(700, now + 0.18);
+
             gainNode.gain.setValueAtTime(0.06, now);
+
             gainNode.gain.linearRampToValueAtTime(0.001, now + 0.18);
+
             osc.start(now);
+
             osc.stop(now + 0.18);
+
         }
+
     }
+
     // --- 스테이지 진행 제어 로직 ---
+
     const operationalHints = {
+
         'stage1-ad': "화면 속 광고의 노란색 [X]를 모조리 터치하여 제거하면 하단에 비밀 방어 시스템이 나타납니다!",
+
         'stage2-signals': "친구가 빌리는 행동, 예민한 행동 등 위험을 의미하는 도박 중독 신호 6가지만 정확하게 터치하세요.",
+
         'stage2-refusal': "상대의 기분을 배려하되, 단호하게 거절 논리를 펼치고, 건전한 놀이 활동을 역제안해보세요.",
+
         'stage2-unlock': "중독 문제로 일상에 위협을 느낄 때 언제나 기댈 수 있는 국가 구제 통합 헬프라인은 '1336'입니다.",
+
         'stage3-gamble': "이곳은 애초에 이길 수 없게 조작된 트랩입니다. 돈을 잃기 전에 즉시 [동전 돌려주기]를 누르세요.",
+
         'stage3-slogan': "도망치는 오락 버튼을 피해 단어 조각을 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서대로 조립하세요.",
+
         'outro-quiz': "거짓 광고와 유혹을 가려내어 정직한 OX 결정을 내려 몬스터 차원을 종식시키세요!"
+
     };
+
     function openHintSystem() {
+
         playSfx('click');
+
         document.getElementById('hint-body-text').innerText = operationalHints[activeViewId] || "유혹에 맞서 싸울 수 있는 제어력이 이미 당신 안에 있습니다.";
+
         document.getElementById('hint-layer').style.display = 'flex';
+
     }
+
     
+
     function closeHintSystem() { 
+
         playSfx('click');
+
         document.getElementById('hint-layer').style.display = 'none'; 
+
     }
+
     function switchView(viewId) {
+
         playSfx('transition');
+
         document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+
         document.getElementById('view-' + viewId).classList.add('active');
+
         activeViewId = viewId;
+
         
+
         const hintBtn = document.getElementById('hint-trigger');
+
         if (viewId === 'intro' || viewId === 'success-end') {
+
             hintBtn.style.display = 'none';
+
         } else {
+
             hintBtn.style.display = 'inline-flex';
+
         }
+
         
+
         if(viewId === 'stage1-ad') initializeAdSpamEngine();
+
         if(viewId === 'stage2-signals') renderSignalMatrix();
+
         if(viewId === 'stage2-refusal') currentTurnIndex = 1, advanceRefusalTurn();
+
         if(viewId === 'stage3-gamble') resetStage3Gamble(); 
+
         if(viewId === 'stage3-slogan') populateSloganChips();
+
         if(viewId === 'outro-quiz') activeQuizIndex = 1, renderQuizNode();
+
     }
+
     // --- 1단계: 스팸 제어 공정 ---
+
     let totalSpamCount = 8;
+
     let spamDestroyedCounter = 0;
+
     function initializeAdSpamEngine() {
+
         const field = document.getElementById('ad-field');
+
         
+
         document.querySelectorAll('.ad-monster').forEach(e => e.remove());
+
         document.getElementById('defense-control-rack').style.display = 'none';
+
         document.getElementById('proc-menu').style.display = 'block';
+
         document.getElementById('proc-report').style.display = 'none';
+
         document.getElementById('proc-purge').style.display = 'none';
+
         
+
         spamDestroyedCounter = 0;
+
         for(let i = 0; i < totalSpamCount; i++) {
+
             setTimeout(() => {
+
                 if(activeViewId !== 'stage1-ad') return;
+
                 const ad = document.createElement('div');
+
                 ad.className = 'ad-monster';
+
                 ad.style.top = Math.floor(Math.random() * 80 + 5) + '%';
+
                 ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
+
                 ad.style.zIndex = '150';
+
                 ad.innerHTML = "🎁 대박 기회! <span style='color:#ffd166; margin-left:6px; cursor:pointer;'>[X]</span>";
+
                 
+
                 ad.onclick = function() { 
+
                     playSfx('pop');
+
                     this.remove(); 
+
                     spamDestroyedCounter++; 
+
                     checkAllSpamCleared();
+
                 };
+
                 field.appendChild(ad);
+
             }, i * 300);
+
         }
+
     }
+
     function checkAllSpamCleared() {
+
         if(spamDestroyedCounter === totalSpamCount) {
+
             playSfx('success');
+
             document.getElementById('defense-control-rack').style.display = 'flex';
+
         }
+
     }
+
     function runDefenseCore(stage) {
+
         playSfx('click');
+
         if(stage === 1) {
+
             document.getElementById('proc-menu').style.display = 'none';
+
             document.getElementById('proc-report').style.display = 'block';
+
         } else if(stage === 2) {
+
             document.getElementById('proc-report').style.display = 'none';
+
             document.getElementById('proc-purge').style.display = 'block';
+
         } else if(stage === 3) {
+
             playSfx('success');
+
             alert("스팸 메시지 경로 영구 차단 성공!");
+
             switchView('stage2-signals');
+
         }
+
     }
+
     // --- 2단계: 위험신호 분석 ---
+
     const signalsDatabase = [
+
         { txt: "친구들에게 자주 용돈을 빌리기 시작했다.", dangerous: true },
+
         { txt: "돈이 걸려있는 게임이나 내기에 강한 집착을 보인다.", dangerous: true },
+
         { txt: "친구들과 함께 야외에서 운동을 즐긴다.", dangerous: false },
+
         { txt: "작은 일에도 크게 짜증내 예민하게 행동한다.", dangerous: true },
-        { txt: "게임을 즐기지만 정해진 시간만 사용한다.", dangerous: false },
+
+        { txt: "게임을 즐기지만 정해진 시간만 사용한.", dangerous: false },
+
         { txt: "스마트폰 화면을 숨기며 비밀스러운 행동이 부쩍 많아졌다.", dangerous: true },
+
         { txt: "친구들과 대화가 눈에 띄게 줄고 다툼이 잦다.", dangerous: true },
+
         { txt: "게임 점수나 승패에 크게 연연하지 않는다.", dangerous: false },
+
         { txt: "스마트폰을 손에서 잠시도 놓지 못하고 몰입한다.", dangerous: true }
+
     ];
+
     function renderSignalMatrix() {
+
         const wrapper = document.getElementById('signal-matrix');
+
         wrapper.innerHTML = '';
+
         signalsDatabase.forEach((sig, idx) => {
+
             const card = document.createElement('div');
+
             card.className = 'signal-card';
+
             card.innerText = sig.txt;
+
             card.onclick = function() { 
+
                 playSfx('click');
+
                 this.classList.toggle('selected'); 
+
             };
+
             card.setAttribute('data-index', idx);
+
             wrapper.appendChild(card);
+
         });
+
     }
+
     function evaluateSignalMatrix() {
+
         const cards = document.querySelectorAll('.signal-card');
+
         let perfectlyMatched = true;
+
         
+
         cards.forEach(card => {
+
             const idx = parseInt(card.getAttribute('data-index'));
+
             const isSelected = card.classList.contains('selected');
+
             if(signalsDatabase[idx].dangerous !== isSelected) {
+
                 perfectlyMatched = false;
+
             }
+
         });
+
         if(perfectlyMatched) {
+
             playSfx('success');
+
             alert("정답입니다! 위험 징후들을 정확히 분류해냈습니다.");
+
             switchView('stage2-refusal');
+
         } else {
+
             playSfx('failure');
+
             alert("틀린 징후가 섞여 있습니다. 다시 세밀히 관찰해보세요.");
+
         }
+
     }
+
     let currentTurnIndex = 1;
+
     const refusalConversationBranch = {
+
         1: {
+
             friend: "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!",
+
             opts: [
+
                 { text: "네가 그렇게 부추기니까 내 마음이 불편해. 난 돈 내기는 안 할 거야.", valid: true },
+
                 { text: "와, 대단하다! 그럼 나도 쉽게 벌 수 있게 도와줘.", valid: false },
+
                 { text: "진짜? 그럼 딱 천 원만 재미로 걸어볼까?", valid: false }
+
             ]
+
         },
+
         2: {
+
             friend: "돈이 없어서 그래? 걱정 마, 내가 빌려줄 테니까 따서 바로 갚아봐!",
+
             opts: [
+
                 { text: "돈을 빌려가면서까지 사행성 게임을 벌이는 건 옳지 않아.", valid: true },
+
                 { text: "진짜지? 그럼 딱 만 원만 빌려주면 한 판 해볼게.", valid: false }
+
             ]
+
         },
+
         3: {
+
             friend: "아.. 진짜 재미없게 구네. 그럼 이제 우리 둘이 뭐 하고 놀 건데?",
+
             opts: [
+
                 { text: "돈을 잃거나 마음 다칠 일 없는 건전한 축구 게임 한 판 하러 가자!", valid: true },
+
                 { text: "미안해.. 화 풀고 네가 하는 게임 옆에서 조용히 구경만 할게.", valid: false }
+
             ]
+
         }
+
     };
+
     function advanceRefusalTurn() {
+
         if(currentTurnIndex > 3) {
+
             playSfx('success');
+
             alert("도박 유혹 거절 프로토콜 성공! 유혹을 방어해냈습니다.");
+
             switchView('stage2-unlock');
+
             return;
+
         }
+
         const currentNode = refusalConversationBranch[currentTurnIndex];
+
         document.getElementById('friend-speech').innerText = `👤 친구: "${currentNode.friend}"`;
+
         
+
         const hub = document.getElementById('refusal-options-hub');
+
         hub.innerHTML = '';
+
         currentNode.opts.forEach(opt => {
+
             const button = document.createElement('button');
+
             button.className = 'btn';
+
             button.innerText = opt.text;
+
             button.onclick = function() {
+
                 if(opt.valid) {
+
                     playSfx('success');
+
                     currentTurnIndex++;
+
                     advanceRefusalTurn();
+
                 } else {
+
                     playSfx('failure');
+
                     alert("그 선택은 도박 늪의 조작된 유혹에 걸려들게 만듭니다! 다시 골라보세요.");
+
                 }
+
             };
+
             hub.appendChild(button);
+
         });
+
     }
+
     let activePinBuffer = "";
+
     function pressPin(val) {
+
         playSfx('click');
+
         if(activePinBuffer.length < 4) activePinBuffer += val;
+
         document.getElementById('pin-display').innerText = activePinBuffer.padEnd(4, "_");
+
     }
+
     function wipePin() {
+
         playSfx('click');
+
         activePinBuffer = "";
+
         document.getElementById('pin-display').innerText = "____";
+
     }
+
     function executeUnlock() {
+
         if(activePinBuffer === "1336") {
+
             playSfx('success');
+
             alert("헬프라인 잠금 해제에 성공하여 친구를 구출했습니다!");
+
             switchView('stage3-gamble');
+
         } else {
+
             playSfx('failure');
+
             alert("잘못된 비밀 구제 번호입니다. 힌트를 다시 유심히 살펴보세요!");
+
             wipePin();
+
         }
+
     }
+
     // --- 3단계 로직 ---
+
     let trialCount = 0;
+
     
+
     function resetStage3Gamble() {
+
         trialCount = 0;
+
         document.getElementById('token-tally').innerText = "3";
+
         document.getElementById('game-output-box').style.display = 'none';
+
         document.getElementById('gamble-action-btn').disabled = false;
+
         
+
         const abortBtn = document.getElementById('abort-action-btn');
+
         abortBtn.disabled = false;
+
         abortBtn.className = "btn btn-success";
+
         abortBtn.innerText = "💰 [동전 돌려주기] 누르고 탈출하기";
+
     }
+
     function triggerRiggedGamble() {
+
         trialCount++;
+
         const outBox = document.getElementById('game-output-box');
+
         const tokenDisplay = document.getElementById('token-tally');
+
         const abortBtn = document.getElementById('abort-action-btn');
+
         outBox.style.display = 'flex';
+
         
+
         if(trialCount === 1) {
+
             playSfx('success');
+
             outBox.innerHTML = `
+
                 <div style="font-weight: 800; color: #0984e3;">🎉 당첨! 동전이 두 배(6개)가 되었습니다!</div>
+
                 <div style="color: blue; font-size: 13px;">(충동 기제: 어라? 생각보다 더 쉽게 벌리는 걸?)</div>
+
             `;
+
             tokenDisplay.innerText = "6";
+
             
+
             abortBtn.disabled = true;
+
             abortBtn.className = "btn"; 
+
             abortBtn.innerText = "🔒 함정에 걸려들어 지금은 나갈 수 없습니다!";
+
         } else {
+
             playSfx('failure');
+
             outBox.innerHTML = `
+
                 <div style="color: var(--secondary); font-weight: 800;">⚠️ [실패] 겜블 몬스터의 함정 작동! 모든 돈을 잃었습니다.</div>
+
                 <div style="font-size: 13px; margin-top: 4px; color: #555;"><strong>몬스터:</strong> 억울하지? 본전 뽑아야 하니 시계나 핸드폰이라도 걸고 한 번 더 해봐!</div>
+
             `;
+
             tokenDisplay.innerText = "0";
+
             document.getElementById('gamble-action-btn').disabled = true;
+
             
+
             abortBtn.disabled = false;
+
             abortBtn.className = "btn btn-danger";
+
             abortBtn.innerText = "🏃 모든 걸 잃은 채 빈손으로 나가기";
+
         }
+
     }
+
     function abortGambleLoop() {
+
         if(trialCount === 0) {
+
             playSfx('success');
+
             alert("현명합니다! 조작된 확률의 위험을 눈치채고 손실 없이 이탈했습니다.");
+
         } else {
+
             playSfx('failure');
+
             alert("가상 화폐를 모조리 손실한 뒤에야 상처 입고 간신히 이탈하였습니다...");
+
         }
+
         switchView('stage3-slogan');
+
     }
+
     const targetOrderedSlogan = ["잃은 돈을", "찾는 법은", "도박을", "더 하는 게 아니라", "지금 당장", "멈추는 것이다!"];
+
     let accumulatedSloganTrack = [];
+
     function populateSloganChips() {
+
         const pool = document.getElementById('chip-container');
+
         pool.innerHTML = '';
+
         accumulatedSloganTrack = [];
+
         document.getElementById('slogan-assembly').innerText = "백신 메시지 완성 구역";
+
         
+
         const structuralShuffled = [...targetOrderedSlogan].sort(() => Math.random() - 0.5);
+
         structuralShuffled.forEach(txt => {
+
             const chip = document.createElement('span');
+
             chip.className = 'chip-element';
+
             chip.innerText = txt;
+
             chip.onclick = function() {
+
                 playSfx('click');
+
                 accumulatedSloganTrack.push(this.innerText);
+
                 document.getElementById('slogan-assembly').innerText = accumulatedSloganTrack.join(" ");
+
                 this.style.display = 'none';
+
             };
+
             pool.appendChild(chip);
+
         });
+
     }
+
     function clearSloganFlow() { 
+
         playSfx('click');
+
         populateSloganChips(); 
+
     }
+
     function teleportChasingButton() {
+
         const btn = document.getElementById('chasing-anchor');
+
         const randomizedOffsetTop = Math.floor(Math.random() * 120) + 15; 
+
         const sideToggle = Math.random() > 0.5 ? '5%' : '15%';
+
         btn.style.left = sideToggle;
+
         btn.style.transform = `translateY(${randomizedOffsetTop}px)`;
+
     }
+
     function evaluateSloganVaccine() {
+
         if(JSON.stringify(accumulatedSloganTrack) === JSON.stringify(targetOrderedSlogan)) {
+
             playSfx('success');
+
             alert("예방 백신 주문 작동 완료! 유혹 버튼이 산산조각 났습니다!");
+
             switchView('outro-quiz');
+
         } else {
+
             playSfx('failure');
+
             alert("메시지의 논리 순서가 어긋나 백신 장착에 실패했습니다. 다시 해봅시다!");
+
             clearSloganFlow();
+
         }
+
     }
+
     // --- 최종 관문: OX 퀴즈 ---
+
     let activeQuizIndex = 1;
+
     const quizCoreRepository = {
+
         1: { text: "무료로 아이템이나 칩을 준다는 무명 주소 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
+
         2: { text: "친구로부터 내기성 도박을 제안받았을 땐 절대 휘말리지 않고 즉시 거부 의사를 보인다.", correct: true },
+
         3: { text: "이미 잃은 돈이 있다면 복구하려 들지 않고 '지금 당장 멈추는 것'이 가장 확실하게 돈을 지키는 법이다.", correct: true }
+
     };
+
     function renderQuizNode() {
+
         const box = document.getElementById('quiz-question-box');
+
         const currentData = quizCoreRepository[activeQuizIndex];
+
         box.innerText = currentData.text;
+
     }
+
     function submitQuizAnswer(chosenBool) {
+
         if(chosenBool === quizCoreRepository[activeQuizIndex].correct) {
+
             playSfx('success');
+
             alert("훌륭한 정답입니다! 올바른 안전망을 구축하셨습니다.");
+
             activeQuizIndex++;
+
             if(activeQuizIndex > 3) {
+
                 switchView('success-end');
+
             } else {
+
                 renderQuizNode();
+
             }
+
         } else {
+
             playSfx('failure');
+
             alert("오답입니다! 유혹에서 자아를 지키기 위한 안전 행동을 환기하세요.");
+
         }
+
     }
+
 </script>
+
 </body>
-</html>
+
+</html> 
+
