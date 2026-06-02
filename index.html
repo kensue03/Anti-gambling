@@ -6,7 +6,7 @@
     <title>아기자기한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -15,7 +15,7 @@
             /* [수정] 스마트폰 하우징 프레임을 블랙 아이폰 감성에 맞추어 다크 메탈 톤으로 변경 */
             --phone-frame: #1e293b;   /* 스마트폰 내부 기기 하우징 (매트 블랙) */
             --phone-border: #0f172a;  /* 스마트폰 외부 테두리 베젤 (딥 블랙) */
-            --screen-bg: #fffdf9;     /* 스마트폰 화면 (부드러운 우유 크림색) */
+            --screen-bg: #ffffff;     /* [수정] 스마트폰 화면 하얀색으로 변경 */
             --primary: #ff70a6;       /* 주요 포인트 (러블리 핑크) */
             --primary-hover: #ff5c96;
             --secondary: #ff9770;     /* 몬스터 / 유혹 (솜사탕 코랄 오렌지) */
@@ -29,7 +29,8 @@
         }
         * { 
             box-sizing: border-box; 
-            font-family: 'Jua', 'Nanum Gothic', sans-serif;
+            /* [수정] 기본 폰트를 나눔고딕으로 설정하여 시인성을 높이고, 필요 부위에만 Jua 글꼴 적용 */
+            font-family: 'Nanum Gothic', sans-serif;
             letter-spacing: 0.5px;
         }
         body {
@@ -89,6 +90,7 @@
             border-radius: 20px;
             padding: 6px 14px;
             font-size: 14px;
+            font-family: 'Jua', sans-serif;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -127,6 +129,7 @@
         }
         /* 캔바 스타일 둥글둥글 타이포그래피 */
         h2 { 
+            font-family: 'Jua', sans-serif;
             color: var(--primary); 
             text-align: center; 
             font-size: 24px; 
@@ -135,6 +138,7 @@
             text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
         }
         h3 { 
+            font-weight: 700;
             color: var(--text-dark); 
             font-size: 17px; 
             margin: 10px 0; 
@@ -160,6 +164,7 @@
         }
         /* 캔바 일러스트풍 아기자기한 버튼 */
         .btn {
+            font-family: 'Jua', sans-serif;
             background-color: var(--primary);
             color: var(--text-light);
             border: none;
@@ -288,7 +293,7 @@
     <div id="hint-layer">
         <div class="hint-window">
             <h3 style="color: #ea580c; font-size: 19px; margin-top:0;">💡 시스템 복구 힌트</h3>
-            <p id="hint-body-text" style="font-size: 15px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark);"></p>
+            <p id="hint-body-text" style="font-size: 15px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark); font-weight: 700;"></p>
             <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
         </div>
     </div>
@@ -401,7 +406,7 @@
     </div>
     <div id="view-outro-quiz" class="screen">
         <h2>최종 관문: OX 예방 퀴즈 📝</h2>
-        <div class="box" id="quiz-question-box" style="font-size:17px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff;">
+        <div class="box" id="quiz-question-box" style="font-size:17px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff; font-weight: 700;">
             퀴즈를 로딩하고 있습니다...
         </div>
         <div style="display:flex; gap:15px; margin-top:auto;">
@@ -410,7 +415,7 @@
         </div>
     </div>
     <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
-        <h1 style="color:var(--success); font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
+        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
         <div class="box" style="border-color:var(--success); background-color:#fff;">
             축하합니다! 친구와 함께 겜블 몬스터의 함정을 격파하고 안전하게 현실로 탈출했습니다!<br><br>
             <strong>"도박은 설계된 함정,<br>지금 멈추는 것이 진정한 승리입니다!"</strong>
