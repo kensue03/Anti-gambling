@@ -471,9 +471,9 @@
     const operationalHints = {
         'stage1-ad': "화면 속 광고의 노란색 [X]를 모조리 터치하여 제거하면 하단에 비밀 방어 시스템이 나타납니다!",
         'stage2-signals': "친구가 빌리는 행동, 예민한 행동 등 위험을 의미하는 도박 중독 신호 6가지만 정확하게 터치하세요.",
-        'stage2-refusal': "상대의 기분을 배려하되, 단호하게 거절 논리를 펼치고, 건전한 놀이 활동을 역제안해보세요.",
-        'stage2-unlock': "중독 문제로 일상에 위협을 느낄 때 언제나 기댈 수 있는 국가 구제 통합 헬프라인은 '1336'입니다.",
-        'stage3-gamble': "이곳은 애초에 이길 수 없게 조작된 트랩입니다. 돈을 잃기 전에 즉시 [동전 돌려주기]를 누르세요.",
+        'stage2-refusal': "상대의 기분을 배려하되, 단호하게 거절하고, 건전한 놀이 활동을 제안해보세요.",
+        'stage2-unlock': "중독 문제로 일상에 위협을 느낄 때 언제나 기댈 수 있는 도움 기관은 '1336'입니다.",
+        'stage3-gamble': "이곳은 애초에 이길 수 없게 조작된 함정입니다. 돈을 잃기 전에 즉시 [동전 돌려주기]를 누르세요.",
         'stage3-slogan': "도망치는 오락 버튼을 피해 단어 조각을 [잃은 돈을] [찾는 법은] [도박을] [더 하는 게 아니라] [지금 당장] [멈추는 것이다!] 순서대로 조립하세요.",
         'outro-quiz': "거짓 광고와 유혹을 가려내어 정직한 OX 결정을 내려 몬스터 차원을 종식시키세요!"
     };
@@ -608,7 +608,7 @@
     };
     function advanceRefusalTurn() {
         if(currentTurnIndex > 3) {
-            playSfx('success'); alert("도박 유혹 거절 프로토콜 성공!"); switchView('stage2-unlock'); return;
+            playSfx('success'); alert("도박 유혹 거절 시도 성공!"); switchView('stage2-unlock'); return;
         }
         const currentNode = refusalConversationBranch[currentTurnIndex];
         document.getElementById('friend-speech').innerText = `👤 친구: "${currentNode.friend}"`;
@@ -639,7 +639,7 @@
         if(activePinBuffer === "1336") {
             playSfx('success'); alert("친구를 구출했습니다!"); switchView('stage3-gamble');
         } else {
-            playSfx('failure'); alert("비밀 구제 번호가 틀렸습니다!"); wipePin();
+            playSfx('failure'); alert("비밀번호가 틀렸습니다!"); wipePin();
         }
     }
     let trialCount = 0;
@@ -677,7 +677,7 @@
         }
     }
     function abortGambleLoop() {
-        if(trialCount === 0) { playSfx('success'); alert("현명합니다! 손실 없이 이탈했습니다."); }
+        if(trialCount === 0) { playSfx('success'); alert("현명합니다! 손해 없이 탈출했습니다."); }
         else { playSfx('failure'); alert("모든 걸 잃고 나서야 탈출하였습니다..."); }
         switchView('stage3-slogan');
     }
@@ -718,9 +718,9 @@
     }
     let activeQuizIndex = 1;
     const quizCoreRepository = {
-        1: { text: "무료로 아이템이나 칩을 준다는 무명 주소 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
-        2: { text: "친구로부터 내기성 도박을 제안받았을 땐 절대 휘말리지 않고 즉시 거부 의사를 보인다.", correct: true },
-        3: { text: "이미 잃은 돈이 있다면 복구하려 들지 않고 '지금 당장 멈추는 것'이 확실한 돈 구제법이다.", correct: true }
+        1: { text: "무료로 아이템이나 칩을 준다는 인터넷 링크 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
+        2: { text: "친구로부터 사행성 게임 또는 도박을 제안받았을 땐 절대 휘말리지 않고 즉시 거부 한다.", correct: true },
+        3: { text: "이미 잃은 돈이 있다면 되찾으려 하지 않고 '지금 당장 멈추는 것'이 확실한 해결책이다.", correct: true }
     };
     function renderQuizNode() {
         const box = document.getElementById('quiz-question-box');
