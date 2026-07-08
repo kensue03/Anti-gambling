@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아기자기한 스마트폰 방탈출: 내 용돈을 지켜라!</title>
+    <title>스마트폰 도박 괴물의 습격: 내 용돈을 지켜라!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
@@ -380,7 +380,7 @@
             <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
                 ⚠️ 주변의 핵심 단어 조각을 <u>올바른 예방 메시지 순서대로</u> 조합해 방어 백신을 작동시키세요!
             </div>
-            <!-- [수정] 백신 완성 메시지가 길어져도 구역 밖으로 넘치지 않도록 높이 자동 조절, 폰트 비율, 강제 개행 레이아웃 패치 -->
+            <!-- 백신 완성 메시지가 길어져도 구역 밖으로 넘치지 않도록 높이 자동 조절, 폰트 비율, 강제 개행 레이아웃 패치 -->
             <div id="slogan-assembly" class="box" style="min-height:90px; height:auto; display:flex; align-items:center; justify-content:center; border:3px dashed var(--primary); color:var(--primary); margin-bottom: 10px; background:#fff; padding:12px 14px; font-size:15px; word-break:keep-all; overflow-wrap:break-word; line-height:1.45;">
                 백신 메시지 완성 구역
             </div>
@@ -469,9 +469,7 @@
         const bgmBtn = document.getElementById('bgm-toggle-btn');
         if (audioCtx.state === 'suspended') audioCtx.resume();
         if (isBgmPlaying) {
-            isBgmPlaying = false;
-            bgmBtn.innerText = "🔇 BGM OFF";
-            bgmBtn.classList.remove('playing');
+            stopBgm();
         } else {
             isBgmPlaying = true;
             bgmBtn.innerText = "🔊 BGM ON";
@@ -480,6 +478,17 @@
             playNextBgmNote();
         }
     }
+
+    // BGM을 명시적으로 완전 정지하고 UI 상태를 변경하는 함수
+    function stopBgm() {
+        isBgmPlaying = false;
+        const bgmBtn = document.getElementById('bgm-toggle-btn');
+        if (bgmBtn) {
+            bgmBtn.innerText = "🔇 BGM OFF";
+            bgmBtn.classList.remove('playing');
+        }
+    }
+
     function playSfx(type) {
         initAudio();
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -532,7 +541,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Implementing Custom Modal Dialogues (No standard alerts) ---
+    // --- Implementing Custom Modal Dialogues (No standard alerts) ---
     let alertCallback = null;
     function customAlert(message, title = "알림", callback = null) {
         document.getElementById('alert-title').innerText = title;
@@ -577,8 +586,14 @@
         activeViewId = viewId;
         
         const hintBtn = document.getElementById('hint-trigger');
-        if (viewId === 'success-end') hintBtn.style.display = 'none';
-        else hintBtn.style.display = 'inline-flex';
+        if (viewId === 'success-end') {
+            hintBtn.style.display = 'none';
+            stopBgm(); // 성공 화면 진입 즉시 배경음악 자동 종료
+        } else if (viewId === 'intro') {
+            hintBtn.style.display = 'none';
+        } else {
+            hintBtn.style.display = 'inline-flex';
+        }
 
         if(viewId === 'stage1-ad') initializeAdSpamEngine();
         if(viewId === 'stage2-signals') renderSignalMatrix();
@@ -588,7 +603,7 @@
         if(viewId === 'outro-quiz') activeQuizIndex = 1, renderQuizNode();
     }
 
-    // --- STREAMING_CHUNK:Configuring Stage 1 AD Spam engine with safe-bounds spawning... ---
+    // --- Configuring Stage 1 AD Spam engine with safe-bounds spawning... ---
     let totalSpamCount = 8;
     let spamDestroyedCounter = 0;
     function initializeAdSpamEngine() {
@@ -638,7 +653,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Configuring Stage 2 Danger Signals logic... ---
+    // --- Configuring Stage 2 Danger Signals logic... ---
     const signalsDatabase = [
         { txt: "친구들에게 자주 돈을 빌리기 시작했다.", dangerous: true },
         { txt: "돈이 걸려있는 게임이나 내기에 강한 집착을 보인다.", dangerous: true },
@@ -735,7 +750,7 @@
         });
     }
 
-    // --- STREAMING_CHUNK:Configuring PIN-pad unlock mechanisms... ---
+    // --- Configuring PIN-pad unlock mechanisms... ---
     let activePinBuffer = "";
     function pressPin(val) {
         playSfx('click');
@@ -757,7 +772,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Configuring Stage 3 Rigged gambling mechanics... ---
+    // --- Configuring Stage 3 Rigged gambling mechanics... ---
     let trialCount = 0;
     function resetStage3Gamble() {
         trialCount = 0;
@@ -806,7 +821,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Configuring Slogan Vaccine Puzzle mechanics... ---
+    // --- Configuring Slogan Vaccine Puzzle mechanics... ---
     const targetOrderedSlogan = ["잃은 돈을", "찾는 법은", "도박을", "더 하는 게 아니라", "지금 당장", "멈추는 것이다!"];
     let accumulatedSloganTrack = [];
     function populateSloganChips() {
@@ -849,7 +864,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Configuring Outro OX Quiz system... ---
+    // --- Configuring Outro OX Quiz system... ---
     let activeQuizIndex = 1;
     const quizCoreRepository = {
         1: { text: "무료로 아이템이나 칩을 준다는 인터넷 링크 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
