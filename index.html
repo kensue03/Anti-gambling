@@ -15,16 +15,17 @@
             --phone-frame: #1e293b;   
             --phone-border: #0f172a;  
             --screen-bg: #ffffff;     
-            --primary: #ff70a6;       
-            --primary-hover: #ff5c96;
+            --primary: #0ea5e9;       /* 레퍼런스 이미지의 깔끔한 스카이 블루 타이틀 색상 */
+            --primary-hover: #0284c7;
             --secondary: #ff9770;     
             --success: #06d6a0;       
-            --text-dark: #2d3436;     /* [수정] 본문 가독성을 위해 조금 더 진한 색상으로 변경 */
+            --text-dark: #2d3436;     
             --text-light: #ffffff;
-            --box-bg: #fdf6e2;        
-            --monster-bg: #f3e8ff;    
-            --monster-border: #d8b4fe;
-            --hint-bg: #ffd166;       
+            --box-bg: #f3f4f6;        /* 이미지 b0e69d의 부드러운 회색/하늘색 톤 박스 배경 */
+            --box-border: #e5e7eb;
+            --monster-bg: #fae8ff;    /* 겜블 몬스터 전용 연보라색 배경 */
+            --monster-border: #c084fc;
+            --hint-bg: #fef08a;        
         }
         * { 
             box-sizing: border-box; 
@@ -41,45 +42,60 @@
             margin: 0;
             overflow: hidden;
         }
-        /* 스마트폰 디바이스 프레임 */
+        
+        /* 스마트폰 가로 폭 비율을 420 -> 480으로 넓혀 텍스트 줄바꿈을 예방하고 가독성 극대화 */
         #phone-device {
             height: 840px;
-            max-height: 92vh;
+            max-height: 95vh;
             max-width: 95vw;
-            aspect-ratio: 420 / 840;
+            aspect-ratio: 480 / 840; /* 420/840에서 480/840으로 확장 */
             background-color: var(--phone-frame);
-            border: 10px solid var(--phone-border); 
-            border-radius: 48px;
+            border: 2px solid var(--phone-border);
+            border-radius: 40px;
             position: relative;
-            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.4);
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.3);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 14px;
+            padding: 4px;
             transition: all 0.3s ease;
         }
         
         /* 디바이스 노치(Dynamic Island 스타일) */
         #phone-notch {
             position: absolute;
-            top: 16px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
-            height: 28px;
+            height: 24px;
             background-color: #000000; 
             border-radius: 20px;       
             z-index: 999;
             box-shadow: inset 0 1px 3px rgba(255,255,255,0.2);
+        }
+
+        /* BGM 버튼과 콘텐츠 영역을 모두 포괄하는 하나의 통합형 하얀 액정 화면 */
+        #phone-screen-area {
+            flex: 1;
+            background-color: var(--screen-bg);
+            border-radius: 32px;
+            border: 3px solid #ffebed;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
         
         #phone-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 15px 5px 15px;
-            margin-top: 16px; 
+            padding: 8px 16px 6px 16px;
+            margin-top: 28px; /* 노치 아래 정돈 */
             z-index: 990;
+            background-color: var(--screen-bg);
+            border-bottom: 2px dashed #ffe3e6;
         }
         .header-btn {
             border: none;
@@ -97,51 +113,52 @@
         }
         #bgm-toggle-btn { background-color: #ff9770; color: #fff; }
         #bgm-toggle-btn.playing { background-color: var(--success); }
-        #hint-trigger { background-color: var(--hint-bg); color: var(--text-dark); display: none; }
+        #hint-trigger { background-color: var(--hint-bg); color: var(--text-dark); display: inline-flex; }
 
+        /* 개별 스크린 영역 (내부 흰색 배경 및 외곽 중첩 제거) */
         .screen {
             flex: 1;
-            background-color: var(--screen-bg);
-            border-radius: 36px;
-            padding: 25px 20px 20px 20px;
+            background-color: transparent;
+            padding: 20px 20px 20px 20px;
             display: none;
             flex-direction: column;
             position: relative;
             overflow-y: auto;
-            border: 3px solid #ffebed;
         }
         .screen.active { display: flex; }
 
-        /* [수정] 타이틀 글꼴 크기와 굵기를 원래의 아기자기한 스타일로 복구 */
+        /* 타이틀 스타일을 b0e69d 이미지와 완전 매칭 및 단일 행 가독성 확보 */
         h2 { 
             font-family: 'Jua', sans-serif;
-            color: var(--primary); 
+            color: #0ea5e9; /* 선명한 스카이블루 컬러 */
             text-align: center; 
-            font-size: 24px; 
+            font-size: 26px; 
             font-weight: normal; 
             margin-top: 5px; 
-            margin-bottom: 15px; 
-            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px; 
+            text-shadow: none;
+            white-space: nowrap; /* 타이틀 줄바꿈 강제 방지 */
         }
 
-        /* [수정] 본문 텍스트를 아주 굵고 명료하게(Extra Bold) 변경 */
+        /* 텍스트 박스를 image_b0e69d.png 스타일의 부드러운 배경색, 테두리, 글자 크기, 가독성 높은 폰트 굵기로 조정 */
         .box {
-            background-color: var(--box-bg);
-            border: 3px solid #fbecc4;
-            border-radius: 22px;
-            padding: 16px;
+            background-color: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 22px 18px;
             font-size: 16px; 
-            font-weight: 800; /* 아주 굵게 설정 */
-            line-height: 1.6;
-            margin-bottom: 15px;
+            font-weight: 700; 
+            line-height: 1.7;
+            margin-bottom: 16px;
             text-align: center;
-            box-shadow: 0 6px 12px rgba(253, 246, 226, 0.5);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
             word-break: keep-all;
+            color: #2d3436;
         }
         .monster-box {
-            border-color: var(--monster-border);
-            background-color: var(--monster-bg);
-            color: #6b21a8;
+            border: 3px solid #c084fc;
+            background-color: #fae8ff;
+            color: #581c87;
         }
         
         h3 { 
@@ -151,50 +168,67 @@
             margin: 10px 0; 
         }
 
+        /* 버튼 디자인을 실제 캔바 스타일의 아기자기한 볼륨감 있는 입체 단추로 제작 */
         .btn {
             font-family: 'Jua', sans-serif;
-            background-color: var(--primary);
+            background-color: #dc2626; /* 방탈출 시작하기 전용 밝은 레드 */
             color: var(--text-light);
             border: none;
-            padding: 14px;
-            font-size: 18px; 
+            padding: 15px;
+            font-size: 19px; 
             border-radius: 20px;
             cursor: pointer;
             margin: 6px 0;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 0px #e0538a;
+            box-shadow: 0 6px 0px #991b1b;
             position: relative;
             top: 0;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0px #e0538a; }
-        .btn:active { transform: translateY(4px); box-shadow: 0 2px 0px #e0538a; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0px #991b1b; }
+        .btn:active { transform: translateY(4px); box-shadow: 0 2px 0px #991b1b; }
         
         .btn-danger { background-color: var(--secondary); box-shadow: 0 6px 0px #e0744c; }
+        .btn-danger:hover { box-shadow: 0 8px 0px #e0744c; }
+        .btn-danger:active { box-shadow: 0 2px 0px #e0744c; }
+        
         .btn-success { background-color: var(--success); box-shadow: 0 6px 0px #03a87c; }
+        .btn-success:hover { box-shadow: 0 8px 0px #03a87c; }
+        .btn-success:active { box-shadow: 0 2px 0px #03a87c; }
 
-        /* 힌트 팝업 */
-        #hint-layer {
+        /* 힌트 및 커스텀 알림 레이어 공통 스타일 */
+        #hint-layer, #alert-layer {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(74,62,61,0.5); z-index: 10000; justify-content: center; align-items: center;
+            background: rgba(15, 23, 42, 0.6); z-index: 10000; justify-content: center; align-items: center;
             padding: 20px; backdrop-filter: blur(4px);
         }
-        .hint-window { 
-            background: #ffffff; border: 4px solid var(--hint-bg); border-radius: 28px; 
+        .hint-window, .alert-window { 
+            background: #ffffff; border-radius: 28px; 
             padding: 25px; text-align: center; width: 90%; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
-        #hint-body-text { font-weight: 800; font-size: 15px; }
+        .hint-window { border: 4px solid var(--hint-bg); }
+        .alert-window { border: 4px solid var(--primary); }
+        #hint-body-text, #alert-body-text { font-weight: 800; font-size: 15px; line-height: 1.6; }
 
         /* 스테이지 요소들 */
         .ad-monster {
             position: absolute; background: var(--secondary); border: 3px solid #fff; color: white;
             padding: 10px 14px; border-radius: 18px; z-index: 150; cursor: pointer; font-size: 14px;
             font-weight: 800; box-shadow: 0 6px 15px rgba(255, 151, 112, 0.3);
+            white-space: nowrap; /* 텍스트 팝업 내부 줄바꿈 완전 방지 */
         }
+        
         .signal-card {
             background: #fff; border: 3px solid #e2e8f0; border-radius: 18px;
-            padding: 12px; margin: 8px 0; font-size: 14px; font-weight: 800; cursor: pointer;
-            text-align: center;
+            padding: 16px 14px; margin: 12px 0; font-size: 14.5px; font-weight: 800; cursor: pointer;
+            text-align: center; line-height: 1.6; /* 줄간격을 늘려 가독성 대폭 향상 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
         }
         .signal-card.selected { background: #fef08a; border-color: #facc15; color: #a16207; }
 
@@ -205,151 +239,180 @@
         
         #numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 10px auto; }
         #chasing-anchor { position: absolute; width: 85%; left: 7.5%; transition: all 0.2s; font-size: 18px; }
-        #game-output-box { display: none; flex-direction: column; font-size: 15px; font-weight: 800; min-height: 90px; align-items: center; justify-content: center; text-align: center; gap: 6px; }
+        #game-output-box { display: none; flex-direction: column; font-size: 14.5px; font-weight: 800; min-height: 70px; align-items: center; justify-content: center; text-align: center; gap: 4px; padding: 12px 14px; line-height: 1.35; }
     </style>
 </head>
 <body>
 <div id="phone-device">
     <div id="phone-notch"></div>
     
-    <div id="phone-header">
-        <button id="bgm-toggle-btn" class="header-btn" onclick="toggleBgm()">🔇 BGM OFF</button>
-        <button id="hint-trigger" class="header-btn" onclick="openHintSystem()">💡 힌트</button>
-    </div>
-    
-    <div id="hint-layer">
-        <div class="hint-window">
-            <h3 style="color: #ea580c; font-size: 19px; margin-top:0;">💡 시스템 복구 힌트</h3>
-            <p id="hint-body-text" style="line-height: 1.6; margin-bottom: 20px; color: var(--text-dark);"></p>
-            <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
-        </div>
-    </div>
-    
-    <div id="view-intro" class="screen active">
-        <h2>스마트폰 도박 괴물의 습격</h2>
-        <div class="box">
-            앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
-            이건 우리들이 망가지기를 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
-        </div>
-        <div class="box monster-box">
-            😈 <strong>겜블 몬스터:</strong><br>
-            "크크크.. 탈출하고 싶나? 내가 준비한 유혹의 함정에서 절대 벗어나지 못할 걸?"
+    <div id="phone-screen-area">
+        <!-- 상부 헤더 (하얀색 액정 내부 영역에 완전히 포함) -->
+        <div id="phone-header">
+            <button id="bgm-toggle-btn" class="header-btn" onclick="toggleBgm()">🔇 BGM OFF</button>
+            <button id="hint-trigger" class="header-btn" onclick="openHintSystem()">💡 힌트</button>
         </div>
         
-        <button class="btn btn-danger" style="margin-top:auto;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
-    </div>
-    
-    <div id="view-stage1-ad" class="screen">
-        <h2>1단계: 함정의 방 💌</h2>
-        <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 10px;">
-            💌 <strong>알 수 없는 메시지:</strong><br>
-            "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
-        </div>
-        <div class="box" style="font-size: 14px; color: var(--secondary); padding: 8px; margin-bottom: 10px;">
-            ⚠️ 유혹 팝업창을 [X]를 눌러 모두 제거하면 숨겨진 방어 시스템이 나타납니다!
-        </div>
-        
-        <div id="ad-field" style="flex:1; position:relative; border:3px dashed var(--primary); border-radius:20px; margin-bottom:10px; background:#fff; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:10px;">
-            <div id="defense-control-rack" style="display: none; flex-direction: column; position: relative; z-index: 10; width: 100%;">
-                <button class="btn" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
-                <button class="btn" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 메세지 신고] </button>
-                <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [메세지 차단 및 삭제] </button>
+        <!-- 커스텀 알림 다이얼로그 (alert 제거용 전용 모달) -->
+        <div id="alert-layer">
+            <div class="alert-window">
+                <h3 id="alert-title" style="color: var(--primary); font-size: 19px; margin-top:0; font-family: 'Jua', sans-serif;">알림</h3>
+                <p id="alert-body-text" style="margin-bottom: 20px; color: var(--text-dark);"></p>
+                <button class="btn" style="width:100%; background: #0ea5e9; box-shadow: 0 6px 0px #0284c7;" onclick="closeCustomAlert()">확인 완료</button>
             </div>
         </div>
-    </div>
-    
-    <div id="view-stage2-signals" class="screen">
-        <h2>2단계: 유혹의 방 (A) 🔍</h2>
-        <div class="box monster-box" style="margin-bottom: 10px;">
-            👤 <strong>조종당하는 친구:</strong><br>
-            "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
+        
+        <!-- 힌트 시스템 모달 -->
+        <div id="hint-layer">
+            <div class="hint-window">
+                <h3 style="color: #ea580c; font-size: 19px; margin-top:0; font-family: 'Jua', sans-serif;">💡 시스템 복구 힌트</h3>
+                <p id="hint-body-text" style="margin-bottom: 20px; color: var(--text-dark);"></p>
+                <button class="btn" style="width:100%; background:#ea580c; box-shadow: 0 6px 0px #c2410c;" onclick="closeHintSystem()">확인 완료</button>
+            </div>
         </div>
-        <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
-            🔍 <strong>미션 A:</strong> 친구가 도박에 빠졌을 때 보이는 <u>위험 신호</u>를 모두 선택하세요!
+        
+        <!-- SCREEN: Intro (IMAGE b0e69d DESIGN ALIGNED) -->
+        <div id="view-intro" class="screen active" style="padding: 12px 20px 10px 20px; justify-content: flex-start;">
+            <h2 style="margin-top: 5px; margin-bottom: 12px;">스마트폰 도박 괴물의 습격</h2>
+            <div class="box" style="padding: 16px 16px; margin-bottom: 12px; font-size: 15.5px; line-height: 1.6;">
+                앗! 호기심에 무료 게임 아이템을 준다는 문자를 눌렀더니 친구와 함께 스마트폰 속에 갇혀버렸어!<br><br>
+                이건 우리들이 망가지기를 노리는 사악한 <strong>'겜블 몬스터'</strong>가 쳐놓은 가짜 차원 함정이야.
+            </div>
+            <div class="box monster-box" style="padding: 16px 16px; margin-bottom: 16px; font-size: 15.5px; line-height: 1.6;">
+                😈 <strong>겜블 몬스터:</strong><br>
+                "크크크.. 탈출하고 싶나? 내가 준비한 3가지 유혹의 함정에서 절대 벗어나지 못할 걸?"
+            </div>
+            
+            <button class="btn" style="margin-top:auto; margin-bottom: 8px;" onclick="switchView('stage1-ad')">방탈출 시작하기 ➡️</button>
         </div>
-        <div id="signal-matrix" style="flex:1; overflow-y:auto; margin-bottom:10px;"></div>
-        <button class="btn btn-success" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
-    </div>
-    
-    <div id="view-stage2-refusal" class="screen">
-        <h2>2단계: 유혹의 방 (B) 🗣️</h2>
-        <div class="box monster-box" id="friend-speech">
-            "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!"
+        
+        <!-- SCREEN: Stage 1 AD Spam -->
+        <div id="view-stage1-ad" class="screen" style="padding: 10px 16px 12px 16px;">
+            <h2>1단계: 함정의 방 💌</h2>
+            <!-- 상단 알 수 없는 메시지 박스 크기 및 패딩 최소화 -->
+            <div class="box" style="border-left: 5px solid var(--secondary); text-align: left; margin-bottom: 8px; padding: 12px 14px; font-size: 14px; line-height: 1.45;">
+                💌 <strong>알 수 없는 메시지:</strong><br>
+                "게임 머니 10만원 즉시 지급! 지금 바로 아래 주소를 확인하세요!"
+            </div>
+            <!-- 가이드 메시지 박스 크기 및 패딩 최소화 -->
+            <div class="box" style="font-size: 13px; color: var(--secondary); padding: 8px 12px; margin-bottom: 8px; line-height: 1.35; border-color: #ffe3e6; background-color: #fff5f6;">
+                ⚠️ 유혹 팝업창을 [X]를 눌러 모두 제거하면 숨겨진 방어 시스템이 나타납니다!
+            </div>
+            
+            <!-- 3분의 2 수준으로 축소 조절된 280px 높이의 활동 구역 뷰포트 -->
+            <div id="ad-field" style="height: 280px; min-height: 280px; position:relative; border:3px dashed var(--primary); border-radius:20px; margin-top: auto; margin-bottom:10px; background:#fff; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:10px;">
+                <div id="defense-control-rack" style="display: none; flex-direction: column; position: relative; z-index: 10; width: 100%;">
+                    <button class="btn btn-success" id="proc-menu" onclick="runDefenseCore(1)">⚙️ 숨겨진 [메뉴] 탐색</button>
+                    <button class="btn btn-success" id="proc-report" style="display:none;" onclick="runDefenseCore(2)">➡️ [스팸 메세지 신고] </button>
+                    <button class="btn btn-danger" id="proc-purge" style="display:none;" onclick="runDefenseCore(3)">❌ [메세지 차단 및 삭제] </button>
+                </div>
+            </div>
         </div>
-        <div class="box" style="font-size:14px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
-            📢 <strong>미션 B:</strong> 친구의 도박 제안을 단호하면서도 현명하게 거절해볼까요?
+        
+        <!-- SCREEN: Stage 2 Signals -->
+        <div id="view-stage2-signals" class="screen" style="padding: 10px 16px 12px 16px;">
+            <h2>2단계: 유혹의 방(A)🔍</h2>
+            <!-- 상단 캐릭터 메시지 박스 높이 및 여백 초슬림화 -->
+            <div class="box monster-box" style="margin-bottom: 8px; padding: 10px 14px; font-size: 14px; line-height: 1.4;">
+                👤 <strong>조종당하는 친구:</strong><br>
+                "너도 돈 걸고 내기할래...? 금방 큰 돈을 벌 수 있어!"
+            </div>
+            <!-- 미션 설명 박스 높이 및 여백 최소화 -->
+            <div class="box" style="font-size: 13px; padding: 8px 12px; margin-bottom: 8px; line-height: 1.35; border-color: #ffe3e6; background-color: #fff5f6; color: var(--secondary);">
+                🔍 <strong>미션 A:</strong> 친구가 도박에 빠졌을 때 보이는 <u>위험 신호</u>를 모두 선택하세요!
+            </div>
+            <!-- 최대 스케일로 대폭 확장된 스크롤 가능 선택 리스트 구역 -->
+            <div id="signal-matrix" style="flex: 1; min-height: 400px; overflow-y: auto; margin-bottom: 10px; padding-right: 4px;"></div>
+            <button class="btn btn-success" style="margin-top: auto;" onclick="evaluateSignalMatrix()">위험신호 분석 완료</button>
         </div>
-        <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;"></div>
-    </div>
-    
-    <div id="view-stage2-unlock" class="screen">
-        <h2>2단계: 유혹의 방 (C) 🔐</h2>
-        <div class="box" style="margin-bottom: 10px;">
-            잠겨있는 스마트폰 구조 요청 화면을 열어 친구를 구출해내야 합니다!
+        
+        <!-- SCREEN: Stage 2 Refusal -->
+        <div id="view-stage2-refusal" class="screen">
+            <h2>2단계: 유혹의 방(B)🗣️</h2>
+            <div class="box monster-box" id="friend-speech">
+                "야, 쫄았어? 딱 한 판만 돈 걸고 해보자? 나 이걸로 아까 10만원 벌었어!"
+            </div>
+            <div class="box" style="font-size:14px; padding:8px; color:var(--primary); background: #fff0f6; border-color: #ffdeeb;">
+                📢 <strong>미션 B:</strong> 친구의 도박 제안을 단호하면서도 현명하게 거절해볼까요?
+            </div>
+            <div id="refusal-options-hub" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;"></div>
         </div>
-        <div class="box monster-box" style="font-size:14px; margin-bottom: 5px;">
-            ❓ <strong>잠금 힌트:</strong> 청소년 도박 등 중독 문제를 겪을 때 도움을 요청하는 헬프라인 전문 전화번호는?
+        
+        <!-- SCREEN: Stage 2 Unlock Numpad -->
+        <div id="view-stage2-unlock" class="screen">
+            <h2>2단계: 유혹의 방(C)🔐</h2>
+            <div class="box" style="margin-bottom: 10px;">
+                잠겨있는 스마트폰 구조 요청 화면을 열어 친구를 구출해내야 합니다!
+            </div>
+            <div class="box monster-box" style="font-size:14px; margin-bottom: 5px;">
+                ❓ <strong>잠금 힌트:</strong> 청소년 도박 등 중독 문제를 겪을 때 도움을 요청하는 헬프라인 전문 전화번호는?
+            </div>
+            <div id="pin-display" style="text-align:center; letter-spacing:15px; margin:5px 0; font-size:38px; color:#ef4444; text-shadow: 1px 1px 0 #fff; font-family: 'Jua', sans-serif;">____</div>
+            <div id="numpad-grid">
+                <button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(1)">1</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(2)">2</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(3)">3</button>
+                <button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(4)">4</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(5)">5</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(6)">6</button>
+                <button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(7)">7</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(8)">8</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(9)">9</button>
+                <button class="btn btn-danger" onclick="wipePin()">C</button><button class="btn btn-success" style="background:#0ea5e9; box-shadow:0 6px 0 #0284c7;" onclick="pressPin(0)">0</button>
+                <button class="btn btn-success" onclick="executeUnlock()">OK</button>
+            </div>
         </div>
-        <h1 id="pin-display" style="text-align:center; letter-spacing:15px; margin:5px 0; font-size:38px; color:var(--primary); text-shadow: 1px 1px 0 #fff;">____</h1>
-        <div id="numpad-grid">
-            <button class="btn" onclick="pressPin(1)">1</button><button class="btn" onclick="pressPin(2)">2</button><button class="btn" onclick="pressPin(3)">3</button>
-            <button class="btn" onclick="pressPin(4)">4</button><button class="btn" onclick="pressPin(5)">5</button><button class="btn" onclick="pressPin(6)">6</button>
-            <button class="btn" onclick="pressPin(7)">7</button><button class="btn" onclick="pressPin(8)">8</button><button class="btn" onclick="pressPin(9)">9</button>
-            <button class="btn btn-danger" onclick="wipePin()">C</button><button class="btn" onclick="pressPin(0)">0</button>
-            <button class="btn btn-success" onclick="executeUnlock()">OK</button>
+        
+        <!-- SCREEN: Stage 3 Gamble Traps -->
+        <div id="view-stage3-gamble" class="screen">
+            <h2>3단계: 미련의 방(A)🎰</h2>
+            <div class="box monster-box" style="margin-bottom: 10px;">
+                😈 <strong>겜블 몬스터의 장난:</strong><br>
+                "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 다 찾게 해줄게!"
+            </div>
+            <div class="box" style="background:#fef08a; border-color:#facc15; margin-bottom: 10px; color: #854d0e;">
+                보유 가상 동전: <strong id="token-tally" style="font-size:28px; color:var(--primary);">3</strong>개 🪙
+            </div>
+            <div id="game-output-box" class="box" style="background:#fff;"></div>
+            <div style="display:flex; flex-direction:column; margin-top:auto; gap:10px;">
+                <button class="btn" id="gamble-action-btn" style="background:#c084fc; box-shadow: 0 6px 0px #a855f7;" onclick="triggerRiggedGamble()">🎁 [보물상자 뽑기] 도전! (2배 기회)</button>
+                <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 누르고 나가기</button>
+            </div>
         </div>
-    </div>
-    
-    <div id="view-stage3-gamble" class="screen">
-        <h2>3단계: 미련의 방 (A) 🎰</h2>
-        <div class="box monster-box" style="margin-bottom: 10px;">
-            😈 <strong>겜블 몬스터의 장난:</strong><br>
-            "지금까지 잃은 돈 아깝지 않아? 딱 한 번만 더 하면 다 찾게 해줄게!"
+        
+        <!-- SCREEN: Stage 3 Slogan Puzzle -->
+        <div id="view-stage3-slogan" class="screen">
+            <h2>3단계: 미련의 방(B)🛡️</h2>
+            <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
+                ⚠️ 주변의 핵심 단어 조각을 <u>올바른 예방 메시지 순서대로</u> 조합해 방어 백신을 작동시키세요!
+            </div>
+            <!-- [수정] 백신 완성 메시지가 길어져도 구역 밖으로 넘치지 않도록 높이 자동 조절, 폰트 비율, 강제 개행 레이아웃 패치 -->
+            <div id="slogan-assembly" class="box" style="min-height:90px; height:auto; display:flex; align-items:center; justify-content:center; border:3px dashed var(--primary); color:var(--primary); margin-bottom: 10px; background:#fff; padding:12px 14px; font-size:15px; word-break:keep-all; overflow-wrap:break-word; line-height:1.45;">
+                백신 메시지 완성 구역
+            </div>
+            <div id="chip-container" style="text-align:center; margin-bottom:110px;"></div>
+            <button class="btn btn-danger" id="chasing-anchor" onclick="playSfx('failure'); customAlert('함정에 빠졌습니다! 흔들리지 마세요!', '몬스터의 함정 ⚠️')" onmouseover="teleportChasingButton()">🎰 딱 한판만 더 하기! 🎰</button>
+            <div style="display:flex; gap:10px; margin-top:auto; position:relative; z-index:200;">
+                <button class="btn" style="flex:1; background:#94a3b8; box-shadow: 0 6px 0px #64748b;" onclick="clearSloganFlow()">초기화</button>
+                <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 장착 완료</button>
+            </div>
         </div>
-        <div class="box" style="background:#fef08a; border-color:#facc15; margin-bottom: 10px; color: #854d0e;">
-            보유 가상 동전: <strong id="token-tally" style="font-size:28px; color:var(--primary);">3</strong>개 🪙
+        
+        <!-- SCREEN: Outro Quiz -->
+        <div id="view-outro-quiz" class="screen">
+            <h2>최종 관문: OX 예방 퀴즈📝</h2>
+            <div class="box" id="quiz-question-box" style="font-size:18px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff;">
+                퀴즈를 로딩하고 있습니다...
+            </div>
+            <div style="display:flex; gap:15px; margin-top:auto;">
+                <button class="btn btn-success" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(true)">O</button>
+                <button class="btn btn-danger" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(false)">X</button>
+            </div>
         </div>
-        <div id="game-output-box" class="box" style="background:#fff;"></div>
-        <div style="display:flex; flex-direction:column; margin-top:auto; gap:10px;">
-            <button class="btn" id="gamble-action-btn" style="background:#c084fc; box-shadow: 0 6px 0px #a855f7;" onclick="triggerRiggedGamble()">🎁 [보물상자 뽑기] 도전! (2배 기회)</button>
-            <button class="btn btn-success" id="abort-action-btn" onclick="abortGambleLoop()">💰 [동전 돌려주기] 누르고 나가기</button>
+        
+        <!-- SCREEN: Success Ending -->
+        <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
+            <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
+            <div class="box" style="border-color:var(--success); background-color:#fff;">
+                축하합니다! 친구와 함께 겜블 몬스터의 함정을 격파하고 안전하게 현실로 탈출했습니다!<br><br>
+                <strong>"도박은 설계된 함정,<br>지금 멈추는 것이 진정한 승리입니다!"</strong>
+            </div>
+            <button class="btn" style="background:#475569; box-shadow: 0 6px 0px #334155;" onclick="location.reload()">처음으로 가기 🔄</button>
         </div>
-    </div>
-    
-    <div id="view-stage3-slogan" class="screen">
-        <h2>3단계: 미련의 방 (B) 🛡️</h2>
-        <div class="box" style="font-size:14px; padding:10px; margin-bottom: 10px;">
-            ⚠️ 주변의 핵심 단어 조각을 <u>올바른 예방 메시지 순서대로</u> 조합해 방어 백신을 작동시키세요!
-        </div>
-        <div id="slogan-assembly" class="box" style="min-height:75px; border:3px dashed var(--primary); color:var(--primary); margin-bottom: 10px; background:#fff;">
-            백신 메시지 완성 구역
-        </div>
-        <div id="chip-container" style="text-align:center; margin-bottom:110px;"></div>
-        <button class="btn btn-danger" id="chasing-anchor" onclick="playSfx('failure'); alert('함정에 빠졌습니다! 흔들리지 마세요!')" onmouseover="teleportChasingButton()">🎰 딱 한판만 더 하기! 🎰</button>
-        <div style="display:flex; gap:10px; margin-top:auto; position:relative; z-index:200;">
-            <button class="btn" style="flex:1; background:#94a3b8; box-shadow: 0 6px 0px #64748b;" onclick="clearSloganFlow()">초기화</button>
-            <button class="btn btn-success" style="flex:2;" onclick="evaluateSloganVaccine()">백신 장착 완료</button>
-        </div>
-    </div>
-    
-    <div id="view-outro-quiz" class="screen">
-        <h2>최종 관문: OX 예방 퀴즈 📝</h2>
-        <div class="box" id="quiz-question-box" style="font-size:18px; min-height:120px; display:flex; align-items:center; justify-content:center; background:#fff;">
-            퀴즈를 로딩하고 있습니다...
-        </div>
-        <div style="display:flex; gap:15px; margin-top:auto;">
-            <button class="btn btn-success" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(true)">O</button>
-            <button class="btn btn-danger" style="flex:1; font-size:42px; padding:15px;" onclick="submitQuizAnswer(false)">X</button>
-        </div>
-    </div>
-    
-    <div id="view-success-end" class="screen" style="justify-content:center; text-align:center; background: #ecfdf5; border-color: #a7f3d0;">
-        <h1 style="color:var(--success); font-family: 'Jua', sans-serif; font-size:44px; margin:0 0 20px 0; text-shadow: 2px 2px 0 #fff;">🎉 ESCAPE!</h1>
-        <div class="box" style="border-color:var(--success); background-color:#fff;">
-            축하합니다! 친구와 함께 겜블 몬스터의 함정을 격파하고 안전하게 현실로 탈출했습니다!<br><br>
-            <strong>"도박은 설계된 함정,<br>지금 멈추는 것이 진정한 승리입니다!"</strong>
-        </div>
-        <button class="btn" style="background:#475569; box-shadow: 0 6px 0px #334155;" onclick="location.reload()">처음으로 가기 🔄</button>
     </div>
 </div>
 
@@ -468,7 +531,27 @@
             osc.start(now); osc.stop(now + 0.18);
         }
     }
+
+    // --- STREAMING_CHUNK:Implementing Custom Modal Dialogues (No standard alerts) ---
+    let alertCallback = null;
+    function customAlert(message, title = "알림", callback = null) {
+        document.getElementById('alert-title').innerText = title;
+        document.getElementById('alert-body-text').innerText = message;
+        document.getElementById('alert-layer').style.display = 'flex';
+        alertCallback = callback;
+    }
+    function closeCustomAlert() {
+        playSfx('click');
+        document.getElementById('alert-layer').style.display = 'none';
+        if (alertCallback) {
+            alertCallback();
+            alertCallback = null;
+        }
+    }
+
+    // --- 힌트 데이터 기재 ---
     const operationalHints = {
+        'intro': "반갑습니다! 본 방탈출은 도박 몬스터의 함정 속 유혹들을 이겨내고 친구를 안전하게 탈출시키는 정화 시뮬레이터입니다. 시작하기 버튼을 눌러 모험을 떠나보세요!",
         'stage1-ad': "화면 속 광고의 노란색 [X]를 모조리 터치하여 제거하면 하단에 비밀 방어 시스템이 나타납니다!",
         'stage2-signals': "친구가 빌리는 행동, 예민한 행동 등 위험을 의미하는 도박 중독 신호 6가지만 정확하게 터치하세요.",
         'stage2-refusal': "상대의 기분을 배려하되, 단호하게 거절하고, 건전한 놀이 활동을 제안해보세요.",
@@ -486,14 +569,17 @@
         playSfx('click');
         document.getElementById('hint-layer').style.display = 'none'; 
     }
+
     function switchView(viewId) {
         playSfx('transition');
         document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
         document.getElementById('view-' + viewId).classList.add('active');
         activeViewId = viewId;
+        
         const hintBtn = document.getElementById('hint-trigger');
-        if (viewId === 'intro' || viewId === 'success-end') hintBtn.style.display = 'none';
+        if (viewId === 'success-end') hintBtn.style.display = 'none';
         else hintBtn.style.display = 'inline-flex';
+
         if(viewId === 'stage1-ad') initializeAdSpamEngine();
         if(viewId === 'stage2-signals') renderSignalMatrix();
         if(viewId === 'stage2-refusal') currentTurnIndex = 1, advanceRefusalTurn();
@@ -501,6 +587,8 @@
         if(viewId === 'stage3-slogan') populateSloganChips();
         if(viewId === 'outro-quiz') activeQuizIndex = 1, renderQuizNode();
     }
+
+    // --- STREAMING_CHUNK:Configuring Stage 1 AD Spam engine with safe-bounds spawning... ---
     let totalSpamCount = 8;
     let spamDestroyedCounter = 0;
     function initializeAdSpamEngine() {
@@ -511,13 +599,15 @@
         document.getElementById('proc-report').style.display = 'none';
         document.getElementById('proc-purge').style.display = 'none';
         spamDestroyedCounter = 0;
+        
+        // 축소된 280px 높이 박스 안에서 팝업창들이 절대 잘리지 않고 완전히 보일 수 있도록 오프셋 보정
         for(let i = 0; i < totalSpamCount; i++) {
             setTimeout(() => {
                 if(activeViewId !== 'stage1-ad') return;
                 const ad = document.createElement('div');
                 ad.className = 'ad-monster';
-                ad.style.top = Math.floor(Math.random() * 80 + 5) + '%';
-                ad.style.left = Math.floor(Math.random() * 55 + 5) + '%';
+                ad.style.top = Math.floor(Math.random() * 60 + 10) + '%';  // 안전 탑 경계 (10% ~ 70%)
+                ad.style.left = Math.floor(Math.random() * 40 + 10) + '%'; // 안전 레프트 경계 (10% ~ 50%)
                 ad.style.zIndex = '150';
                 ad.innerHTML = "🎁 대박 기회! <span style='color:#ffd166; margin-left:6px; cursor:pointer;'>[X]</span>";
                 ad.onclick = function() { 
@@ -541,9 +631,14 @@
             document.getElementById('proc-report').style.display = 'none';
             document.getElementById('proc-purge').style.display = 'block';
         } else if(stage === 3) {
-            playSfx('success'); alert("스팸 메시지 경로 영구 차단 성공!"); switchView('stage2-signals');
+            playSfx('success');
+            customAlert("스팸 메시지 경로 영구 차단 성공!", "시스템 복구 완료", () => {
+                switchView('stage2-signals');
+            });
         }
     }
+
+    // --- STREAMING_CHUNK:Configuring Stage 2 Danger Signals logic... ---
     const signalsDatabase = [
         { txt: "친구들에게 자주 돈을 빌리기 시작했다.", dangerous: true },
         { txt: "돈이 걸려있는 게임이나 내기에 강한 집착을 보인다.", dangerous: true },
@@ -576,11 +671,17 @@
             if(signalsDatabase[idx].dangerous !== isSelected) perfectlyMatched = false;
         });
         if(perfectlyMatched) {
-            playSfx('success'); alert("정답입니다! 위험 징후들을 정확히 분류해냈습니다."); switchView('stage2-refusal');
+            playSfx('success');
+            customAlert("정답입니다! 위험 징후들을 정확히 분류해냈습니다.", "분석 완료", () => {
+                switchView('stage2-refusal');
+            });
         } else {
-            playSfx('failure'); alert("틀린 징후가 섞여 있습니다. 다시 세밀히 관찰해보세요.");
+            playSfx('failure');
+            customAlert("틀린 징후가 섞여 있습니다. 다시 세밀히 관찰해보세요.", "분석 실패");
         }
     }
+
+    // --- Configuring Stage 2 Refusal dialogue system... ---
     let currentTurnIndex = 1;
     const refusalConversationBranch = {
         1: {
@@ -601,14 +702,18 @@
         3: {
             friend: "아.. 진짜 재미없게 구네. 그럼 이제 우리 둘이 뭐 하고 놀 건데?",
             opts: [
-                { text: "돈을 잃거나 마음 다칠 일 없는 건전한 축구 게임 한 판 하러 가자!", valid: true },
+                { text: "돈을 잃거나 마음 다칠 일 없는 건전한 놀이나 같이 하자!", valid: true },
                 { text: "미안해.. 화 풀고 네가 하는 게임 옆에서 조용히 구경만 할게.", valid: false }
             ]
         }
     };
     function advanceRefusalTurn() {
         if(currentTurnIndex > 3) {
-            playSfx('success'); alert("도박 유혹 거절 시도 성공!"); switchView('stage2-unlock'); return;
+            playSfx('success');
+            customAlert("도박 유혹 거절 시도 성공!", "유혹 차단 성공", () => {
+                switchView('stage2-unlock');
+            });
+            return;
         }
         const currentNode = refusalConversationBranch[currentTurnIndex];
         document.getElementById('friend-speech').innerText = `👤 친구: "${currentNode.friend}"`;
@@ -622,12 +727,15 @@
                 if(opt.valid) {
                     playSfx('success'); currentTurnIndex++; advanceRefusalTurn();
                 } else {
-                    playSfx('failure'); alert("그 선택은 도박 늪의 유혹에 걸려들게 만듭니다!");
+                    playSfx('failure');
+                    customAlert("그 선택은 도박 늪의 유혹에 걸려들게 만듭니다!", "유혹 경고 ⚠️");
                 }
             };
             hub.appendChild(button);
         });
     }
+
+    // --- STREAMING_CHUNK:Configuring PIN-pad unlock mechanisms... ---
     let activePinBuffer = "";
     function pressPin(val) {
         playSfx('click');
@@ -637,11 +745,19 @@
     function wipePin() { playSfx('click'); activePinBuffer = ""; document.getElementById('pin-display').innerText = "____"; }
     function executeUnlock() {
         if(activePinBuffer === "1336") {
-            playSfx('success'); alert("친구를 구출했습니다!"); switchView('stage3-gamble');
+            playSfx('success');
+            customAlert("친구를 구출했습니다!", "잠금 해제 성공", () => {
+                switchView('stage3-gamble');
+            });
         } else {
-            playSfx('failure'); alert("비밀번호가 틀렸습니다!"); wipePin();
+            playSfx('failure');
+            customAlert("비밀번호가 틀렸습니다!", "보안 경고", () => {
+                wipePin();
+            });
         }
     }
+
+    // --- STREAMING_CHUNK:Configuring Stage 3 Rigged gambling mechanics... ---
     let trialCount = 0;
     function resetStage3Gamble() {
         trialCount = 0;
@@ -661,14 +777,14 @@
         outBox.style.display = 'flex';
         if(trialCount === 1) {
             playSfx('success');
-            outBox.innerHTML = `<div>🎉 당첨! 동전이 두 배(6개)가 되었습니다!</div><div style="color: blue; font-size: 13px;">(충동 기제: 어라? 진짜 쉽게 벌리네?)</div>`;
+            outBox.innerHTML = `<div>🎉 당첨! 동전이 두 배(6개)가 되었습니다!</div><div style="color: #0ea5e9; font-size: 12.5px; margin-top: 2px;">(충동 기제: 어라? 진짜 쉽게 벌리네?)</div>`;
             tokenDisplay.innerText = "6";
             abortBtn.disabled = true;
             abortBtn.className = "btn"; 
             abortBtn.innerText = "🔒 함정에 빠져 나갈 수 없습니다!";
         } else {
             playSfx('failure');
-            outBox.innerHTML = `<div>⚠️ [실패] 모든 돈을 잃었습니다.</div><div style="font-size: 13px; margin-top: 4px;"><strong>몬스터:</strong> 억울하지? 본전 뽑아야지! 한 번 더 해봐!</div>`;
+            outBox.innerHTML = `<div>⚠️ [실패] 모든 돈을 잃었습니다.</div><div style="font-size: 12.5px; margin-top: 2px;"><strong>몬스터:</strong> 억울하지? 본전 뽑아야지! 한 번 더 해봐!</div>`;
             tokenDisplay.innerText = "0";
             document.getElementById('gamble-action-btn').disabled = true;
             abortBtn.disabled = false;
@@ -677,10 +793,20 @@
         }
     }
     function abortGambleLoop() {
-        if(trialCount === 0) { playSfx('success'); alert("현명합니다! 손해 없이 탈출했습니다."); }
-        else { playSfx('failure'); alert("모든 걸 잃고 나서야 탈출하였습니다..."); }
-        switchView('stage3-slogan');
+        if(trialCount === 0) { 
+            playSfx('success'); 
+            customAlert("현명합니다! 손해 없이 탈출했습니다.", "현명한 탈출", () => {
+                switchView('stage3-slogan');
+            });
+        } else { 
+            playSfx('failure'); 
+            customAlert("모든 걸 잃고 나서야 탈출하였습니다...", "피해 발생 겪음", () => {
+                switchView('stage3-slogan');
+            });
+        }
     }
+
+    // --- STREAMING_CHUNK:Configuring Slogan Vaccine Puzzle mechanics... ---
     const targetOrderedSlogan = ["잃은 돈을", "찾는 법은", "도박을", "더 하는 게 아니라", "지금 당장", "멈추는 것이다!"];
     let accumulatedSloganTrack = [];
     function populateSloganChips() {
@@ -711,11 +837,19 @@
     }
     function evaluateSloganVaccine() {
         if(JSON.stringify(accumulatedSloganTrack) === JSON.stringify(targetOrderedSlogan)) {
-            playSfx('success'); alert("백신 장착 완료!"); switchView('outro-quiz');
+            playSfx('success');
+            customAlert("백신 장착 완료!", "예방 성공 🛡️", () => {
+                switchView('outro-quiz');
+            });
         } else {
-            playSfx('failure'); alert("순서가 틀렸습니다!"); clearSloganFlow();
+            playSfx('failure');
+            customAlert("순서가 틀렸습니다!", "장착 실패", () => {
+                clearSloganFlow();
+            });
         }
     }
+
+    // --- STREAMING_CHUNK:Configuring Outro OX Quiz system... ---
     let activeQuizIndex = 1;
     const quizCoreRepository = {
         1: { text: "무료로 아이템이나 칩을 준다는 인터넷 링크 문자는 호기심으로 접속해 보아도 안전하다.", correct: false },
@@ -728,11 +862,15 @@
     }
     function submitQuizAnswer(chosenBool) {
         if(chosenBool === quizCoreRepository[activeQuizIndex].correct) {
-            playSfx('success'); alert("정답입니다!"); activeQuizIndex++;
-            if(activeQuizIndex > 3) switchView('success-end');
-            else renderQuizNode();
+            playSfx('success');
+            customAlert("정답입니다!", "정답 🎉", () => {
+                activeQuizIndex++;
+                if(activeQuizIndex > 3) switchView('success-end');
+                else renderQuizNode();
+            });
         } else {
-            playSfx('failure'); alert("오답입니다!");
+            playSfx('failure');
+            customAlert("오답입니다!", "다시 한 번 생각해보세요 ❌");
         }
     }
 </script>
